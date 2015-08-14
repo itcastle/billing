@@ -1,0 +1,17 @@
+﻿<Window x:Class="GestionCommerciale.Modals.TVA.AddTVADialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ajout TVA" Height="206" Width="347" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" WindowStartupLocation="CenterScreen">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="94*" />
+            <ColumnDefinition Width="270*" />
+        </Grid.ColumnDefinitions>
+        <Button Content="Annuler" Height="22" HorizontalAlignment="Right" Margin="0,136,34,0" Name="btnCancelMeasure" VerticalAlignment="Top" Width="67" Grid.Column="1" IsCancel="True" />
+        <Button Content="Ajouter" Height="22" HorizontalAlignment="Right" Margin="0,136,107,0" Name="btnAddMeasure" VerticalAlignment="Top" Width="67" Grid.Column="1" IsDefault="True" Click="btnAddMeasure_Click" />
+        <dxe:TextEdit Margin="16,16,34,0" Name="TVATxtBox" VerticalAlignment="Top" Height="28" Grid.Column="1" />
+        <Label Content="TVA :" Height="32" Margin="0,12,5,0" Name="lblMeasure" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="73" />
+        <dxe:TextEdit Grid.Column="1" Height="71" Margin="16,53,34,0" Name="DescriptionTxtBox" VerticalAlignment="Top" AcceptsReturn="True" />
+        <Label Content="Description :" Height="32" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,49,10,0" Name="lblDescription" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="73" />
+    </Grid>
+</Window>

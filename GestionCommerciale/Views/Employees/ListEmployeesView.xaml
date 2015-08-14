@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="GestionCommerciale.Views.EmployeeFolder.ListEmployeesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="406" d:DesignWidth="756" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" Loaded="UserControl_Loaded">
+    <Grid Name="LayoutRoot">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <dxdo:DockLayoutManager Name="dockLayoutManager1">
+            <dxdo:DockLayoutManager.LayoutRoot>
+                <dxdo:LayoutGroup Caption="LayoutRoot">
+                    <dxdo:LayoutGroup Orientation="Vertical">
+                        <dxdo:LayoutPanel Caption="Panel1" ItemHeight="200" ShowCaption="False">
+                            <Grid Name="grid2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                <dx:DXTabControl Name="dXTabControl1">
+                                    <dx:DXTabItem Header=" Information générale" Name="dXTabItem1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="150" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="150" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <dxe:ImageEdit HorizontalAlignment="Stretch" Name="imageEdit1" VerticalAlignment="Stretch" Width="125" Height="120" Grid.RowSpan="3" Grid.ColumnSpan="1" />
+                                            <dxe:TextEdit Name="LastNameTxtBox" VerticalAlignment="Center" Height="34" Grid.Column="2" FontSize="14" Grid.ColumnSpan="1" TabIndex="0" FontStyle="Normal" />
+                                            <dxe:TextEdit Height="34" Name="TitleTxtBox" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontSize="14" TabIndex="2" FontStyle="Normal" Panel.ZIndex="2" />
+                                            <Label Content="Nom :" Height="Auto" HorizontalAlignment="Right" Name="label1" VerticalAlignment="Center" Width="Auto" FontSize="12" Grid.Column="1" HorizontalContentAlignment="Right" Padding="15" FontWeight="Bold" FontStyle="Normal" />
+                                            <Label Content="Fonction :" Height="Auto" Name="label2" VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Right" Width="Auto" FontSize="12" Padding="15" FontWeight="Bold" FontStyle="Normal" Grid.Column="1" Grid.RowSpan="1" />
+                                            <Label Content="Date de naissance :" Height="Auto" Name="label3" VerticalAlignment="Center" Grid.Column="3" FontSize="12" HorizontalAlignment="Right" Width="Auto" Padding="15" FontWeight="Bold" FontStyle="Normal" Grid.Row="1" Grid.RowSpan="1" />
+                                            <Label Content="Prénom :" FontSize="12" FontWeight="Bold" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label17" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Column="3" FontStyle="Normal" />
+                                            <dxe:TextEdit FontSize="14" FontStyle="Normal" Grid.ColumnSpan="1" Height="34" Name="FirstNameTxtBox" TabIndex="1" VerticalAlignment="Center" Grid.Column="4" Panel.ZIndex="1" />
+                                            <dxe:DateEdit Grid.Column="4" Grid.Row="1" HorizontalAlignment="Stretch" Name="BirthDayTxtBox" VerticalAlignment="Center" Height="34" FontStyle="Normal" Panel.ZIndex="3" TabIndex="3" />
+                                            <Label Content="Nom d'utilisateur  :" FontSize="12" FontStyle="Normal" FontWeight="Bold" Height="Auto" HorizontalAlignment="Right" Name="label11" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="1" />
+                                            <Label Content="Mot de passe  :" FontSize="12" FontStyle="Normal" FontWeight="Bold" Height="Auto" HorizontalAlignment="Right" Name="label14" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="3" />
+                                            <dxe:TextEdit FontSize="14" FontStyle="Normal" Grid.RowSpan="1" Height="34" Name="textEdit1" Panel.ZIndex="2" TabIndex="2" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" IsReadOnly="True" />
+                                            <dxe:PasswordBoxEdit FontSize="14" FontStyle="Normal" Grid.RowSpan="1" Height="34" Name="textEdit2" Panel.ZIndex="2" TabIndex="2" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4" />
+                                        </Grid>
+                                    </dx:DXTabItem>
+                                    <dx:DXTabItem Header="Adresse" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.33*" />
+                                                <RowDefinition Height="0.33*" />
+                                                <RowDefinition Height="0.33*" />
+                                            </Grid.RowDefinitions>
+                                            <dxe:TextEdit FontSize="14" Grid.Column="1" Height="34" Name="AdresseTxtBox" VerticalAlignment="Center" Grid.ColumnSpan="3" TabIndex="3" FontStyle="Normal" />
+                                            <dxe:TextEdit FontSize="14" Grid.Column="3" Height="34" Name="RegionTxtBox" VerticalAlignment="Center" Grid.Row="1" Margin="0" TabIndex="5" FontStyle="Normal" />
+                                            <dxe:TextEdit FontSize="14" Grid.Column="1" Grid.Row="1" Height="34" Name="CountryTxtBox" VerticalAlignment="Center" TabIndex="4" FontStyle="Normal" />
+                                            <Label Content="Adresse :" FontSize="12" FontWeight="Bold" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Name="label4" Padding="15" VerticalAlignment="Center" Width="Auto" />
+                                            <Label Content="Pays :" FontSize="12" FontWeight="Bold" Grid.Row="1" Height="Auto" HorizontalAlignment="Right" Name="label5" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Column="0" Grid.RowSpan="1" />
+                                            <Label Content="Région :" FontSize="12" FontStyle="Normal" FontWeight="Bold" Grid.Column="2" Height="Auto" HorizontalAlignment="Right" Name="label6" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Row="1" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" />
+                                            <dxe:TextEdit FontSize="14" Height="34"  Name="CityTxtBox" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" TabIndex="6" FontStyle="Normal" />
+                                            <dxe:TextEdit FontSize="14" Height="34" Name="ZipCodeTxtBox" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" TabIndex="7" FontStyle="Normal" />
+                                            <Label Content="Ville :" FontSize="12" FontWeight="Bold" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label7" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="0" />
+                                            <Label Content="Code postal :" FontSize="12" FontWeight="Bold" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label8" Padding="15" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="2" />
+                                        </Grid>
+                                    </dx:DXTabItem>
+                                    <dx:DXTabItem Header="Contacts" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.5*" />
+                                                <RowDefinition Height="0.5*" />
+                                            </Grid.RowDefinitions>
+                                            <dxe:TextEdit FontSize="14" Grid.Column="1" Grid.Row="1" Height="34" Name="EmailTxtBox" VerticalAlignment="Center" TabIndex="11" FontStyle="Normal" Panel.ZIndex="11" />
+                                            <Label Content="Email :" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="1" Grid.RowSpan="1" Height="Auto" HorizontalAlignment="Right" Name="label10" Padding="15" VerticalAlignment="Center" Width="Auto" FontStyle="Normal" />
+                                            <dxe:TextEdit FontSize="14" Grid.Column="1" Grid.Row="0" Height="34" Name="MobileTxtBox" VerticalAlignment="Center" TabIndex="9" FontStyle="Normal" Panel.ZIndex="9" />
+                                            <dxe:TextEdit FontSize="14" Grid.Column="3" Grid.Row="0" Height="34" Name="FixTxtBox" VerticalAlignment="Center" TabIndex="10" FontStyle="Normal" Panel.ZIndex="10" />
+                                            <Label Content="Mobile :" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label12" Padding="15" VerticalAlignment="Center" Width="Auto" FontStyle="Normal" />
+                                            <Label Content="Fix :" FontSize="12" FontWeight="Bold" Grid.Column="2" Grid.Row="0" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label13" Padding="15" VerticalAlignment="Center" Width="Auto" FontStyle="Normal" />
+                                        </Grid>
+                                    </dx:DXTabItem>
+                                    <dx:DXTabItem Header="Informations proféssionelle" >
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.5*" />
+                                                <RowDefinition Height="0.5*" />
+                                            </Grid.RowDefinitions>
+                                            <Label Content="Notes :" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="1" Grid.RowSpan="1" Height="Auto" HorizontalAlignment="Right" Name="label9" Padding="15" VerticalAlignment="Top" Width="Auto" FontStyle="Normal" />
+                                            <Label Content="Date d'embauchement  :" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Height="Auto" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Name="label15" Padding="15" VerticalAlignment="Center" Width="Auto" FontStyle="Normal" />
+                                            <dxe:DateEdit Height="34" HorizontalAlignment="Stretch" Name="dateEdit2" VerticalAlignment="Center" Grid.Column="1" FontStyle="Normal" Panel.ZIndex="12" TabIndex="12" />
+                                            <RichTextBox Grid.Column="1" Grid.ColumnSpan="3" Height="Auto" HorizontalAlignment="Stretch" Name="NotesRichTxtArea" VerticalAlignment="Stretch" FontStyle="Normal" Panel.ZIndex="14" TabIndex="14" Grid.Row="1" />
+                                        </Grid>
+                                    </dx:DXTabItem>
+                                </dx:DXTabControl>
+                                <Button Content="            Modifier" Grid.Column="1" Height="40" HorizontalAlignment="Stretch" Margin="0,60,0,0" Name="EditEmployeeBtn" VerticalAlignment="Top" Width="Auto" HorizontalContentAlignment="Left" Click="EditEmployeeBtn_Click" />
+                                <Button Content="            Supprimer" Height="40" HorizontalAlignment="Stretch" Margin="0,100,0,0" Name="DeleteEmployeeBtn" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="1" Grid.Column="1" HorizontalContentAlignment="Left" Click="DeleteEmployeeBtn_Click" />
+                                <Image Grid.Column="1" Height="32" HorizontalAlignment="Left" Margin="3,65,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="32" Source="/GestionCommerciale;component/Images/Icons/32/edit.png" />
+                                <Image Height="32" HorizontalAlignment="Left" Margin="2,104,0,0" Name="image2" Source="/GestionCommerciale;component/Images/Icons/32/delete.png" Stretch="Fill" VerticalAlignment="Top" Width="32" Grid.Column="1" />
+                            </Grid>
+                        </dxdo:LayoutPanel>
+                        <dxdo:LayoutPanel Caption="Panel" ShowCaption="False">
+                            <Grid Name="grid1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <dxg:GridControl AutoPopulateColumns="True" Grid.RowSpan="1" Name="EmployeesDataGrid" Grid.Row="1" Grid.ColumnSpan="4" FontStyle="Normal">
+                                    <dxg:GridControl.Columns>
+                                        <dxg:GridColumn FieldName="employee_firstname" Header="Nom" />
+                                        <dxg:GridColumn FieldName="employee_lastname" Header="Prénom" />
+                                        <dxg:GridColumn FieldName="BirthDate" Header="Date de naissance" />
+                                        <dxg:GridColumn FieldName="City" Header="Ville" />
+                                        <dxg:GridColumn FieldName="PostalCode" Header="Code postal" />
+                                        <dxg:GridColumn FieldName="employee_phone" Header="Mobile" />
+                                     
+                                    </dxg:GridControl.Columns>
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView Name="EmployeesDataTable" AllowEditing="False" AllowGrouping="False" MultiSelectMode="Row" ShowGroupPanel="False" ShowHorizontalLines="True" ShowIndicator="True" FocusedRowChanged="EmployeesDataTable_FocusedRowChanged" ShowAutoFilterRow="True" />
+                                    </dxg:GridControl.View>
+                                </dxg:GridControl>
+                                <Button Content="Nouveau employée" Height="45" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="NewSupplierBtn" VerticalAlignment="Center" Width="200" Click="NewEmployeeBtn_Click" />
+                                <Image Height="32" HorizontalAlignment="Left" Margin="0" Name="image3" Source="/GestionCommerciale;component/Images/Business_menu/Employees.png" Stretch="Fill" VerticalAlignment="Center" Width="32" />
+                            </Grid>
+
+                        </dxdo:LayoutPanel>
+                    </dxdo:LayoutGroup>
+                </dxdo:LayoutGroup>
+            </dxdo:DockLayoutManager.LayoutRoot>
+        </dxdo:DockLayoutManager>
+    </Grid>
+</UserControl>

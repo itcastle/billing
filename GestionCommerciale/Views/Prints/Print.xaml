@@ -1,0 +1,8 @@
+﻿<Window x:Class="GestionCommerciale.Views.Prints.Print"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Print" Height="673" Width="919" xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <dxp:DocumentPreview HorizontalAlignment="Left" Margin="0,12,0,0" Name="documentPreview1" VerticalAlignment="Top" />
+    </Grid>
+</Window>

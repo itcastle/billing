@@ -1,0 +1,1171 @@
+﻿<UserControl
+    x:Class="GestionCommerciale.TopMenu"
+    x:Name="TopMenuUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    Height="450"
+    Width="650"
+    Loaded="TopMenuUserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="AideBtnOver">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.78" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image1"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="-12" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="AideBtnLeave">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.78" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image1"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="-12" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OptionsBtnOver">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image2"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="-12" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image3"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.78" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="ListeBtnOver">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image7"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.78" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image6"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="-12" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="path2"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="AjouterBtnOver">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image9"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.78" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.995" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image8"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="-12" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="path1"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="StatistiquesBtnOver">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image11"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.78" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image10"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="-12" />
+            </DoubleAnimationUsingKeyFrames>
+
+        </Storyboard>
+        <Storyboard x:Key="OptionsBtnLeave">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image2"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="-12" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image3"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.78" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="ListeBtnLeave">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image7"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.78" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image6"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="-12" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="path2"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="AjouterBtnLeave">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image9"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0.995" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.78" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image8"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="-12" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="path1"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="StatistiquesBtnLeave">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image11"
+                Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="1" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0.78" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="image10"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="-12" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+
+        </Storyboard>
+        <Storyboard x:Key="ListesSbMnOpen">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="ListesSubMenuGrid"
+                Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="200" />
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ProduitsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="AchatsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="VentesListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="FournisseursListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ClientsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="EmployeesListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="ListesSbMnClose">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="ListesSubMenuGrid"
+                Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="200" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ProduitsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="AchatsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="VentesListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="FournisseursListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ClientsListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="EmployeesListBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="NouveauSbMnOpen">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="NouveauSubMenuGrid"
+                Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame
+                    KeyTime="0"
+                    Value="0" />
+                <EasingDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="200" />
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ProduitNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="AchatNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="VenteNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="FournisseurNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ClientNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="EmployeeNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="True" />
+            </BooleanAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="NouveauSbMnClose">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="NouveauSubMenuGrid"
+                Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame
+                    KeyTime="0"
+                    Value="200" />
+                <SplineDoubleKeyFrame
+                    KeyTime="0:0:0.2"
+                    Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ProduitNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="AchatNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="VenteNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="FournisseurNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="ClientNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames
+                Storyboard.TargetName="EmployeeNewBtn"
+                Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                <DiscreteBooleanKeyFrame
+                    KeyTime="0"
+                    Value="False" />
+            </BooleanAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseEnter"
+            SourceName="AideBtn">
+            <BeginStoryboard Storyboard="{StaticResource AideBtnOver}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseLeave"
+            SourceName="AideBtn">
+            <BeginStoryboard
+                x:Name="AideBtnLeave_BeginStoryboard"
+                Storyboard="{StaticResource AideBtnLeave}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseEnter"
+            SourceName="OptionsBtn">
+            <BeginStoryboard
+                x:Name="OptionsBtnOver_BeginStoryboard"
+                Storyboard="{StaticResource OptionsBtnOver}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseLeave"
+            SourceName="OptionsBtn">
+            <BeginStoryboard
+                x:Name="OptionsBtnLeave_BeginStoryboard"
+                Storyboard="{StaticResource OptionsBtnLeave}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseEnter"
+            SourceName="ListeDesBtn">
+            <BeginStoryboard
+                x:Name="ListeBtnOver_BeginStoryboard"
+                Storyboard="{StaticResource ListeBtnOver}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseLeave"
+            SourceName="ListeDesBtn">
+            <BeginStoryboard
+                x:Name="ListeBtnLeave_BeginStoryboard"
+                Storyboard="{StaticResource ListeBtnLeave}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseEnter"
+            SourceName="AjouterUnBtn">
+            <BeginStoryboard
+                x:Name="AjouterBtnOver_BeginStoryboard"
+                Storyboard="{StaticResource AjouterBtnOver}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseLeave"
+            SourceName="AjouterUnBtn">
+            <BeginStoryboard
+                x:Name="AjouterBtnLeave_BeginStoryboard"
+                Storyboard="{StaticResource AjouterBtnLeave}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseEnter"
+            SourceName="StatistiqueBtn">
+            <BeginStoryboard
+                x:Name="SauvegardeBtnLeave_BeginStoryboard1"
+                Storyboard="{StaticResource StatistiquesBtnOver}" />
+        </EventTrigger>
+        <EventTrigger
+            RoutedEvent="Mouse.MouseLeave"
+            SourceName="StatistiqueBtn">
+            <BeginStoryboard
+                x:Name="StatistiquesBtnLeave_BeginStoryboard"
+                Storyboard="{StaticResource StatistiquesBtnLeave}" />
+        </EventTrigger>
+    </UserControl.Triggers>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Width="Auto"
+        Margin="0">
+        <Grid
+            x:Name="AideBtn"
+            Height="45"
+            Width="130"
+            Margin="0,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Image
+                x:Name="image"
+                HorizontalAlignment="Center"
+                Opacity="0.78"
+                Source="Images/top_menu/red_btn.png"
+                Stretch="Fill" />
+            <TextBlock
+                Margin="45,15,0,0"
+                FontFamily="Segoe UI Semibold"
+                FontSize="13.333"
+                Foreground="White"
+                Opacity="1"
+                TextTrimming="None"
+                TextWrapping="Wrap">
+                <Run
+                    Language="fr-fr"
+                    Text="Aide" />
+            </TextBlock>
+            <Image
+                x:Name="image1"
+                Height="37"
+                Width="36"
+                Margin="0,1,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5"
+                Source="Images/top_menu/help.png"
+                Stretch="Fill">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
+        <Grid
+            x:Name="OptionsBtn"
+            Height="45"
+            Width="130"
+            Margin="130,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            MouseLeftButtonDown="OptionsBtn_MouseLeftButtonDown">
+            <Image
+                x:Name="image3"
+                Opacity="0.78"
+                Source="Images/top_menu/blue_btn.png"
+                Stretch="Fill" />
+            <TextBlock
+                Margin="45,15,0,0"
+                FontFamily="Segoe UI Semibold"
+                FontSize="13.333"
+                Foreground="White"
+                Opacity="1"
+                Text="Options"
+                TextTrimming="None"
+                TextWrapping="Wrap" />
+            <Image
+                x:Name="image2"
+                Height="36"
+                Width="36"
+                Margin="2.833,1,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5"
+                Source="Images/top_menu/option.png"
+                Stretch="Fill">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
+        <Grid
+            x:Name="ListeDesBtn"
+            Height="45"
+            Width="130"
+            Margin="390,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            MouseEnter="ListesBtn_MouseEnter"
+            MouseLeave="ListesBtn_MouseLeave">
+            <Image
+                x:Name="image7"
+                Opacity="0.78"
+                Source="Images/top_menu/green_btn.png"
+                Stretch="Fill" />
+            <TextBlock
+                Margin="45,15,0,0"
+                FontFamily="Segoe UI Semibold"
+                FontSize="13.333"
+                Foreground="White"
+                Opacity="1"
+                Text="Listes"
+                TextTrimming="None"
+                TextWrapping="Wrap" />
+            <Image
+                x:Name="image6"
+                Height="36"
+                Width="36"
+                Margin="4.002,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5"
+                Source="Images/top_menu/liste.png"
+                Stretch="Fill">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Path
+                x:Name="path2"
+                Height="7.5"
+                Width="11.25"
+                Margin="0,-10,10,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Data="M3.1738281E-06,0.375 L10.375,0.25 L5.5,7.5 z"
+                Fill="White"
+                Opacity="0" />
+        </Grid>
+        <Grid
+            x:Name="AjouterUnBtn"
+            Height="45"
+            Width="130"
+            Margin="260,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            MouseEnter="AjouterUnBtn_MouseEnter"
+            MouseLeave="AjouterUnBtn_MouseLeave">
+            <Image
+                x:Name="image9"
+                Opacity="0.78"
+                Source="/GestionCommerciale;component/Images/top_menu/black_btn.png"
+                Stretch="Fill" />
+            <TextBlock
+                Margin="45,15,0,0"
+                FontFamily="Segoe UI Semibold"
+                FontSize="13.333"
+                Foreground="White"
+                Opacity="1"
+                Text="Nouveau"
+                TextTrimming="None"
+                TextWrapping="Wrap" />
+            <Image
+                x:Name="image8"
+                Height="36"
+                Width="36"
+                Margin="2.376,1,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5"
+                Source="Images/top_menu/add.png"
+                Stretch="Fill">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Path
+                x:Name="path1"
+                Height="7.5"
+                Width="11.25"
+                Margin="0,0,10,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Data="M3.1738281E-06,0.375 L10.375,0.25 L5.5,7.5 z"
+                Fill="White"
+                Opacity="0" />
+        </Grid>
+        <Grid
+            x:Name="StatistiqueBtn"
+            Height="45"
+            Width="130"
+            Margin="519,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            MouseLeftButtonDown="StatistiqueBtn_MouseLeftButtonDown"
+            Opacity="1"
+            Visibility="Visible">
+            <Image
+                x:Name="image11"
+                Opacity="0.78"
+                Source="/GestionCommerciale;component/Images/top_menu/orange_btn.png"
+                Stretch="Fill" />
+            <TextBlock
+                Height="Auto"
+                Width="Auto"
+                Margin="45,15,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                FontFamily="Segoe UI Semibold"
+                FontSize="13.333"
+                Foreground="White"
+                Opacity="1"
+                TextTrimming="None"
+                TextWrapping="Wrap">
+                <Run Text="Statistiques" />
+            </TextBlock>
+            <Image
+                x:Name="image10"
+                Height="36"
+                Width="36"
+                Margin="3.728,1,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5"
+                Source="Images/top_menu/stat.png"
+                Stretch="Fill">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
+        <Grid
+            x:Name="NouveauSubMenuGrid"
+            Height="0"
+            Width="150"
+            Margin="260,45,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FF64615E"
+            MouseEnter="NouveauSubMenuGrid_MouseEnter"
+            MouseLeave="NouveauSubMenuGrid_MouseLeave">
+            <Button
+                x:Name="ProduitNewBtn"
+                Height="30"
+                Margin="0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="AddProductBtn_Click"
+                Content="Produit"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="AchatNewBtn"
+                Height="30"
+                Margin="0,30,0,0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="AddPurchaseBtn_Click"
+                Content="Achat"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="VenteNewBtn"
+                Height="30"
+                Margin="0,60,0,0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="AddSaleBtn_Click"
+                Content="Vente"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="FournisseurNewBtn"
+                Margin="0,90,0,80"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                BorderBrush="{x:Null}"
+                Click="AddSupplierBtn_click"
+                Content="Fournisseur"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="ClientNewBtn"
+                Height="30"
+                Margin="0,0,0,50"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderBrush="{x:Null}"
+                Click="AddCustomerBtn_Click"
+                Content="Client"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="EmployeeNewBtn"
+                Height="30"
+                Margin="0,0,0,20"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderBrush="{x:Null}"
+                Click="AddEmployeeBtn_Click"
+                Content="Employée"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsEnabled="False"
+                Opacity="0.35">
+                <Button.Background>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Button.Background>
+            </Button>
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/produits.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,32,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/achats.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,92,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/fournisseurs.png"
+                Stretch="Fill"
+                d:LayoutOverrides="Height" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,62,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/cash.png"
+                Stretch="Fill"
+                d:LayoutOverrides="Height" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,122,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/clients.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,152,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Icons/Group.png"
+                Stretch="Fill" />
+            <Rectangle
+                Height="20"
+                Margin="0"
+                VerticalAlignment="Bottom"
+                Opacity="0.08">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/GestionCommerciale;component/Images/top_menu/black_btn.png" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+        <Grid
+            x:Name="ListesSubMenuGrid"
+            Height="0"
+            Width="150"
+            Margin="390,45,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FF476123"
+            MouseEnter="ListesSubMenuGrid_MouseEnter"
+            MouseLeave="ListesSubMenuGrid_MouseLeave">
+            <Button
+                x:Name="ProduitsListBtn"
+                Height="30"
+                Margin="0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="ListProductsBtn_Click"
+                Content="Produits"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="AchatsListBtn"
+                Height="30"
+                Margin="0,30,0,0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="ListPurchasesBtn_Click"
+                Content="Achats"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="VentesListBtn"
+                Height="30"
+                Margin="0,60,0,0"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="{x:Null}"
+                Click="ListSalesBtn_Click"
+                Content="Ventes"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="FournisseursListBtn"
+                Margin="0,90,0,80"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                BorderBrush="{x:Null}"
+                Click="ListSupplierBtn_Click"
+                Content="Fournisseurs"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="ClientsListBtn"
+                Height="30"
+                Margin="0,0,0,50"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderBrush="{x:Null}"
+                Click="ListCustomersBtn_Click"
+                Content="Clients"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Button
+                x:Name="EmployeesListBtn"
+                Height="30"
+                Margin="0,0,0,20"
+                Padding="36,1,1,1"
+                HorizontalContentAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderBrush="{x:Null}"
+                Click="ListEmployeesBtn_Click"
+                Content="Employées"
+                FontWeight="Bold"
+                Foreground="#FF290606"
+                IsEnabled="False"
+                Opacity="0.35"
+                OpacityMask="#FF567D38">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Button.Background>
+            </Button>
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/produits.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,32,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/achats.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,92,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/fournisseurs.png"
+                Stretch="Fill"
+                d:LayoutOverrides="Height" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,62,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/cash.png"
+                Stretch="Fill"
+                d:LayoutOverrides="Height" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,122,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Business_menu/clients.png"
+                Stretch="Fill" />
+            <Image
+                Height="24"
+                Width="24"
+                Margin="5,152,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="Images/Icons/Group.png"
+                Stretch="Fill" />
+            <Rectangle
+                Height="20"
+                Margin="0"
+                VerticalAlignment="Bottom"
+                Opacity="0.08"
+                Stroke="Black">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="Images/top_menu/green_btn.png" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+    </Grid>
+</UserControl>

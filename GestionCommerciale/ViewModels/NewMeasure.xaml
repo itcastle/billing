@@ -1,0 +1,146 @@
+﻿<Window
+    x:Class="GestionCommerciale.ViewModels.NewMeasure"
+    Title="Unité des measures"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    Closed="MetroWindow_OnClosed"
+    Loaded="MetroWindow_OnLoaded">
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="0"
+                Height="33"
+                Width="130"
+                Margin="0,20,0,0"
+                Padding="0,0,15,0"
+                HorizontalContentAlignment="Right"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Content="Measure unit:"
+                FontSize="16" />
+            <dxe:TextEdit
+                x:Name="MeasureNameTxt"
+                Grid.Column="1"
+                Grid.Row="0"
+                Height="33"
+                Margin="0,20,0,0"
+                VerticalAlignment="Top" />
+        </Grid>
+        <Grid
+            Grid.ColumnSpan="3"
+            Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="AddMeasureBtn"
+                Grid.Column="0"
+                Height="50"
+                MinHeight="0"
+                Width="160"
+                Click="AddMeasureBtn_OnClick"
+                FlowDirection="LeftToRight"
+                FontSize="16">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        HorizontalAlignment="Left"
+                        Source="/Images/Icons/32/plus.png" />
+                    <Label
+                        Width="87"
+                        VerticalContentAlignment="Center"
+                        Content="AJOUTER" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="UpdateMeasureBtn"
+                Grid.Column="1"
+                Height="50"
+                MinHeight="0"
+                Width="160"
+                Click="UpdateMeasureBtn_OnClick"
+                FlowDirection="LeftToRight"
+                FontSize="16">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        HorizontalAlignment="Left"
+                        Source="/Images/Icons/edit.png" />
+                    <Label
+                        Width="87"
+                        VerticalContentAlignment="Center"
+                        Content="MODIFIER" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="RefreshMeasureBtn"
+                Grid.Column="2"
+                Height="50"
+                MinHeight="0"
+                Width="160"
+                Click="RefreshBtn_OnClick"
+                FlowDirection="LeftToRight"
+                FontSize="16">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        HorizontalAlignment="Left"
+                        Source="/Images/Icons/Refresh.png" />
+                    <Label
+                        Width="105"
+                        VerticalContentAlignment="Center"
+                        Content="ACTUALISER" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="DeleteMeasureBtn"
+                Grid.Column="3"
+                Height="50"
+                MinHeight="0"
+                Width="160"
+                Click="DeleteMeasureBtn_OnClick"
+                FlowDirection="LeftToRight"
+                FontSize="16">
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        HorizontalAlignment="Left"
+                        Source="/Images/Icons/remove.png" />
+                    <Label
+                        Width="100"
+                        VerticalContentAlignment="Center"
+                        Content="SUPPRIMER" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        <dxg:GridControl
+            x:Name="MeasureGridControl"
+            Grid.Row="2"
+            AutoPopulateColumns="True">
+            <dxg:GridControl.View>
+                <dxg:TableView
+                    x:Name="MeasureTableView"
+                    AllowEditing="False"
+                    MouseLeftButtonUp="MeasureTableView_OnMouseLeftButtonUp"
+                    ShowAutoFilterRow="True"
+                    ShowFilterPanelMode="Default"
+                    ShowGroupPanel="False"
+                    ShowSearchPanelMode="Always"
+                    ShowTotalSummary="True" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </Grid>
+</Window>

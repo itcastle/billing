@@ -1,0 +1,14 @@
+﻿<Window x:Class="GestionCommerciale.Modals.CustomerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TVADialog" Height="250" Width="655" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <dxg:GridControl AutoPopulateColumns="True" Name="dgCustomers" Height="121" VerticalAlignment="Top">
+            <dxg:GridControl.View>
+                <dxg:TableView Name="tableView1" ShowTotalSummary="True" ShowColumnHeaders="True" ShowGroupPanel="False" NavigationStyle="Row" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+        <Button Content="Ajouter" Height="23" HorizontalAlignment="Right" Margin="0,176,87,0" Name="AddBtn" VerticalAlignment="Top" Width="75" IsDefault="True" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Right" Margin="0,176,6,0" Name="CancelBtn" VerticalAlignment="Top" Width="75" IsCancel="True" />
+    </Grid>
+</Window>

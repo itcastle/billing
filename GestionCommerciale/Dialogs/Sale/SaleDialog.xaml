@@ -1,0 +1,14 @@
+﻿<Window x:Class="GestionCommerciale.Modals.SaleDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SaleDialog" Height="197" Width="908" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <dxg:GridControl AutoPopulateColumns="True" Name="dgSales" Height="121" VerticalAlignment="Top">
+            <dxg:GridControl.View>
+                <dxg:TableView Name="tableView1" ShowTotalSummary="True" ShowColumnHeaders="True" ShowGroupPanel="False" NavigationStyle="Row" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+        <Button Content="Ajouter" Height="23" HorizontalAlignment="Right" Margin="0,129,93,0" Name="AddBtn" VerticalAlignment="Top" Width="75" IsDefault="True" Click="AddBtn_Click" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Right" Margin="0,129,12,0" Name="CancelBtn" VerticalAlignment="Top" Width="75" IsCancel="True" IsEnabled="True" />
+    </Grid>
+</Window>

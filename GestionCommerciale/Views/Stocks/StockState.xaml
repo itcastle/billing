@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="GestionCommerciale.Views.StockFolder.StockState"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="600"
+             d:DesignWidth="600"
+             mc:Ignorable="d">
+    <Grid Name="LayoutRoot">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform />
+                <SkewTransform />
+                <RotateTransform />
+                <TranslateTransform />
+            </TransformGroup>
+        </Grid.RenderTransform>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Width="126"
+                   Height="50"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Right"
+                   Content="Catégorie :"
+                   FontSize="12"
+                   FontStyle="Normal"
+                   FontWeight="Bold"
+                   Padding="15" />
+            <dxe:ComboBoxEdit Name="cbCategorys"
+                              Grid.Row="0"
+                              Height="33"
+                              Margin="160,0,85,0"
+                              VerticalAlignment="Center"
+                              AutoComplete="True"
+                              FontStyle="Normal"
+                              PopupOpening="cbCategorys_PopupOpening"
+                              SelectedIndex="0"
+                              SelectedIndexChanged="cbCategorys_SelectedIndexChanged" />
+            <dxc:ChartControl Name="stockChart"
+                              Grid.Row="1"
+                              Margin="0,12,0,0"
+                              CustomDrawSeriesPoint="stockChart_CustomDrawSeriesPoint">
+                <dxc:ChartControl.Diagram>
+                    <dxc:XYDiagram2D BorderBrush="#82968B8B"
+                                     BorderThickness="1"
+                                     FontStyle="Normal"
+                                     Padding="10">
+                        <dxc:XYDiagram2D.Series>
+                            <dxc:BarSideBySideSeries2D Name="Series"
+                                                       BarWidth="0.1"
+                                                       DisplayName="Stock produits">
+                                <!--  region #Model  -->
+                                <dxc:BarSideBySideSeries2D.Model>
+                                    <dxc:Quasi3DBar2DModel />
+                                </dxc:BarSideBySideSeries2D.Model>
+
+                            </dxc:BarSideBySideSeries2D>
+
+                        </dxc:XYDiagram2D.Series>
+                    </dxc:XYDiagram2D>
+                </dxc:ChartControl.Diagram>
+                <dxc:ChartControl.Legend>
+                    <dxc:Legend FontStyle="Normal" />
+                </dxc:ChartControl.Legend>
+            </dxc:ChartControl>
+        </Grid>
+
+    </Grid>
+</UserControl>

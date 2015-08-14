@@ -1,0 +1,450 @@
+﻿<UserControl x:Class="GestionCommerciale.Views.StockFolder.StockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:core="clr-namespace:DevExpress.Xpf.Core;assembly=DevExpress.Xpf.Core.v14.2"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:editors="clr-namespace:DevExpress.Xpf.Editors;assembly=DevExpress.Xpf.Core.v14.2"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_OnLoaded"
+             d:DesignHeight="700"
+             d:DesignWidth="1200"
+             mc:Ignorable="d">
+    <Grid Name="LayoutRoot">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform />
+                <SkewTransform />
+                <RotateTransform />
+                <TranslateTransform />
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Height="280">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <core:GroupFrame Grid.RowSpan="5" Header="Produit">
+                <Grid Margin="0,2,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Catégorie :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <Label Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Réference :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ProductReferenceTxt"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1.5"
+                                      IsReadOnly="True" />
+                    <editors:ComboBoxEdit x:Name="CategoryCbx"
+                                          Grid.Row="0"
+                                          Grid.Column="1"
+                                          Height="33"
+                                          EditValueChanged="CategoryCbx_OnEditValueChanged" />
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Sous Catégorie :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:ComboBoxEdit x:Name="SubCategoryCbx"
+                                          Grid.Row="1"
+                                          Grid.Column="1"
+                                          Height="33"
+                                          EditValueChanged="SubCategoryCbx_OnEditValueChanged" />
+                    <Label Grid.Row="1"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Qte Min :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ProductMinValueTxt"
+                                      Grid.Row="1"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      IsReadOnly="True" />
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Produit :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:ComboBoxEdit x:Name="ProductNameCbx"
+                                          Grid.Row="2"
+                                          Grid.Column="1"
+                                          Height="33"
+                                          EditValueChanged="ProductNameCbx_OnEditValueChanged" />
+                    <Label Grid.Row="2"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Qte Max :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ProductMaxValueTxt"
+                                      Grid.Row="2"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      IsReadOnly="True" />
+                    <Label Grid.Row="3"
+                           VerticalContentAlignment="Center"
+                           Content="Unité :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="MeasureTxt"
+                                      Grid.Row="3"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      IsReadOnly="True" />
+                    <Label Grid.Row="3"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Qte en stock :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="QteInStockTxt"
+                                      Grid.Row="3"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      IsReadOnly="True" />
+                    <Label Grid.Row="4"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Désignation :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="DesignationTxt"
+                                      Grid.Row="4"
+                                      Grid.RowSpan="2"
+                                      Grid.Column="1"
+                                      Grid.ColumnSpan="3"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Top"
+                                      AcceptsReturn="True"
+                                      FontSize="14"
+                                      FontStyle="Normal"
+                                      IsManipulationEnabled="True"
+                                      IsReadOnly="True"
+                                      IsTabStop="True"
+                                      Padding="0"
+                                      TextWrapping="Wrap"
+                                      VerticalScrollBarVisibility="Auto" />
+                </Grid>
+            </core:GroupFrame>
+            <core:GroupFrame Grid.RowSpan="5"
+                             Grid.Column="1"
+                             Header="Stock">
+                <Grid Margin="0,2,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"
+                           VerticalContentAlignment="Center"
+                           Content="Date :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:DateEdit x:Name="ProductSaleDateDte"
+                                      Grid.Row="0"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      Margin="0,1" />
+                    <Label Grid.Row="0"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="ID stockage :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="StockageIDtxt"
+                                      Grid.Row="0"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center" />
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Prix d'achat :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="PrixAchatTxt"
+                                      Grid.Row="1"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center"
+                                      EditValueChanged="PrixAchatTxt_OnEditValueChanged"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True" />
+                    <Label Grid.Row="1"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="N° de serie :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ProductSNtxt"
+                                      Grid.Row="1"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center" />
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Qte :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:SpinEdit x:Name="QteAchterSpin"
+                                      Grid.Row="2"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center"
+                                      EditValueChanged="QteAchterSpin_OnEditValueChanged"
+                                      MinValue="0" />
+                    <Label Grid.Row="2"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Etat :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:ComboBoxEdit x:Name="ProductStateCBX"
+                                          Grid.Row="2"
+                                          Grid.Column="3"
+                                          Height="33"
+                                          Margin="0,1"
+                                          HorizontalContentAlignment="Center" />
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           VerticalContentAlignment="Center"
+                           Content="Prix de gros :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="PrixVenteGrosTxt"
+                                      Grid.Row="3"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True" />
+                    <Label Grid.Row="3"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Réference :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ReferenceTxt"
+                                      Grid.Row="3"
+                                      Grid.Column="3"
+                                      HorizontalContentAlignment="Center"
+                                      IsReadOnly="False" />
+                    <Label Grid.Row="4"
+                           VerticalContentAlignment="Center"
+                           Content="Prix de détail :"
+                           FontSize="12"
+                           FontStyle="Normal"
+                           FontWeight="SemiBold" />
+                    <editors:TextEdit x:Name="VentePriceUnitDetailTxt"
+                                      Grid.Row="4"
+                                      Grid.Column="1"
+                                      HorizontalContentAlignment="Center"
+                                      FontSize="14"
+                                      FontStyle="Normal"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True"
+                                      TabIndex="3" />
+                    <Label Grid.Row="4"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Total HT :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="TotalPrixTxt"
+                                      Grid.Row="4"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center"
+                                      IsReadOnly="False"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True" />
+                    <Label Grid.Row="5"
+                           Grid.Column="0"
+                           Height="33"
+                           VerticalAlignment="Top"
+                           VerticalContentAlignment="Center"
+                           Content="Prix de comptoire :"
+                           FontSize="12"
+                           FontStyle="Normal"
+                           FontWeight="SemiBold" />
+                    <editors:TextEdit x:Name="VentePriceUnitComptoireTxt"
+                                      Grid.Row="5"
+                                      Grid.Column="1"
+                                      Height="33"
+                                      VerticalAlignment="Top"
+                                      HorizontalContentAlignment="Center"
+                                      FontSize="14"
+                                      FontStyle="Normal"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True"
+                                      TabIndex="3" />
+                    <Label Grid.Row="5"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="OBS :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="StockObStxt"
+                                      Grid.Row="5"
+                                      Grid.Column="3"
+                                      Grid.ColumnSpan="3"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Top"
+                                      AcceptsReturn="True"
+                                      FontSize="14"
+                                      FontStyle="Normal"
+                                      IsManipulationEnabled="True"
+                                      IsTabStop="True"
+                                      Padding="0"
+                                      TextWrapping="Wrap"
+                                      VerticalScrollBarVisibility="Auto" />
+                </Grid>
+            </core:GroupFrame>
+            <StackPanel Grid.Row="0" Grid.Column="2">
+                <Button x:Name="AddToStockBtn"
+                        Width="140"
+                        Height="45"
+                        MinHeight="0"
+                        Click="AddToStockBtn_OnClick"
+                        FlowDirection="LeftToRight"
+                        FontSize="16">
+                    <StackPanel Width="120" Orientation="Horizontal">
+                        <Image Height="30"
+                               HorizontalAlignment="Left"
+                               Source="/Images/Icons/32/plus.png" />
+                        <Label VerticalContentAlignment="Center" Content="Ajouter" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="UpdateStockBtn"
+                        Width="140"
+                        Height="45"
+                        MinHeight="0"
+                        Margin="0,2"
+                        Click="UpdateStockBtn_OnClick"
+                        FlowDirection="LeftToRight"
+                        FontSize="16">
+                    <StackPanel Width="120" Orientation="Horizontal">
+                        <Image Height="30"
+                               HorizontalAlignment="Left"
+                               Source="/Images/Icons/edit.png" />
+                        <Label VerticalContentAlignment="Center" Content="Modifier" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="RefreshFields"
+                        Width="140"
+                        Height="45"
+                        MinHeight="0"
+                        Margin="0,2"
+                        Click="RefreshFields_OnClick"
+                        FlowDirection="LeftToRight"
+                        FontSize="16">
+                    <StackPanel Width="120" Orientation="Horizontal">
+                        <Image Height="30"
+                               HorizontalAlignment="Left"
+                               Source="/Images/Icons/Refresh.png" />
+                        <Label VerticalContentAlignment="Center" Content="Actualiser" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="RemoveFromStockBtn"
+                        Width="140"
+                        Height="45"
+                        MinHeight="0"
+                        Margin="0,2"
+                        Click="RemoveFromStockBtn_OnClick"
+                        FlowDirection="LeftToRight"
+                        FontSize="16">
+                    <StackPanel Width="120" Orientation="Horizontal">
+                        <Image Height="30"
+                               HorizontalAlignment="Left"
+                               Source="/Images/Icons/remove.png" />
+                        <Label VerticalContentAlignment="Center" Content="Supprimer" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <dxg:GridControl x:Name="StockGridControl"
+                         Grid.Row="1"
+                         AllowLiveDataShaping="True"
+                         AutoPopulateColumns="True"
+                         SelectionMode="Row">
+            <dxg:GridControl.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="CopyToClipboard_Click" Header="Copy Selection to Clipboard" />
+                </ContextMenu>
+            </dxg:GridControl.ContextMenu>
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="StockTableView"
+                               AllowEditing="True"
+                               EditorShowMode="MouseUpFocused"
+                               MouseDoubleClick="StockTableView_OnMouseDoubleClick"
+                               ShowAutoFilterRow="True"
+                               ShowGroupPanel="False"
+                               ShowTotalSummary="True" />
+            </dxg:GridControl.View>
+
+            <dxg:GridControl.TotalSummary>
+                <dxg:GridSummaryItem DisplayFormat="Qte en stock: {0}"
+                                     FieldName="Qte en stock"
+                                     SummaryType="Sum" />
+                <dxg:GridSummaryItem DisplayFormat="Sum: {0:0,0.00} DZD"
+                                     FieldName="Prix Total"
+                                     SummaryType="Sum" />
+                <dxg:GridSummaryItem DisplayFormat="Total : {0}"
+                                     FieldName="Produit"
+                                     SummaryType="Count" />
+            </dxg:GridControl.TotalSummary>
+        </dxg:GridControl>
+
+    </Grid>
+</UserControl>
