@@ -218,7 +218,7 @@
     <Compile Include="TopMenu.xaml.cs">
       <DependentUpon>TopMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\NewMeasure.xaml.cs">
+    <Compile Include="Views\Mesures\NewMeasure.xaml.cs">
       <DependentUpon>NewMeasure.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HelpFunctions.cs" />
@@ -243,9 +243,6 @@
     </Compile>
     <Compile Include="Views\Invoices\FactureView.xaml.cs">
       <DependentUpon>FactureView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Mesures\AddMesureView.xaml.cs">
-      <DependentUpon>AddMesureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Options\GeneralParams.xaml.cs">
       <DependentUpon>GeneralParams.xaml</DependentUpon>
@@ -380,7 +377,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ViewModels\NewMeasure.xaml">
+    <Page Include="Views\Mesures\NewMeasure.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -409,10 +406,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Invoices\FactureView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Mesures\AddMesureView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

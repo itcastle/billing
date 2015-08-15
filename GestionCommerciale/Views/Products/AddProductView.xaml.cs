@@ -7,9 +7,7 @@ using System.Windows.Media.Animation;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.LayoutControl;
-using GestionCommerciale.ViewModels;
 using GestionCommerciale.Views.CategoryFolder;
-using GestionCommerciale.Views.MesureFolder;
 using GestionCommerciale.DomainModel;
 using Categorys = GestionCommerciale.DomainModel.Entities.Category;
 
