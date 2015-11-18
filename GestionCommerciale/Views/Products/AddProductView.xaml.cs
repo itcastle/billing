@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,18 +6,19 @@ using System.Windows.Media.Animation;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.LayoutControl;
-using GestionCommerciale.Views.CategoryFolder;
 using GestionCommerciale.DomainModel;
-using Categorys = GestionCommerciale.DomainModel.Entities.Category;
+using GestionCommerciale.DomainModel.ClassesClients;
+using GestionCommerciale.Views.Categories;
+using GestionCommerciale.Views.Mesures;
 
-namespace GestionCommerciale.Views.ProductFolder
+namespace GestionCommerciale.Views.Products
 {
     /// <summary>
     /// Interaction logic for AddCustomerView.xaml
     /// </summary>
     public partial class AddProductView
     {
-        private readonly CategorysClient _CategorysClient;
+        private readonly CategorysClient _categorysClient;
      
         private readonly ProductManger _productManger;
         private readonly MeasureManager _measureManager;
@@ -31,7 +31,7 @@ namespace GestionCommerciale.Views.ProductFolder
         public AddProductView(string animationName)
         {
             InitializeComponent();
-            _CategorysClient = new CategorysClient();
+            _categorysClient = new CategorysClient();
             _productManger = new ProductManger();
              _measureManager = new MeasureManager();
             if (string.IsNullOrEmpty(animationName)) return;
@@ -80,7 +80,7 @@ namespace GestionCommerciale.Views.ProductFolder
                 ProductTypeCbx.Clear();
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    SubCategoryCbx.ItemsSource = _CategorysClient.GetSubCategorysNames(CategoryName);
+                    SubCategoryCbx.ItemsSource = _categorysClient.GetSubCategorysNames(CategoryName);
 
                 }));
             }
@@ -171,7 +171,7 @@ namespace GestionCommerciale.Views.ProductFolder
             ProductTypeCbx.Clear();
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                CategorysCbx.ItemsSource = _CategorysClient.GetCategorys();
+                CategorysCbx.ItemsSource = _categorysClient.GetCategorys();
 
             }));
 

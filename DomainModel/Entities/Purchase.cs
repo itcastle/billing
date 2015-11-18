@@ -17,6 +17,7 @@ namespace GestionCommerciale.DomainModel.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Purchase()
         {
+            this.Commands = new HashSet<Command>();
             this.PurchaseStores = new HashSet<PurchaseStore>();
         }
     
@@ -38,7 +39,10 @@ namespace GestionCommerciale.DomainModel.Entities
         public Nullable<bool> PurchaseValidite { get; set; }
         public string Description { get; set; }
         public Nullable<int> Status { get; set; }
+        public bool IsCommand { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Command> Commands { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Provider Provider { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

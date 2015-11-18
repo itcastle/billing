@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using GestionCommerciale.DomainModel.Validator;
 using System.IO;
-using System.Diagnostics;
-using System.Drawing;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.Entities;
-
+using GestionCommerciale.DomainModel.Validator;
 
 namespace GestionCommerciale.Views.Options
 {
@@ -47,7 +35,7 @@ namespace GestionCommerciale.Views.Options
             Setting settings = sc.GetSetting();
             if (settings == null) return;
             
-                settings.DateMAJ = System.DateTime.Now;
+                settings.DateMAJ = DateTime.Now;
                 PictureImg.EditValue = settings.Logo;
                 CompanyNameTxtBox.Text = settings.CompanyName;
                 AdresseTxtBox.Text = settings.Adresse;
@@ -124,7 +112,7 @@ namespace GestionCommerciale.Views.Options
             MessageBox.Show(s);             
         }
 
-        private void PictureImg_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        private void PictureImg_EditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             
         }

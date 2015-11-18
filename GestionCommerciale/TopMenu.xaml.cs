@@ -3,16 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using GestionCommerciale.Helpers;
-using GestionCommerciale.Views.CustomerFolder;
-using GestionCommerciale.Views.EmployeeFolder;
-using GestionCommerciale.Views.Options;
-using GestionCommerciale.Views.ProductFolder;
-using GestionCommerciale.Views.PurchaseFolder;
-using GestionCommerciale.Views.SaleFolder;
-using GestionCommerciale.Views.StatisticFolder;
-using GestionCommerciale.Views.SupplierFolder;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.Helpers;
+using GestionCommerciale.Views;
+using GestionCommerciale.Views.Customers;
+using GestionCommerciale.Views.Employees;
+using GestionCommerciale.Views.Options;
+using GestionCommerciale.Views.Products;
+using GestionCommerciale.Views.Purchases;
+using GestionCommerciale.Views.Sales;
+using GestionCommerciale.Views.Statistics;
+using GestionCommerciale.Views.Suppliers;
 
 namespace GestionCommerciale
 {
@@ -144,7 +145,7 @@ namespace GestionCommerciale
 
 		private void AddSaleBtn_Click(object sender, RoutedEventArgs e)
 		{
-			var item = _tabHlp.AddNewTab(typeof(AddSaleView), "Effectuer une vente ", "FadeToLeftAnim", _tabHlp);
+			var item = _tabHlp.AddNewTab(typeof(NewSaleView), "Effectuer une vente ", "FadeToLeftAnim", _tabHlp);
 		}
 
 		private void AddSupplierBtn_click(object sender, RoutedEventArgs e)

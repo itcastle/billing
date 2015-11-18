@@ -164,6 +164,7 @@ namespace GestionCommerciale.DomainModel
            _gestionDb=new GcdbEntities();
             var query = from t in _gestionDb.Purchases
                 where t.SupplierID == receiveProvider.SupplierID
+                && t.IsCommand == false
                 select t;
             if(!query.Any())return new List<Purchase>();
             return query.ToList();

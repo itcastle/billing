@@ -8,12 +8,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Core;
-using GestionCommerciale.Helpers;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.Helpers;
 
-namespace GestionCommerciale.Views.CustomerFolder
+namespace GestionCommerciale.Views.Customers
 {
     /// <summary>
     /// Interaction logic for ListSuppliersView.xaml

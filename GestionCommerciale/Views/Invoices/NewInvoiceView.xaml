@@ -1,0 +1,89 @@
+﻿<Window x:Class="GestionCommerciale.Views.Invoices.NewInvoiceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:local="clr-namespace:GestionCommerciale.Views"
+        xmlns:Views="clr-namespace:GestionCommerciale.Views"  
+        mc:Ignorable="d"
+        Title="Commander" d:DesignHeight="500"
+             d:DesignWidth="1200" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Views:DocRichEditUC x:Name="DocRichEdit"  />
+
+        <Grid Grid.Row="1">
+
+            <StackPanel Margin="0,10,0,0"
+                        VerticalAlignment="Top"
+                        FlowDirection="RightToLeft"
+                        Orientation="Horizontal">
+
+                <Button x:Name="SavePrintDoc_btn"
+                        Width="200"
+                        Height="50"
+                        Margin="5,5,5,5"
+                        Click="SavePrintDocBtn_OnClick"
+                        ToolTip="(Alt+I)">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Image Source="/UserInterface;component/resources/Images/Icons/print.png" />
+                        <Label VerticalAlignment="Center" Content="Sauvegarder et imprimer" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="SaveDoc_btn"
+                        Width="200"
+                        Height="50"
+                        Margin="2,5,2,5"
+                        Click="SaveDocBtn_OnClick"
+                        ToolTip="(Alt+Entrer)">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Image Source="/UserInterface;component/resources/Images/Icons/save.png" />
+                        <Label VerticalAlignment="Center" Content="Sauvegarder" />
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="CancelDoc_btn"
+                        Width="200"
+                        Height="50"
+                        Margin="2,5,2,5"
+                        Click="CancelDocBtn_OnClick"
+                        ToolTip="(ESC)">
+                    <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Image Source="/UserInterface;component/resources/Images/Icons/close.png" />
+                        <Label VerticalAlignment="Center" Content="Annuler" />
+                    </StackPanel>
+                </Button>
+                <dxe:ComboBoxEdit x:Name="Models_ComboBox"
+                                  Width="200"
+                                  Height="45"
+                                  Margin="40,0,0,0"
+                                  VerticalAlignment="Center"
+                                  EditValue=""
+                                  FlowDirection="LeftToRight"
+                                  FontSize="14"
+                                  FontStyle="Normal"
+                                  IsTextEditable="False"
+                                  SelectedIndexChanged="ModelsComboBoxSelectedIndexChanged"
+                                  TabIndex="9" />
+
+                <Label Height="Auto"
+                       Margin="0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       HorizontalContentAlignment="Right"
+                       Content="Model :"
+                       FlowDirection="LeftToRight"
+                       FontSize="12"
+                       FontStyle="Normal"
+                       FontWeight="Bold"
+                       Padding="15" />
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>

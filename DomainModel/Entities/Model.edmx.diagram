@@ -4,51 +4,57 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="671a93b3d6164ef883642ab748843925" Name="Diagram1">
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Category" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Customer" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.DatabaseLog" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Employee" Width="1.5" PointX="3" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Facture" Width="1.5" PointX="7.5" PointY="20.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.OrderDetail" Width="1.5" PointX="7.5" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Order" Width="1.5" PointX="5.25" PointY="20" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Password" Width="1.5" PointX="0.75" PointY="24.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.ProductMeasure" Width="1.5" PointX="7.5" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Product" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.ProductState" Width="1.5" PointX="7.5" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Provider" Width="1.5" PointX="6" PointY="25.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Purchase" Width="1.5" PointX="8.25" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.PurchaseStore" Width="1.5" PointX="10.5" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Setting" Width="1.5" PointX="5.25" PointY="35.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Stock" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.StockStore" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.SubCategory" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.Telephone" Width="1.5" PointX="10.25" PointY="22.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GestionCommerciale.DomainModel.Entities.TVA" Width="1.5" PointX="5.25" PointY="32.25" IsExpanded="true" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_SubCategorie_Categorie" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Orders_Customers" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Telephone_Customers" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Employees_Employees" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Employees_Password" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Orders_Employees" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Purchase_Employees" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Settings_Employees" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Factures_Factures" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Factures_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Factures_TVA" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_OrderDetails_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_OrderDetails_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Product_SubCategorie" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_PurchaseStore_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_StockStore_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Purchase_Suppliers" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_Telephone_Provider" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_PurchaseStore_Purchase" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_PurchaseStore_StockStore" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.FK_StockStore_Stock" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.Measure" ManuallyRouted="false" />
-        <AssociationConnector Association="GestionCommerciale.DomainModel.Entities.State" ManuallyRouted="false" />
+      <Diagram DiagramId="326862800651449181afad304a94187b" Name="Diagram1">
+        <EntityTypeShape EntityType="gcdbModel.Category" Width="1.5" PointX="0.75" PointY="13.5" />
+        <EntityTypeShape EntityType="gcdbModel.Command" Width="1.5" PointX="10.5" PointY="17.5" />
+        <EntityTypeShape EntityType="gcdbModel.Customer" Width="1.5" PointX="3" PointY="18.25" />
+        <EntityTypeShape EntityType="gcdbModel.DatabaseLog" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="gcdbModel.DocModel" Width="1.5" PointX="2.75" PointY="4" />
+        <EntityTypeShape EntityType="gcdbModel.Document" Width="1.5" PointX="5.25" PointY="32.75" />
+        <EntityTypeShape EntityType="gcdbModel.Employee" Width="1.5" PointX="3" PointY="24.25" />
+        <EntityTypeShape EntityType="gcdbModel.Facture" Width="1.5" PointX="7.5" PointY="21.375" />
+        <EntityTypeShape EntityType="gcdbModel.OrderDetail" Width="1.5" PointX="7.5" PointY="13.125" />
+        <EntityTypeShape EntityType="gcdbModel.Order" Width="1.5" PointX="5.25" PointY="22.375" />
+        <EntityTypeShape EntityType="gcdbModel.Password" Width="1.5" PointX="0.75" PointY="26.375" />
+        <EntityTypeShape EntityType="gcdbModel.ProductMeasure" Width="1.5" PointX="7.5" PointY="26.875" />
+        <EntityTypeShape EntityType="gcdbModel.Product" Width="1.5" PointX="5.25" PointY="11.625" />
+        <EntityTypeShape EntityType="gcdbModel.ProductState" Width="1.5" PointX="7.5" PointY="29.625" />
+        <EntityTypeShape EntityType="gcdbModel.Provider" Width="1.5" PointX="6" PointY="1.125" />
+        <EntityTypeShape EntityType="gcdbModel.Purchase" Width="1.5" PointX="8.25" PointY="0.75" />
+        <EntityTypeShape EntityType="gcdbModel.PurchaseStore" Width="1.5" PointX="10.5" PointY="12.25" />
+        <EntityTypeShape EntityType="gcdbModel.Setting" Width="1.5" PointX="5.25" PointY="35.75" />
+        <EntityTypeShape EntityType="gcdbModel.Stock" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="gcdbModel.StockStore" Width="1.5" PointX="7.5" PointY="7" />
+        <EntityTypeShape EntityType="gcdbModel.SubCategory" Width="1.5" PointX="3" PointY="13.375" />
+        <EntityTypeShape EntityType="gcdbModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="gcdbModel.Telephone" Width="1.5" PointX="10.25" PointY="9.125" />
+        <EntityTypeShape EntityType="gcdbModel.TVA" Width="1.5" PointX="5.25" PointY="19.25" />
+        <AssociationConnector Association="gcdbModel.FK_SubCategorie_Categorie" />
+        <AssociationConnector Association="gcdbModel.FK_Commands_Documents" />
+        <AssociationConnector Association="gcdbModel.FK_Commands_Purchases" />
+        <AssociationConnector Association="gcdbModel.FK_Orders_Customers" />
+        <AssociationConnector Association="gcdbModel.FK_Telephone_Customers" />
+        <AssociationConnector Association="gcdbModel.FK_Factures_Documents" />
+        <AssociationConnector Association="gcdbModel.FK_Employees_Employees" />
+        <AssociationConnector Association="gcdbModel.FK_Employees_Password" />
+        <AssociationConnector Association="gcdbModel.FK_Orders_Employees" />
+        <AssociationConnector Association="gcdbModel.FK_Purchase_Employees" />
+        <AssociationConnector Association="gcdbModel.FK_Settings_Employees" />
+        <AssociationConnector Association="gcdbModel.FK_Factures_Factures" />
+        <AssociationConnector Association="gcdbModel.FK_Factures_Orders" />
+        <AssociationConnector Association="gcdbModel.FK_Factures_TVA" />
+        <AssociationConnector Association="gcdbModel.FK_OrderDetails_Orders" />
+        <AssociationConnector Association="gcdbModel.FK_OrderDetails_Products" />
+        <AssociationConnector Association="gcdbModel.FK_Product_SubCategorie" />
+        <AssociationConnector Association="gcdbModel.FK_PurchaseStore_Product" />
+        <AssociationConnector Association="gcdbModel.FK_StockStore_Product" />
+        <AssociationConnector Association="gcdbModel.FK_Purchase_Suppliers" />
+        <AssociationConnector Association="gcdbModel.FK_Telephone_Provider" />
+        <AssociationConnector Association="gcdbModel.FK_PurchaseStore_Purchase" />
+        <AssociationConnector Association="gcdbModel.FK_PurchaseStore_StockStore" />
+        <AssociationConnector Association="gcdbModel.FK_StockStore_Stock" />
+        <AssociationConnector Association="gcdbModel.Measure" />
+        <AssociationConnector Association="gcdbModel.State" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

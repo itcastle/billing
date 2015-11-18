@@ -4,18 +4,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Data;
-using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
 using Application = System.Windows.Application;
 
-namespace GestionCommerciale.Views.StockFolder
+namespace GestionCommerciale.Views.Stocks
 {
     /// <summary>
     /// Interaction logic for StockView.xaml

@@ -31,7 +31,9 @@ namespace GestionCommerciale.DomainModel.Entities
         public byte[] Photo { get; set; }
         public Nullable<int> Status { get; set; }
         public string Type { get; set; }
+        public Nullable<int> DocumentID { get; set; }
     
+        public virtual Document Document { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facture> Factures1 { get; set; }
         public virtual Facture Facture1 { get; set; }

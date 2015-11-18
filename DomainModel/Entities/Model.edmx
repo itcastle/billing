@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GestionCommerciale.DomainModel.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="gcdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -13,6 +13,16 @@
           <Property Name="CategoryName" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Commands">
+          <Key>
+            <PropertyRef Name="CommandID" />
+          </Key>
+          <Property Name="CommandID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseID" Type="int" />
+          <Property Name="DocumentID" Type="int" />
+          <Property Name="Num" Type="nchar" MaxLength="10" />
+          <Property Name="Date" Type="date" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
@@ -51,6 +61,23 @@
           <Property Name="Object" Type="nvarchar" MaxLength="128" />
           <Property Name="TSQL" Type="nvarchar(max)" Nullable="false" />
           <Property Name="XmlEvent" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocModels">
+          <Key>
+            <PropertyRef Name="DocModelID" />
+          </Key>
+          <Property Name="DocModelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocFile" Type="varbinary(max)" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocFile" Type="varbinary(max)" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -94,6 +121,7 @@
           <Property Name="Photo" Type="varbinary(max)" />
           <Property Name="Status" Type="int" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentID" Type="int" />
         </EntityType>
         <EntityType Name="Measure">
           <Key>
@@ -228,6 +256,7 @@
           <Property Name="PurchaseValidite" Type="bit" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Status" Type="int" />
+          <Property Name="IsCommand" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PurchaseStores">
           <Key>
@@ -352,6 +381,30 @@
           <Property Name="TauxTVA" Type="real" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_Commands_Documents">
+          <End Role="Documents" Type="Self.Documents" Multiplicity="0..1" />
+          <End Role="Commands" Type="Self.Commands" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documents">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="Commands">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commands_Purchases">
+          <End Role="Purchases" Type="Self.Purchases" Multiplicity="0..1" />
+          <End Role="Commands" Type="Self.Commands" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchases">
+              <PropertyRef Name="PurchaseID" />
+            </Principal>
+            <Dependent Role="Commands">
+              <PropertyRef Name="PurchaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employees_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="Employees1" Type="Self.Employees" Multiplicity="*" />
@@ -373,6 +426,18 @@
             </Principal>
             <Dependent Role="Employees">
               <PropertyRef Name="LoginID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factures_Documents">
+          <End Role="Documents" Type="Self.Documents" Multiplicity="0..1" />
+          <End Role="Factures" Type="Self.Factures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documents">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="Factures">
+              <PropertyRef Name="DocumentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -654,10 +719,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="GestionCommercialeDomainModelEntitiesStoreContainer">
+        <EntityContainer Name="gcdbModelStoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Commands" EntityType="Self.Commands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DatabaseLogs" EntityType="Self.DatabaseLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocModels" EntityType="Self.DocModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factures" EntityType="Self.Factures" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Measure" EntityType="Self.Measure" Schema="dbo" store:Type="Tables" />
@@ -678,6 +746,14 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Telephones" EntityType="Self.Telephones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVAs" EntityType="Self.TVAs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Commands_Documents" Association="Self.FK_Commands_Documents">
+            <End Role="Documents" EntitySet="Documents" />
+            <End Role="Commands" EntitySet="Commands" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commands_Purchases" Association="Self.FK_Commands_Purchases">
+            <End Role="Purchases" EntitySet="Purchases" />
+            <End Role="Commands" EntitySet="Commands" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employees_Employees" Association="Self.FK_Employees_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Employees1" EntitySet="Employees" />
@@ -685,6 +761,10 @@
           <AssociationSet Name="FK_Employees_Password" Association="Self.FK_Employees_Password">
             <End Role="Passwords" EntitySet="Passwords" />
             <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factures_Documents" Association="Self.FK_Factures_Documents">
+            <End Role="Documents" EntitySet="Documents" />
+            <End Role="Factures" EntitySet="Factures" />
           </AssociationSet>
           <AssociationSet Name="FK_Factures_Factures" Association="Self.FK_Factures_Factures">
             <End Role="Factures" EntitySet="Factures" />
@@ -779,11 +859,140 @@
             <End Role="Telephones" EntitySet="Telephones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GestionCommerciale.DomainModel.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="gcdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GcdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="gcdbModel.Category" />
+          <EntitySet Name="Commands" EntityType="gcdbModel.Command" />
+          <EntitySet Name="Customers" EntityType="gcdbModel.Customer" />
+          <EntitySet Name="DatabaseLogs" EntityType="gcdbModel.DatabaseLog" />
+          <EntitySet Name="DocModels" EntityType="gcdbModel.DocModel" />
+          <EntitySet Name="Documents" EntityType="gcdbModel.Document" />
+          <EntitySet Name="Employees" EntityType="gcdbModel.Employee" />
+          <EntitySet Name="Factures" EntityType="gcdbModel.Facture" />
+          <EntitySet Name="OrderDetails" EntityType="gcdbModel.OrderDetail" />
+          <EntitySet Name="Orders" EntityType="gcdbModel.Order" />
+          <EntitySet Name="Passwords" EntityType="gcdbModel.Password" />
+          <EntitySet Name="ProductMeasures" EntityType="gcdbModel.ProductMeasure" />
+          <EntitySet Name="Products" EntityType="gcdbModel.Product" />
+          <EntitySet Name="ProductStates" EntityType="gcdbModel.ProductState" />
+          <EntitySet Name="Providers" EntityType="gcdbModel.Provider" />
+          <EntitySet Name="Purchases" EntityType="gcdbModel.Purchase" />
+          <EntitySet Name="PurchaseStores" EntityType="gcdbModel.PurchaseStore" />
+          <EntitySet Name="Settings" EntityType="gcdbModel.Setting" />
+          <EntitySet Name="Stocks" EntityType="gcdbModel.Stock" />
+          <EntitySet Name="StockStores" EntityType="gcdbModel.StockStore" />
+          <EntitySet Name="SubCategories" EntityType="gcdbModel.SubCategory" />
+          <EntitySet Name="sysdiagrams" EntityType="gcdbModel.sysdiagram" />
+          <EntitySet Name="Telephones" EntityType="gcdbModel.Telephone" />
+          <EntitySet Name="TVAs" EntityType="gcdbModel.TVA" />
+          <AssociationSet Name="FK_SubCategorie_Categorie" Association="gcdbModel.FK_SubCategorie_Categorie">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commands_Documents" Association="gcdbModel.FK_Commands_Documents">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Command" EntitySet="Commands" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commands_Purchases" Association="gcdbModel.FK_Commands_Purchases">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="Command" EntitySet="Commands" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Customers" Association="gcdbModel.FK_Orders_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Telephone_Customers" Association="gcdbModel.FK_Telephone_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Telephone" EntitySet="Telephones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factures_Documents" Association="gcdbModel.FK_Factures_Documents">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Facture" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Employees" Association="gcdbModel.FK_Employees_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee1" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Password" Association="gcdbModel.FK_Employees_Password">
+            <End Role="Password" EntitySet="Passwords" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees" Association="gcdbModel.FK_Orders_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Employees" Association="gcdbModel.FK_Purchase_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Settings_Employees" Association="gcdbModel.FK_Settings_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Setting" EntitySet="Settings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factures_Factures" Association="gcdbModel.FK_Factures_Factures">
+            <End Role="Facture" EntitySet="Factures" />
+            <End Role="Facture1" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factures_Orders" Association="gcdbModel.FK_Factures_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Facture" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factures_TVA" Association="gcdbModel.FK_Factures_TVA">
+            <End Role="TVA" EntitySet="TVAs" />
+            <End Role="Facture" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="gcdbModel.FK_OrderDetails_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Products" Association="gcdbModel.FK_OrderDetails_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SubCategorie" Association="gcdbModel.FK_Product_SubCategorie">
+            <End Role="SubCategory" EntitySet="SubCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseStore_Product" Association="gcdbModel.FK_PurchaseStore_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PurchaseStore" EntitySet="PurchaseStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockStore_Product" Association="gcdbModel.FK_StockStore_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StockStore" EntitySet="StockStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Suppliers" Association="gcdbModel.FK_Purchase_Suppliers">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Telephone_Provider" Association="gcdbModel.FK_Telephone_Provider">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="Telephone" EntitySet="Telephones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseStore_Purchase" Association="gcdbModel.FK_PurchaseStore_Purchase">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="PurchaseStore" EntitySet="PurchaseStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseStore_StockStore" Association="gcdbModel.FK_PurchaseStore_StockStore">
+            <End Role="StockStore" EntitySet="StockStores" />
+            <End Role="PurchaseStore" EntitySet="PurchaseStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockStore_Stock" Association="gcdbModel.FK_StockStore_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockStore" EntitySet="StockStores" />
+          </AssociationSet>
+          <AssociationSet Name="Measure" Association="gcdbModel.Measure">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductMeasure" EntitySet="ProductMeasures" />
+          </AssociationSet>
+          <AssociationSet Name="State" Association="gcdbModel.State">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductState" EntitySet="ProductStates" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -792,14 +1001,26 @@
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="SubCategories" Relationship="Self.FK_SubCategorie_Categorie" FromRole="Categories" ToRole="SubCategories" />
+          <NavigationProperty Name="SubCategories" Relationship="gcdbModel.FK_SubCategorie_Categorie" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="Command">
+          <Key>
+            <PropertyRef Name="CommandID" />
+          </Key>
+          <Property Name="CommandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseID" Type="Int32" />
+          <Property Name="DocumentID" Type="Int32" />
+          <Property Name="Num" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Document" Relationship="gcdbModel.FK_Commands_Documents" FromRole="Command" ToRole="Document" />
+          <NavigationProperty Name="Purchase" Relationship="gcdbModel.FK_Commands_Purchases" FromRole="Command" ToRole="Purchase" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerID" />
           </Key>
           <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -818,8 +1039,8 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
           <Property Name="HomePage" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
-          <NavigationProperty Name="Telephones" Relationship="Self.FK_Telephone_Customers" FromRole="Customers" ToRole="Telephones" />
+          <NavigationProperty Name="Orders" Relationship="gcdbModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="Telephones" Relationship="gcdbModel.FK_Telephone_Customers" FromRole="Customer" ToRole="Telephone" />
         </EntityType>
         <EntityType Name="DatabaseLog">
           <Key>
@@ -827,20 +1048,39 @@
           </Key>
           <Property Name="DatabaseLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DatabaseUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Event" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatabaseUser" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Event" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Schema" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Object" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="TSQL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="XmlEvent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TSQL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="XmlEvent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DocModel">
+          <Key>
+            <PropertyRef Name="DocModelID" />
+          </Key>
+          <Property Name="DocModelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocFile" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocFile" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Commands" Relationship="gcdbModel.FK_Commands_Documents" FromRole="Document" ToRole="Command" />
+          <NavigationProperty Name="Factures" Relationship="gcdbModel.FK_Factures_Documents" FromRole="Document" ToRole="Facture" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeID" />
           </Key>
           <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmployeeLastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmployeeFirstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeLastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeFirstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Precision="3" />
           <Property Name="HireDate" Type="DateTime" Precision="3" />
@@ -860,12 +1100,12 @@
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Employees1" Relationship="Self.FK_Employees_Employees" FromRole="Employees" ToRole="Employees1" />
-          <NavigationProperty Name="Employee1" Relationship="Self.FK_Employees_Employees" FromRole="Employees1" ToRole="Employees" />
-          <NavigationProperty Name="Password" Relationship="Self.FK_Employees_Password" FromRole="Employees" ToRole="Passwords" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Employees" FromRole="Employees" ToRole="Orders" />
-          <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchase_Employees" FromRole="Employees" ToRole="Purchases" />
-          <NavigationProperty Name="Settings" Relationship="Self.FK_Settings_Employees" FromRole="Employees" ToRole="Settings" />
+          <NavigationProperty Name="Employees1" Relationship="gcdbModel.FK_Employees_Employees" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee1" Relationship="gcdbModel.FK_Employees_Employees" FromRole="Employee1" ToRole="Employee" />
+          <NavigationProperty Name="Password" Relationship="gcdbModel.FK_Employees_Password" FromRole="Employee" ToRole="Password" />
+          <NavigationProperty Name="Orders" Relationship="gcdbModel.FK_Orders_Employees" FromRole="Employee" ToRole="Order" />
+          <NavigationProperty Name="Purchases" Relationship="gcdbModel.FK_Purchase_Employees" FromRole="Employee" ToRole="Purchase" />
+          <NavigationProperty Name="Settings" Relationship="gcdbModel.FK_Settings_Employees" FromRole="Employee" ToRole="Setting" />
         </EntityType>
         <EntityType Name="Facture">
           <Key>
@@ -882,10 +1122,12 @@
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Status" Type="Int32" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Factures1" Relationship="Self.FK_Factures_Factures" FromRole="Factures" ToRole="Factures1" />
-          <NavigationProperty Name="Facture1" Relationship="Self.FK_Factures_Factures" FromRole="Factures1" ToRole="Factures" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Factures_Orders" FromRole="Factures" ToRole="Orders" />
-          <NavigationProperty Name="TVA" Relationship="Self.FK_Factures_TVA" FromRole="Factures" ToRole="TVAs" />
+          <Property Name="DocumentID" Type="Int32" />
+          <NavigationProperty Name="Document" Relationship="gcdbModel.FK_Factures_Documents" FromRole="Facture" ToRole="Document" />
+          <NavigationProperty Name="Factures1" Relationship="gcdbModel.FK_Factures_Factures" FromRole="Facture" ToRole="Facture1" />
+          <NavigationProperty Name="Facture1" Relationship="gcdbModel.FK_Factures_Factures" FromRole="Facture1" ToRole="Facture" />
+          <NavigationProperty Name="Order" Relationship="gcdbModel.FK_Factures_Orders" FromRole="Facture" ToRole="Order" />
+          <NavigationProperty Name="TVA" Relationship="gcdbModel.FK_Factures_TVA" FromRole="Facture" ToRole="TVA" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -894,13 +1136,13 @@
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="ProductID" Type="Int32" Nullable="false" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="Discount" Type="Single" Nullable="false" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetails_Products" FromRole="OrderDetails" ToRole="Products" />
+          <NavigationProperty Name="Order" Relationship="gcdbModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="gcdbModel.FK_OrderDetails_Products" FromRole="OrderDetail" ToRole="Product" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -919,21 +1161,21 @@
           <Property Name="PurchaseValidite" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Orders_Employees" FromRole="Orders" ToRole="Employees" />
-          <NavigationProperty Name="Factures" Relationship="Self.FK_Factures_Orders" FromRole="Orders" ToRole="Factures" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
+          <NavigationProperty Name="Customer" Relationship="gcdbModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Employee" Relationship="gcdbModel.FK_Orders_Employees" FromRole="Order" ToRole="Employee" />
+          <NavigationProperty Name="Factures" Relationship="gcdbModel.FK_Factures_Orders" FromRole="Order" ToRole="Facture" />
+          <NavigationProperty Name="OrderDetails" Relationship="gcdbModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
         </EntityType>
         <EntityType Name="Password">
           <Key>
             <PropertyRef Name="LoginID" />
           </Key>
           <Property Name="LoginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password1" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password1" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Password" FromRole="Passwords" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="gcdbModel.FK_Employees_Password" FromRole="Password" ToRole="Employee" />
         </EntityType>
         <EntityType Name="ProductMeasure">
           <Key>
@@ -943,14 +1185,14 @@
           <Property Name="ProMeasureType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProMeasureValue" Type="Double" />
           <Property Name="ProMeasureUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.Measure" FromRole="ProductMeasures" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="gcdbModel.Measure" FromRole="ProductMeasure" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
           <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PurchasePrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="SubCategoryID" Type="Int32" />
           <Property Name="productType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -967,12 +1209,12 @@
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
           <Property Name="UnitsInStock" Type="Int32" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
-          <NavigationProperty Name="SubCategory" Relationship="Self.FK_Product_SubCategorie" FromRole="Products" ToRole="SubCategories" />
-          <NavigationProperty Name="PurchaseStores" Relationship="Self.FK_PurchaseStore_Product" FromRole="Products" ToRole="PurchaseStores" />
-          <NavigationProperty Name="StockStores" Relationship="Self.FK_StockStore_Product" FromRole="Products" ToRole="StockStores" />
-          <NavigationProperty Name="ProductMeasures" Relationship="Self.Measure" FromRole="Products" ToRole="ProductMeasures" />
-          <NavigationProperty Name="ProductStates" Relationship="Self.State" FromRole="Products" ToRole="ProductStates" />
+          <NavigationProperty Name="OrderDetails" Relationship="gcdbModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="SubCategory" Relationship="gcdbModel.FK_Product_SubCategorie" FromRole="Product" ToRole="SubCategory" />
+          <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_Product" FromRole="Product" ToRole="PurchaseStore" />
+          <NavigationProperty Name="StockStores" Relationship="gcdbModel.FK_StockStore_Product" FromRole="Product" ToRole="StockStore" />
+          <NavigationProperty Name="ProductMeasures" Relationship="gcdbModel.Measure" FromRole="Product" ToRole="ProductMeasure" />
+          <NavigationProperty Name="ProductStates" Relationship="gcdbModel.State" FromRole="Product" ToRole="ProductState" />
         </EntityType>
         <EntityType Name="ProductState">
           <Key>
@@ -980,14 +1222,14 @@
           </Key>
           <Property Name="PROSTATID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PROSTATNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.State" FromRole="ProductStates" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="gcdbModel.State" FromRole="ProductState" ToRole="Product" />
         </EntityType>
         <EntityType Name="Provider">
           <Key>
             <PropertyRef Name="SupplierID" />
           </Key>
           <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -1004,8 +1246,8 @@
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchase_Suppliers" FromRole="Providers" ToRole="Purchases" />
-          <NavigationProperty Name="Telephones" Relationship="Self.FK_Telephone_Provider" FromRole="Providers" ToRole="Telephones" />
+          <NavigationProperty Name="Purchases" Relationship="gcdbModel.FK_Purchase_Suppliers" FromRole="Provider" ToRole="Purchase" />
+          <NavigationProperty Name="Telephones" Relationship="gcdbModel.FK_Telephone_Provider" FromRole="Provider" ToRole="Telephone" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -1029,9 +1271,11 @@
           <Property Name="PurchaseValidite" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Purchase_Employees" FromRole="Purchases" ToRole="Employees" />
-          <NavigationProperty Name="Provider" Relationship="Self.FK_Purchase_Suppliers" FromRole="Purchases" ToRole="Providers" />
-          <NavigationProperty Name="PurchaseStores" Relationship="Self.FK_PurchaseStore_Purchase" FromRole="Purchases" ToRole="PurchaseStores" />
+          <Property Name="IsCommand" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Commands" Relationship="gcdbModel.FK_Commands_Purchases" FromRole="Purchase" ToRole="Command" />
+          <NavigationProperty Name="Employee" Relationship="gcdbModel.FK_Purchase_Employees" FromRole="Purchase" ToRole="Employee" />
+          <NavigationProperty Name="Provider" Relationship="gcdbModel.FK_Purchase_Suppliers" FromRole="Purchase" ToRole="Provider" />
+          <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_Purchase" FromRole="Purchase" ToRole="PurchaseStore" />
         </EntityType>
         <EntityType Name="PurchaseStore">
           <Key>
@@ -1052,9 +1296,9 @@
           <Property Name="RefrenceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Observation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_PurchaseStore_Product" FromRole="PurchaseStores" ToRole="Products" />
-          <NavigationProperty Name="Purchase" Relationship="Self.FK_PurchaseStore_Purchase" FromRole="PurchaseStores" ToRole="Purchases" />
-          <NavigationProperty Name="StockStore" Relationship="Self.FK_PurchaseStore_StockStore" FromRole="PurchaseStores" ToRole="StockStores" />
+          <NavigationProperty Name="Product" Relationship="gcdbModel.FK_PurchaseStore_Product" FromRole="PurchaseStore" ToRole="Product" />
+          <NavigationProperty Name="Purchase" Relationship="gcdbModel.FK_PurchaseStore_Purchase" FromRole="PurchaseStore" ToRole="Purchase" />
+          <NavigationProperty Name="StockStore" Relationship="gcdbModel.FK_PurchaseStore_StockStore" FromRole="PurchaseStore" ToRole="StockStore" />
         </EntityType>
         <EntityType Name="Setting">
           <Key>
@@ -1082,7 +1326,7 @@
           <Property Name="FactureNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FactureProNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="DateFirstTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Settings_Employees" FromRole="Settings" ToRole="Employees" />
+          <NavigationProperty Name="Employee" Relationship="gcdbModel.FK_Settings_Employees" FromRole="Setting" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -1091,7 +1335,7 @@
           <Property Name="StockID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StockName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StockAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="StockStores" Relationship="Self.FK_StockStore_Stock" FromRole="Stocks" ToRole="StockStores" />
+          <NavigationProperty Name="StockStores" Relationship="gcdbModel.FK_StockStore_Stock" FromRole="Stock" ToRole="StockStore" />
         </EntityType>
         <EntityType Name="StockStore">
           <Key>
@@ -1115,9 +1359,9 @@
           <Property Name="Discount" Type="Single" />
           <Property Name="Observation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_StockStore_Product" FromRole="StockStores" ToRole="Products" />
-          <NavigationProperty Name="PurchaseStores" Relationship="Self.FK_PurchaseStore_StockStore" FromRole="StockStores" ToRole="PurchaseStores" />
-          <NavigationProperty Name="Stock" Relationship="Self.FK_StockStore_Stock" FromRole="StockStores" ToRole="Stocks" />
+          <NavigationProperty Name="Product" Relationship="gcdbModel.FK_StockStore_Product" FromRole="StockStore" ToRole="Product" />
+          <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_StockStore" FromRole="StockStore" ToRole="PurchaseStore" />
+          <NavigationProperty Name="Stock" Relationship="gcdbModel.FK_StockStore_Stock" FromRole="StockStore" ToRole="Stock" />
         </EntityType>
         <EntityType Name="SubCategory">
           <Key>
@@ -1127,14 +1371,14 @@
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="SubCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_SubCategorie_Categorie" FromRole="SubCategories" ToRole="Categories" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_Product_SubCategorie" FromRole="SubCategories" ToRole="Products" />
+          <NavigationProperty Name="Category" Relationship="gcdbModel.FK_SubCategorie_Categorie" FromRole="SubCategory" ToRole="Category" />
+          <NavigationProperty Name="Products" Relationship="gcdbModel.FK_Product_SubCategorie" FromRole="SubCategory" ToRole="Product" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -1149,8 +1393,8 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="TELEPHONENUMBER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TELEPHONETYPE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Telephone_Customers" FromRole="Telephones" ToRole="Customers" />
-          <NavigationProperty Name="Provider" Relationship="Self.FK_Telephone_Provider" FromRole="Telephones" ToRole="Providers" />
+          <NavigationProperty Name="Customer" Relationship="gcdbModel.FK_Telephone_Customers" FromRole="Telephone" ToRole="Customer" />
+          <NavigationProperty Name="Provider" Relationship="gcdbModel.FK_Telephone_Provider" FromRole="Telephone" ToRole="Provider" />
         </EntityType>
         <EntityType Name="TVA">
           <Key>
@@ -1159,756 +1403,709 @@
           <Property Name="TVAID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TauxTVA" Type="Single" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Factures" Relationship="Self.FK_Factures_TVA" FromRole="TVAs" ToRole="Factures" />
+          <NavigationProperty Name="Factures" Relationship="gcdbModel.FK_Factures_TVA" FromRole="TVA" ToRole="Facture" />
         </EntityType>
         <Association Name="FK_SubCategorie_Categorie">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
-          <End Role="SubCategories" Type="Self.SubCategory" Multiplicity="*" />
+          <End Type="gcdbModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="gcdbModel.SubCategory" Role="SubCategory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Categories">
+            <Principal Role="Category">
               <PropertyRef Name="CategoryID" />
             </Principal>
-            <Dependent Role="SubCategories">
+            <Dependent Role="SubCategory">
               <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_Customers">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+        <Association Name="FK_Commands_Documents">
+          <End Type="gcdbModel.Document" Role="Document" Multiplicity="0..1" />
+          <End Type="gcdbModel.Command" Role="Command" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customers">
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="Command">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commands_Purchases">
+          <End Type="gcdbModel.Purchase" Role="Purchase" Multiplicity="0..1" />
+          <End Type="gcdbModel.Command" Role="Command" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="PurchaseID" />
+            </Principal>
+            <Dependent Role="Command">
+              <PropertyRef Name="PurchaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Customers">
+          <End Type="gcdbModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="gcdbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
               <PropertyRef Name="CustomerID" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="Order">
               <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Telephone_Customers">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Telephones" Type="Self.Telephone" Multiplicity="*" />
+          <End Type="gcdbModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="gcdbModel.Telephone" Role="Telephone" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customers">
+            <Principal Role="Customer">
               <PropertyRef Name="CustomerID" />
             </Principal>
-            <Dependent Role="Telephones">
+            <Dependent Role="Telephone">
               <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employees_Employees">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Employees1" Type="Self.Employee" Multiplicity="*" />
+        <Association Name="FK_Factures_Documents">
+          <End Type="gcdbModel.Document" Role="Document" Multiplicity="0..1" />
+          <End Type="gcdbModel.Facture" Role="Facture" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employees">
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="Facture">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Employees">
+          <End Type="gcdbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="gcdbModel.Employee" Role="Employee1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
             </Principal>
-            <Dependent Role="Employees1">
+            <Dependent Role="Employee1">
               <PropertyRef Name="ReportsTo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Employees_Password">
-          <End Role="Passwords" Type="Self.Password" Multiplicity="0..1" />
-          <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+          <End Type="gcdbModel.Password" Role="Password" Multiplicity="0..1" />
+          <End Type="gcdbModel.Employee" Role="Employee" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Passwords">
+            <Principal Role="Password">
               <PropertyRef Name="LoginID" />
             </Principal>
-            <Dependent Role="Employees">
+            <Dependent Role="Employee">
               <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Employees">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <End Type="gcdbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="gcdbModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employees">
+            <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="Order">
               <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Purchase_Employees">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Purchases" Type="Self.Purchase" Multiplicity="*" />
+          <End Type="gcdbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="gcdbModel.Purchase" Role="Purchase" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employees">
+            <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
             </Principal>
-            <Dependent Role="Purchases">
+            <Dependent Role="Purchase">
               <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Settings_Employees">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Settings" Type="Self.Setting" Multiplicity="*" />
+          <End Type="gcdbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="gcdbModel.Setting" Role="Setting" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employees">
+            <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
             </Principal>
-            <Dependent Role="Settings">
+            <Dependent Role="Setting">
               <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Factures_Factures">
-          <End Role="Factures" Type="Self.Facture" Multiplicity="0..1" />
-          <End Role="Factures1" Type="Self.Facture" Multiplicity="*" />
+          <End Type="gcdbModel.Facture" Role="Facture" Multiplicity="0..1" />
+          <End Type="gcdbModel.Facture" Role="Facture1" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Factures">
+            <Principal Role="Facture">
               <PropertyRef Name="FactureID" />
             </Principal>
-            <Dependent Role="Factures1">
+            <Dependent Role="Facture1">
               <PropertyRef Name="FactureFather" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Factures_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="Factures" Type="Self.Facture" Multiplicity="*" />
+          <End Type="gcdbModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="gcdbModel.Facture" Role="Facture" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderID" />
             </Principal>
-            <Dependent Role="Factures">
+            <Dependent Role="Facture">
               <PropertyRef Name="OrdresID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Factures_TVA">
-          <End Role="TVAs" Type="Self.TVA" Multiplicity="0..1" />
-          <End Role="Factures" Type="Self.Facture" Multiplicity="*" />
+          <End Type="gcdbModel.TVA" Role="TVA" Multiplicity="0..1" />
+          <End Type="gcdbModel.Facture" Role="Facture" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TVAs">
+            <Principal Role="TVA">
               <PropertyRef Name="TVAID" />
             </Principal>
-            <Dependent Role="Factures">
+            <Dependent Role="Facture">
               <PropertyRef Name="TVAID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderDetails_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <End Type="gcdbModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="gcdbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Orders">
+            <Principal Role="Order">
               <PropertyRef Name="OrderID" />
             </Principal>
-            <Dependent Role="OrderDetails">
+            <Dependent Role="OrderDetail">
               <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderDetails_Products">
-          <End Role="Products" Type="Self.Product" Multiplicity="1" />
-          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="gcdbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Products">
+            <Principal Role="Product">
               <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="OrderDetails">
+            <Dependent Role="OrderDetail">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_SubCategorie">
-          <End Role="SubCategories" Type="Self.SubCategory" Multiplicity="0..1" />
-          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <End Type="gcdbModel.SubCategory" Role="SubCategory" Multiplicity="0..1" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SubCategories">
+            <Principal Role="SubCategory">
               <PropertyRef Name="SubCategoryID" />
             </Principal>
-            <Dependent Role="Products">
+            <Dependent Role="Product">
               <PropertyRef Name="SubCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PurchaseStore_Product">
-          <End Role="Products" Type="Self.Product" Multiplicity="1" />
-          <End Role="PurchaseStores" Type="Self.PurchaseStore" Multiplicity="*" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="gcdbModel.PurchaseStore" Role="PurchaseStore" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Products">
+            <Principal Role="Product">
               <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="PurchaseStores">
+            <Dependent Role="PurchaseStore">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StockStore_Product">
-          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="StockStores" Type="Self.StockStore" Multiplicity="*" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Products">
+            <Principal Role="Product">
               <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="StockStores">
+            <Dependent Role="StockStore">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Purchase_Suppliers">
-          <End Role="Providers" Type="Self.Provider" Multiplicity="0..1" />
-          <End Role="Purchases" Type="Self.Purchase" Multiplicity="*" />
+          <End Type="gcdbModel.Provider" Role="Provider" Multiplicity="0..1" />
+          <End Type="gcdbModel.Purchase" Role="Purchase" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Providers">
+            <Principal Role="Provider">
               <PropertyRef Name="SupplierID" />
             </Principal>
-            <Dependent Role="Purchases">
+            <Dependent Role="Purchase">
               <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Telephone_Provider">
-          <End Role="Providers" Type="Self.Provider" Multiplicity="0..1" />
-          <End Role="Telephones" Type="Self.Telephone" Multiplicity="*" />
+          <End Type="gcdbModel.Provider" Role="Provider" Multiplicity="0..1" />
+          <End Type="gcdbModel.Telephone" Role="Telephone" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Providers">
+            <Principal Role="Provider">
               <PropertyRef Name="SupplierID" />
             </Principal>
-            <Dependent Role="Telephones">
+            <Dependent Role="Telephone">
               <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PurchaseStore_Purchase">
-          <End Role="Purchases" Type="Self.Purchase" Multiplicity="1">
+          <End Type="gcdbModel.Purchase" Role="Purchase" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="PurchaseStores" Type="Self.PurchaseStore" Multiplicity="*" />
+          <End Type="gcdbModel.PurchaseStore" Role="PurchaseStore" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Purchases">
+            <Principal Role="Purchase">
               <PropertyRef Name="PurchaseID" />
             </Principal>
-            <Dependent Role="PurchaseStores">
+            <Dependent Role="PurchaseStore">
               <PropertyRef Name="PurchaseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PurchaseStore_StockStore">
-          <End Role="StockStores" Type="Self.StockStore" Multiplicity="0..1" />
-          <End Role="PurchaseStores" Type="Self.PurchaseStore" Multiplicity="*" />
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="0..1" />
+          <End Type="gcdbModel.PurchaseStore" Role="PurchaseStore" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="StockStores">
+            <Principal Role="StockStore">
               <PropertyRef Name="StockStoreID" />
             </Principal>
-            <Dependent Role="PurchaseStores">
+            <Dependent Role="PurchaseStore">
               <PropertyRef Name="StockStoreID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StockStore_Stock">
-          <End Role="Stocks" Type="Self.Stock" Multiplicity="0..1" />
-          <End Role="StockStores" Type="Self.StockStore" Multiplicity="*" />
+          <End Type="gcdbModel.Stock" Role="Stock" Multiplicity="0..1" />
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Stocks">
+            <Principal Role="Stock">
               <PropertyRef Name="StockID" />
             </Principal>
-            <Dependent Role="StockStores">
+            <Dependent Role="StockStore">
               <PropertyRef Name="StockID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Measure">
-          <End Role="Products" Type="Self.Product" Multiplicity="*" />
-          <End Role="ProductMeasures" Type="Self.ProductMeasure" Multiplicity="*" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="gcdbModel.ProductMeasure" Role="ProductMeasure" Multiplicity="*" />
         </Association>
         <Association Name="State">
-          <End Role="Products" Type="Self.Product" Multiplicity="*" />
-          <End Role="ProductStates" Type="Self.ProductState" Multiplicity="*" />
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="gcdbModel.ProductState" Role="ProductState" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="GcdbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="DatabaseLogs" EntityType="Self.DatabaseLog" />
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="Factures" EntityType="Self.Facture" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="Passwords" EntityType="Self.Password" />
-          <EntitySet Name="ProductMeasures" EntityType="Self.ProductMeasure" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="ProductStates" EntityType="Self.ProductState" />
-          <EntitySet Name="Providers" EntityType="Self.Provider" />
-          <EntitySet Name="Purchases" EntityType="Self.Purchase" />
-          <EntitySet Name="PurchaseStores" EntityType="Self.PurchaseStore" />
-          <EntitySet Name="Settings" EntityType="Self.Setting" />
-          <EntitySet Name="Stocks" EntityType="Self.Stock" />
-          <EntitySet Name="StockStores" EntityType="Self.StockStore" />
-          <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Telephones" EntityType="Self.Telephone" />
-          <EntitySet Name="TVAs" EntityType="Self.TVA" />
-          <AssociationSet Name="FK_SubCategorie_Categorie" Association="Self.FK_SubCategorie_Categorie">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="SubCategories" EntitySet="SubCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Customers" Association="Self.FK_Orders_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Telephone_Customers" Association="Self.FK_Telephone_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Telephones" EntitySet="Telephones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employees_Employees" Association="Self.FK_Employees_Employees">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Employees1" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employees_Password" Association="Self.FK_Employees_Password">
-            <End Role="Passwords" EntitySet="Passwords" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Employees" Association="Self.FK_Orders_Employees">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Purchase_Employees" Association="Self.FK_Purchase_Employees">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Purchases" EntitySet="Purchases" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Settings_Employees" Association="Self.FK_Settings_Employees">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Settings" EntitySet="Settings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Factures_Factures" Association="Self.FK_Factures_Factures">
-            <End Role="Factures" EntitySet="Factures" />
-            <End Role="Factures1" EntitySet="Factures" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Factures_Orders" Association="Self.FK_Factures_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Factures" EntitySet="Factures" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Factures_TVA" Association="Self.FK_Factures_TVA">
-            <End Role="TVAs" EntitySet="TVAs" />
-            <End Role="Factures" EntitySet="Factures" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_SubCategorie" Association="Self.FK_Product_SubCategorie">
-            <End Role="SubCategories" EntitySet="SubCategories" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseStore_Product" Association="Self.FK_PurchaseStore_Product">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="PurchaseStores" EntitySet="PurchaseStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockStore_Product" Association="Self.FK_StockStore_Product">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="StockStores" EntitySet="StockStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Purchase_Suppliers" Association="Self.FK_Purchase_Suppliers">
-            <End Role="Providers" EntitySet="Providers" />
-            <End Role="Purchases" EntitySet="Purchases" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Telephone_Provider" Association="Self.FK_Telephone_Provider">
-            <End Role="Providers" EntitySet="Providers" />
-            <End Role="Telephones" EntitySet="Telephones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseStore_Purchase" Association="Self.FK_PurchaseStore_Purchase">
-            <End Role="Purchases" EntitySet="Purchases" />
-            <End Role="PurchaseStores" EntitySet="PurchaseStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseStore_StockStore" Association="Self.FK_PurchaseStore_StockStore">
-            <End Role="StockStores" EntitySet="StockStores" />
-            <End Role="PurchaseStores" EntitySet="PurchaseStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockStore_Stock" Association="Self.FK_StockStore_Stock">
-            <End Role="Stocks" EntitySet="Stocks" />
-            <End Role="StockStores" EntitySet="StockStores" />
-          </AssociationSet>
-          <AssociationSet Name="Measure" Association="Self.Measure">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductMeasures" EntitySet="ProductMeasures" />
-          </AssociationSet>
-          <AssociationSet Name="State" Association="Self.State">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductStates" EntitySet="ProductStates" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GestionCommercialeDomainModelEntitiesStoreContainer" CdmEntityContainer="GcdbEntities">
+        <EntityContainerMapping StorageEntityContainer="gcdbModelStoreContainer" CdmEntityContainer="GcdbEntities">
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Category">
+            <EntityTypeMapping TypeName="gcdbModel.Category">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Commands">
+            <EntityTypeMapping TypeName="gcdbModel.Command">
+              <MappingFragment StoreEntitySet="Commands">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
+                <ScalarProperty Name="CommandID" ColumnName="CommandID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Customer">
+            <EntityTypeMapping TypeName="gcdbModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="RC" ColumnName="RC" />
-                <ScalarProperty Name="NF" ColumnName="NF" />
-                <ScalarProperty Name="NIS" ColumnName="NIS" />
-                <ScalarProperty Name="AI" ColumnName="AI" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="HomePage" ColumnName="HomePage" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="AI" ColumnName="AI" />
+                <ScalarProperty Name="NIS" ColumnName="NIS" />
+                <ScalarProperty Name="NF" ColumnName="NF" />
+                <ScalarProperty Name="RC" ColumnName="RC" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DatabaseLogs">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.DatabaseLog">
+            <EntityTypeMapping TypeName="gcdbModel.DatabaseLog">
               <MappingFragment StoreEntitySet="DatabaseLogs">
-                <ScalarProperty Name="DatabaseLogID" ColumnName="DatabaseLogID" />
-                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
-                <ScalarProperty Name="DatabaseUser" ColumnName="DatabaseUser" />
-                <ScalarProperty Name="Event" ColumnName="Event" />
-                <ScalarProperty Name="Schema" ColumnName="Schema" />
-                <ScalarProperty Name="Object" ColumnName="Object" />
-                <ScalarProperty Name="TSQL" ColumnName="TSQL" />
                 <ScalarProperty Name="XmlEvent" ColumnName="XmlEvent" />
+                <ScalarProperty Name="TSQL" ColumnName="TSQL" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="Schema" ColumnName="Schema" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="DatabaseUser" ColumnName="DatabaseUser" />
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+                <ScalarProperty Name="DatabaseLogID" ColumnName="DatabaseLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocModels">
+            <EntityTypeMapping TypeName="gcdbModel.DocModel">
+              <MappingFragment StoreEntitySet="DocModels">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="DocFile" ColumnName="DocFile" />
+                <ScalarProperty Name="DocModelID" ColumnName="DocModelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="gcdbModel.Document">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="DocFile" ColumnName="DocFile" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Employee">
+            <EntityTypeMapping TypeName="gcdbModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="EmployeeLastname" ColumnName="EmployeeLastname" />
-                <ScalarProperty Name="EmployeeFirstname" ColumnName="EmployeeFirstname" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="ReportsTo" ColumnName="ReportsTo" />
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
-                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
-                <ScalarProperty Name="EmailAdress" ColumnName="EmailAdress" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="EmailAdress" ColumnName="EmailAdress" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="ReportsTo" ColumnName="ReportsTo" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="EmployeeFirstname" ColumnName="EmployeeFirstname" />
+                <ScalarProperty Name="EmployeeLastname" ColumnName="EmployeeLastname" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Factures">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Facture">
+            <EntityTypeMapping TypeName="gcdbModel.Facture">
               <MappingFragment StoreEntitySet="Factures">
-                <ScalarProperty Name="FactureID" ColumnName="FactureID" />
-                <ScalarProperty Name="OrdresID" ColumnName="OrdresID" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="FactureNum" ColumnName="FactureNum" />
-                <ScalarProperty Name="FactureDate" ColumnName="FactureDate" />
-                <ScalarProperty Name="TVAID" ColumnName="TVAID" />
-                <ScalarProperty Name="TypePayment" ColumnName="TypePayment" />
-                <ScalarProperty Name="FactureFather" ColumnName="FactureFather" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="FactureFather" ColumnName="FactureFather" />
+                <ScalarProperty Name="TypePayment" ColumnName="TypePayment" />
+                <ScalarProperty Name="TVAID" ColumnName="TVAID" />
+                <ScalarProperty Name="FactureDate" ColumnName="FactureDate" />
+                <ScalarProperty Name="FactureNum" ColumnName="FactureNum" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="OrdresID" ColumnName="OrdresID" />
+                <ScalarProperty Name="FactureID" ColumnName="FactureID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderDetails">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.OrderDetail">
+            <EntityTypeMapping TypeName="gcdbModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetails">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Order">
+            <EntityTypeMapping TypeName="gcdbModel.Order">
               <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
-                <ScalarProperty Name="CommandeNumber" ColumnName="CommandeNumber" />
-                <ScalarProperty Name="CommandeDate" ColumnName="CommandeDate" />
-                <ScalarProperty Name="PurchaseModePaiement" ColumnName="PurchaseModePaiement" />
-                <ScalarProperty Name="PurchaseEtatPaiement" ColumnName="PurchaseEtatPaiement" />
-                <ScalarProperty Name="PurchaseMontant" ColumnName="PurchaseMontant" />
-                <ScalarProperty Name="PurchaseValidite" ColumnName="PurchaseValidite" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PurchaseValidite" ColumnName="PurchaseValidite" />
+                <ScalarProperty Name="PurchaseMontant" ColumnName="PurchaseMontant" />
+                <ScalarProperty Name="PurchaseEtatPaiement" ColumnName="PurchaseEtatPaiement" />
+                <ScalarProperty Name="PurchaseModePaiement" ColumnName="PurchaseModePaiement" />
+                <ScalarProperty Name="CommandeDate" ColumnName="CommandeDate" />
+                <ScalarProperty Name="CommandeNumber" ColumnName="CommandeNumber" />
+                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Passwords">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Password">
+            <EntityTypeMapping TypeName="gcdbModel.Password">
               <MappingFragment StoreEntitySet="Passwords">
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password1" ColumnName="Password1" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Password1" ColumnName="Password1" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductMeasures">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.ProductMeasure">
+            <EntityTypeMapping TypeName="gcdbModel.ProductMeasure">
               <MappingFragment StoreEntitySet="ProductMeasures">
-                <ScalarProperty Name="ProMeasureID" ColumnName="ProMeasureID" />
-                <ScalarProperty Name="ProMeasureType" ColumnName="ProMeasureType" />
-                <ScalarProperty Name="ProMeasureValue" ColumnName="ProMeasureValue" />
                 <ScalarProperty Name="ProMeasureUnit" ColumnName="ProMeasureUnit" />
+                <ScalarProperty Name="ProMeasureValue" ColumnName="ProMeasureValue" />
+                <ScalarProperty Name="ProMeasureType" ColumnName="ProMeasureType" />
+                <ScalarProperty Name="ProMeasureID" ColumnName="ProMeasureID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Product">
+            <EntityTypeMapping TypeName="gcdbModel.Product">
               <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
-                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
-                <ScalarProperty Name="productType" ColumnName="productType" />
-                <ScalarProperty Name="MeasureUnit" ColumnName="MeasureUnit" />
-                <ScalarProperty Name="ReorderLevel" ColumnName="ReorderLevel" />
-                <ScalarProperty Name="ProductMinQte" ColumnName="ProductMinQte" />
-                <ScalarProperty Name="ProductMaxQte" ColumnName="ProductMaxQte" />
-                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
-                <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="ReferenceInterne" ColumnName="ReferenceInterne" />
-                <ScalarProperty Name="ReferenceExterne" ColumnName="ReferenceExterne" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="UnitsInStock" ColumnName="UnitsInStock" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="ReferenceExterne" ColumnName="ReferenceExterne" />
+                <ScalarProperty Name="ReferenceInterne" ColumnName="ReferenceInterne" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
+                <ScalarProperty Name="ProductMaxQte" ColumnName="ProductMaxQte" />
+                <ScalarProperty Name="ProductMinQte" ColumnName="ProductMinQte" />
+                <ScalarProperty Name="ReorderLevel" ColumnName="ReorderLevel" />
+                <ScalarProperty Name="MeasureUnit" ColumnName="MeasureUnit" />
+                <ScalarProperty Name="productType" ColumnName="productType" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductStates">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.ProductState">
+            <EntityTypeMapping TypeName="gcdbModel.ProductState">
               <MappingFragment StoreEntitySet="ProductStates">
-                <ScalarProperty Name="PROSTATID" ColumnName="PROSTATID" />
                 <ScalarProperty Name="PROSTATNAME" ColumnName="PROSTATNAME" />
+                <ScalarProperty Name="PROSTATID" ColumnName="PROSTATID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Providers">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Provider">
+            <EntityTypeMapping TypeName="gcdbModel.Provider">
               <MappingFragment StoreEntitySet="Providers">
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="HomePage" ColumnName="HomePage" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="RC" ColumnName="RC" />
-                <ScalarProperty Name="NF" ColumnName="NF" />
-                <ScalarProperty Name="NIS" ColumnName="NIS" />
-                <ScalarProperty Name="AI" ColumnName="AI" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="AI" ColumnName="AI" />
+                <ScalarProperty Name="NIS" ColumnName="NIS" />
+                <ScalarProperty Name="NF" ColumnName="NF" />
+                <ScalarProperty Name="RC" ColumnName="RC" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HomePage" ColumnName="HomePage" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Purchases">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Purchase">
+            <EntityTypeMapping TypeName="gcdbModel.Purchase">
               <MappingFragment StoreEntitySet="Purchases">
-                <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
-                <ScalarProperty Name="CommandeNum" ColumnName="CommandeNum" />
-                <ScalarProperty Name="CommandeDate" ColumnName="CommandeDate" />
-                <ScalarProperty Name="FactureNum" ColumnName="FactureNum" />
-                <ScalarProperty Name="ModePaiement" ColumnName="ModePaiement" />
-                <ScalarProperty Name="ModeAchat" ColumnName="ModeAchat" />
-                <ScalarProperty Name="EtatPaiement" ColumnName="EtatPaiement" />
-                <ScalarProperty Name="FacturePrice" ColumnName="FacturePrice" />
-                <ScalarProperty Name="PurchaseMontant" ColumnName="PurchaseMontant" />
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
-                <ScalarProperty Name="Timbre" ColumnName="Timbre" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="PurchaseValidite" ColumnName="PurchaseValidite" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCommand" ColumnName="IsCommand" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PurchaseValidite" ColumnName="PurchaseValidite" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Timbre" ColumnName="Timbre" />
+                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
+                <ScalarProperty Name="PurchaseMontant" ColumnName="PurchaseMontant" />
+                <ScalarProperty Name="FacturePrice" ColumnName="FacturePrice" />
+                <ScalarProperty Name="EtatPaiement" ColumnName="EtatPaiement" />
+                <ScalarProperty Name="ModeAchat" ColumnName="ModeAchat" />
+                <ScalarProperty Name="ModePaiement" ColumnName="ModePaiement" />
+                <ScalarProperty Name="FactureNum" ColumnName="FactureNum" />
+                <ScalarProperty Name="CommandeDate" ColumnName="CommandeDate" />
+                <ScalarProperty Name="CommandeNum" ColumnName="CommandeNum" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseStores">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.PurchaseStore">
+            <EntityTypeMapping TypeName="gcdbModel.PurchaseStore">
               <MappingFragment StoreEntitySet="PurchaseStores">
-                <ScalarProperty Name="PurchaseStoreID" ColumnName="PurchaseStoreID" />
-                <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
-                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
-                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
-                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
-                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
-                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
-                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
-                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
+                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
+                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
+                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
+                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
+                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
+                <ScalarProperty Name="PurchaseStoreID" ColumnName="PurchaseStoreID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Settings">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Setting">
+            <EntityTypeMapping TypeName="gcdbModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
-                <ScalarProperty Name="SettingsID" ColumnName="SettingsID" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="MobPhone" ColumnName="MobPhone" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="RC" ColumnName="RC" />
-                <ScalarProperty Name="NF" ColumnName="NF" />
-                <ScalarProperty Name="NIS" ColumnName="NIS" />
-                <ScalarProperty Name="AI" ColumnName="AI" />
-                <ScalarProperty Name="PassWordApp" ColumnName="PassWordApp" />
-                <ScalarProperty Name="FirstTime" ColumnName="FirstTime" />
-                <ScalarProperty Name="Licence" ColumnName="Licence" />
-                <ScalarProperty Name="DateMAJ" ColumnName="DateMAJ" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="FactureNumber" ColumnName="FactureNumber" />
-                <ScalarProperty Name="FactureProNumber" ColumnName="FactureProNumber" />
                 <ScalarProperty Name="DateFirstTime" ColumnName="DateFirstTime" />
+                <ScalarProperty Name="FactureProNumber" ColumnName="FactureProNumber" />
+                <ScalarProperty Name="FactureNumber" ColumnName="FactureNumber" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="DateMAJ" ColumnName="DateMAJ" />
+                <ScalarProperty Name="Licence" ColumnName="Licence" />
+                <ScalarProperty Name="FirstTime" ColumnName="FirstTime" />
+                <ScalarProperty Name="PassWordApp" ColumnName="PassWordApp" />
+                <ScalarProperty Name="AI" ColumnName="AI" />
+                <ScalarProperty Name="NIS" ColumnName="NIS" />
+                <ScalarProperty Name="NF" ColumnName="NF" />
+                <ScalarProperty Name="RC" ColumnName="RC" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="MobPhone" ColumnName="MobPhone" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="SettingsID" ColumnName="SettingsID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stocks">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Stock">
+            <EntityTypeMapping TypeName="gcdbModel.Stock">
               <MappingFragment StoreEntitySet="Stocks">
-                <ScalarProperty Name="StockID" ColumnName="StockID" />
-                <ScalarProperty Name="StockName" ColumnName="StockName" />
                 <ScalarProperty Name="StockAddress" ColumnName="StockAddress" />
+                <ScalarProperty Name="StockName" ColumnName="StockName" />
+                <ScalarProperty Name="StockID" ColumnName="StockID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StockStores">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.StockStore">
+            <EntityTypeMapping TypeName="gcdbModel.StockStore">
               <MappingFragment StoreEntitySet="StockStores">
-                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="StockID" ColumnName="StockID" />
-                <ScalarProperty Name="ProductState" ColumnName="ProductState" />
-                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
-                <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
-                <ScalarProperty Name="StockageID" ColumnName="StockageID" />
-                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
-                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
-                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
-                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
-                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
-                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
-                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
+                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
+                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
+                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
+                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
+                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
+                <ScalarProperty Name="StockageID" ColumnName="StockageID" />
+                <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
+                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
+                <ScalarProperty Name="ProductState" ColumnName="ProductState" />
+                <ScalarProperty Name="StockID" ColumnName="StockID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SubCategories">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.SubCategory">
+            <EntityTypeMapping TypeName="gcdbModel.SubCategory">
               <MappingFragment StoreEntitySet="SubCategories">
-                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.sysdiagram">
+            <EntityTypeMapping TypeName="gcdbModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Telephones">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.Telephone">
+            <EntityTypeMapping TypeName="gcdbModel.Telephone">
               <MappingFragment StoreEntitySet="Telephones">
-                <ScalarProperty Name="TELEPHONEID" ColumnName="TELEPHONEID" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="TELEPHONENUMBER" ColumnName="TELEPHONENUMBER" />
                 <ScalarProperty Name="TELEPHONETYPE" ColumnName="TELEPHONETYPE" />
+                <ScalarProperty Name="TELEPHONENUMBER" ColumnName="TELEPHONENUMBER" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="TELEPHONEID" ColumnName="TELEPHONEID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TVAs">
-            <EntityTypeMapping TypeName="GestionCommerciale.DomainModel.Entities.TVA">
+            <EntityTypeMapping TypeName="gcdbModel.TVA">
               <MappingFragment StoreEntitySet="TVAs">
-                <ScalarProperty Name="TVAID" ColumnName="TVAID" />
-                <ScalarProperty Name="TauxTVA" ColumnName="TauxTVA" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TauxTVA" ColumnName="TauxTVA" />
+                <ScalarProperty Name="TVAID" ColumnName="TVAID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Measure" TypeName="GestionCommerciale.DomainModel.Entities.Measure" StoreEntitySet="Measure">
-            <EndProperty Name="Products">
-              <ScalarProperty Name="ProductID" ColumnName="Products_ProductID" />
-            </EndProperty>
-            <EndProperty Name="ProductMeasures">
+          <AssociationSetMapping Name="Measure" TypeName="gcdbModel.Measure" StoreEntitySet="Measure">
+            <EndProperty Name="ProductMeasure">
               <ScalarProperty Name="ProMeasureID" ColumnName="ProductMeasures_ProMeasureID" />
             </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="State" TypeName="GestionCommerciale.DomainModel.Entities.State" StoreEntitySet="State">
-            <EndProperty Name="Products">
+            <EndProperty Name="Product">
               <ScalarProperty Name="ProductID" ColumnName="Products_ProductID" />
             </EndProperty>
-            <EndProperty Name="ProductStates">
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="State" TypeName="gcdbModel.State" StoreEntitySet="State">
+            <EndProperty Name="ProductState">
               <ScalarProperty Name="PROSTATID" ColumnName="ProductStates_PROSTATID" />
+            </EndProperty>
+            <EndProperty Name="Product">
+              <ScalarProperty Name="ProductID" ColumnName="Products_ProductID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
@@ -1925,7 +2122,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

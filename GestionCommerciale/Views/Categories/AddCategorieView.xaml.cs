@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
+using DevExpress.Xpf.Core;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.Validator;
-using System.IO;
-using DevExpress.Xpf.Core;
-using GestionCommerciale.Views.ProductFolder;
+using GestionCommerciale.Views.Products;
 using Categorys = GestionCommerciale.DomainModel.Entities.Category;
 
-namespace GestionCommerciale.Views.CategoryFolder
+namespace GestionCommerciale.Views.Categories
 {
     /// <summary>
     /// Interaction logic for AddCategory.xaml

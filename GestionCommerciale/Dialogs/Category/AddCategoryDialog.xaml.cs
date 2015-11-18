@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using DevExpress.Xpf.Core;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.Helpers;
 
 namespace GestionCommerciale.Dialogs.Category
 {

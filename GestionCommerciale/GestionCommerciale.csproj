@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GestionCommerciale</RootNamespace>
     <AssemblyName>GestionCommerciale</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -88,6 +88,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="AlertBarWpf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AlertBarWpf.1.0.4\lib\AlertBarWpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DevExpress.Charts.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Images.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
@@ -209,6 +213,8 @@
     <Compile Include="Dialogs\TVA\TVADialog.xaml.cs">
       <DependentUpon>TVADialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Helpers\MvvmHelpers.cs" />
     <Compile Include="Licence.xaml.cs">
       <DependentUpon>Licence.xaml</DependentUpon>
     </Compile>
@@ -217,6 +223,15 @@
     </Compile>
     <Compile Include="TopMenu.xaml.cs">
       <DependentUpon>TopMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocRichEditUC.xaml.cs">
+      <DependentUpon>DocRichEditUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoices\InvoicesView.xaml.cs">
+      <DependentUpon>InvoicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoices\NewInvoiceView.xaml.cs">
+      <DependentUpon>NewInvoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Mesures\NewMeasure.xaml.cs">
       <DependentUpon>NewMeasure.xaml</DependentUpon>
@@ -262,14 +277,26 @@
     <Compile Include="Views\Purchases\AddPurchaseView.xaml.cs">
       <DependentUpon>AddPurchaseView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Purchases\ListCommandsView.xaml.cs">
+      <DependentUpon>ListCommandsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Purchases\ListPurchasesView.xaml.cs">
       <DependentUpon>ListPurchasesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Sales\AddSaleView.xaml.cs">
-      <DependentUpon>AddSaleView.xaml</DependentUpon>
+    <Compile Include="Views\Purchases\NewCommandView.xaml.cs">
+      <DependentUpon>NewCommandView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Purchases\ProductPurchaseDetails.xaml.cs">
+      <DependentUpon>ProductPurchaseDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Sales\ListSalesView.xaml.cs">
       <DependentUpon>ListSalesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\NewSaleView.xaml.cs">
+      <DependentUpon>NewSaleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\ProductSaleDetails.xaml.cs">
+      <DependentUpon>ProductSaleDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Statistics\StatisticsView.xaml.cs">
       <DependentUpon>StatisticsView.xaml</DependentUpon>
@@ -288,9 +315,6 @@
     </Compile>
     <Compile Include="Views\TVAs\AddTvaView.xaml.cs">
       <DependentUpon>AddTvaView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +401,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\DocRichEditUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Invoices\InvoicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Invoices\NewInvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Mesures\NewMeasure.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -430,18 +466,34 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Purchases\AddPurchaseView.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Purchases\ListCommandsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Purchases\ListPurchasesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Sales\AddSaleView.xaml">
+    <Page Include="Views\Purchases\NewCommandView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Purchases\ProductPurchaseDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sales\ListSalesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sales\NewSaleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Sales\ListSalesView.xaml">
+    <Page Include="Views\Sales\ProductSaleDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -469,22 +521,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\View.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\Group.png" />
     <Resource Include="Images\login_form\input.png" />
     <Resource Include="Images\login_form\login_form.png" />
-    <Resource Include="Images\themes_images\deep-blue.png" />
-    <Resource Include="Images\themes_images\light-gray.png" />
-    <Resource Include="Images\themes_images\Office-2010-Black.png" />
-    <Resource Include="Images\themes_images\office2007black.png" />
-    <Resource Include="Images\themes_images\office2007Blue.png" />
-    <Resource Include="Images\themes_images\office2007Silver.png" />
-    <Resource Include="Images\themes_images\seven.png" />
     <Resource Include="Images\top_menu\add.png" />
     <Resource Include="Images\top_menu\blue_btn.png" />
     <Resource Include="Images\top_menu\green_btn.png" />
@@ -540,9 +581,7 @@
     <Resource Include="Images\Business_menu\nouveau.png" />
     <Resource Include="Images\Business_menu\statistique.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\TVAFolder\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Business_menu\adresse.png" />
     <Resource Include="Images\Business_menu\book.png" />
@@ -591,15 +630,6 @@
     <Resource Include="Images\top_menu\orange_btn.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Headers\header_black.jpg" />
-    <Resource Include="Images\Headers\header_blue.jpg" />
-    <Resource Include="Images\Headers\header_gray.jpg" />
-    <Resource Include="Images\Headers\header_green.jpg" />
-    <Resource Include="Images\Headers\header_pink.jpg" />
-    <Resource Include="Images\Headers\header_red.jpg" />
-    <Resource Include="Images\Headers\header_skyblue.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Business_menu\Employees.png" />
   </ItemGroup>
   <ItemGroup>
@@ -617,8 +647,23 @@
       <Name>GestionCommerciale.DomainModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pannier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\always_grey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\black_pattern05.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cash_register.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(ProjectDir)Images\Headers" "$(TargetDir)\Headers\" /S /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

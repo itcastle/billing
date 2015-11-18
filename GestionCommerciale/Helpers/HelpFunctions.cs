@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Controls;
-using DevExpress.Xpf.Core;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using DevExpress.Xpf.Core;
 
-namespace GestionCommerciale
+namespace GestionCommerciale.Helpers
 {
     class HelpFunctions
     {

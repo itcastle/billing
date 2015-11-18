@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
-using GestionCommerciale.Helpers;
-using GestionCommerciale.Views.CustomerFolder;
-using GestionCommerciale.Views.EmployeeFolder;
-using GestionCommerciale.Views.InvoiceFolder;
-using GestionCommerciale.Views.Options;
-using GestionCommerciale.Views.ProductFolder;
-using GestionCommerciale.Views.PurchaseFolder;
-using GestionCommerciale.Views.SaleFolder;
-using GestionCommerciale.Views.StatisticFolder;
-using GestionCommerciale.Views.StockFolder;
-using GestionCommerciale.Views.SupplierFolder;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.Helpers;
+using GestionCommerciale.Views;
+using GestionCommerciale.Views.Customers;
+using GestionCommerciale.Views.Employees;
+using GestionCommerciale.Views.Invoices;
+using GestionCommerciale.Views.Products;
+using GestionCommerciale.Views.Purchases;
+using GestionCommerciale.Views.Sales;
+using GestionCommerciale.Views.Stocks;
+using GestionCommerciale.Views.Suppliers;
 using MahApps.Metro.Controls;
-using System.Windows.Controls;
+
 namespace GestionCommerciale
 {
     public partial class MainWindow:MetroWindow
@@ -29,8 +26,8 @@ namespace GestionCommerciale
             TopMenu topMenu = new TopMenu(TabHlp, this,HeaderImage);
             TopMenuGrid.Children.Add(topMenu);
 
-            TabHlp.CreateAddViews("FadeToLeftAnim", TabHlp, this, HeaderImage);
-
+           // SettingsClient.InitSettings();
+            
         }
 
 
@@ -42,7 +39,7 @@ namespace GestionCommerciale
 
         private void AddSaleNavBtn_Click(object sender, EventArgs e)
         {
-            var item = TabHlp.AddNewTab(typeof(AddSaleView), "Effectuer une vente ", "FadeToLeftAnim", TabHlp);
+            var item = TabHlp.AddNewTab(typeof(NewSaleView), "Effectuer une vente ", "FadeToLeftAnim", TabHlp);
         }
 
         private void AddSupplierNavBtn_click(object sender, EventArgs e)
@@ -98,7 +95,7 @@ namespace GestionCommerciale
         }
         private void ListInvoicesNavBtn_Click(object sender, EventArgs e)
         {
-            var item = TabHlp.AddNewTab(typeof(AddFactureView), "Mes factures ", "FadeToLeftAnim");
+            var item = TabHlp.AddNewTab(typeof(InvoicesView), "Mes factures ", "FadeToLeftAnim");
         }
         private void NewInvoiceNavBtn_Click(object sender, EventArgs e)
         {
@@ -116,7 +113,7 @@ namespace GestionCommerciale
                         
             try
             {
-                SaveBdd.BackupBdd();
+                //SaveBdd.BackupBdd();
             }
             catch (Exception)
             {
@@ -131,6 +128,14 @@ namespace GestionCommerciale
 
             this.SettingsFlyout.IsOpen = !this.SettingsFlyout.IsOpen;
         }
+
+        private void ListCommandsNavBtn_Click(object sender, EventArgs e)
+        {
+            var item = TabHlp.AddNewTab(typeof(ListCommandsView), "Mes Commandes", "FadeToLeftAnim", TabHlp);
+
+        }
+
+        
     }
 
 }

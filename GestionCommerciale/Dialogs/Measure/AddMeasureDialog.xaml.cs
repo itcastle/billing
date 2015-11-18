@@ -2,6 +2,7 @@
 using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Core;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.Helpers;
 
 namespace GestionCommerciale.Dialogs.Measure
 {

@@ -1,24 +1,22 @@
-﻿<UserControl
-    x:Class="GestionCommerciale.Views.StatisticFolder.StatisticsView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-    Loaded="UserControl_Loaded"
-    d:DesignHeight="399"
-    d:DesignWidth="654"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="GestionCommerciale.Views.Statistics.StatisticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="399"
+             d:DesignWidth="654"
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="AxisXLabelTemplate">
-            <Border
-                Padding="{Binding Path=Label.Padding}"
-                Background="{Binding Path=Label.Background}"
-                BorderBrush="{Binding Path=Label.BorderBrush}"
-                BorderThickness="{Binding Path=Label.BorderThickness}">
+            <Border Background="{Binding Path=Label.Background}"
+                    BorderBrush="{Binding Path=Label.BorderBrush}"
+                    BorderThickness="{Binding Path=Label.BorderThickness}"
+                    Padding="{Binding Path=Label.Padding}">
                 <Border.LayoutTransform>
                     <RotateTransform Angle="45" />
                 </Border.LayoutTransform>
@@ -38,55 +36,47 @@
                 <TranslateTransform />
             </TransformGroup>
         </Grid.RenderTransform>
-      
 
-        <dxlc:GroupBox
-   
-            Grid.Row="0"
-            Padding="0" GotKeyboardFocus="GroupBox_GotKeyboardFocus"
-            LostKeyboardFocus="GroupBox_LostKeyboardFocus"
-            FontSize="14"
-            FontStyle="Italic"
-            MaximizeElementVisibility="Collapsed"
-            MinimizeElementVisibility="Visible">
+
+        <dxlc:GroupBox Grid.Row="0"
+                       FontSize="14"
+                       FontStyle="Italic"
+                       GotKeyboardFocus="GroupBox_GotKeyboardFocus"
+                       LostKeyboardFocus="GroupBox_LostKeyboardFocus"
+                       MaximizeElementVisibility="Collapsed"
+                       MinimizeElementVisibility="Visible"
+                       Padding="0">
             <dxlc:GroupBox.Header>
-                <StackPanel
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal">
-                    <Image
-                        Height="32"
-                        Width="32"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Source="/GestionCommerciale;component/Images/Business_menu/statistique.png"
-                        Stretch="Fill" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Image Width="32"
+                           Height="32"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Source="/GestionCommerciale;component/Images/Business_menu/statistique.png"
+                           Stretch="Fill" />
                     <Label Content="Statistiques  générale" />
                 </StackPanel>
             </dxlc:GroupBox.Header>
             <Grid>
 
-                <dx:DXTabControl >
+                <dx:DXTabControl>
                     <dx:DXTabItem Header="Achats">
 
                         <Grid>
-                            <dxc:ChartControl
-                                x:Name="Achat"
-                                EnableAnimation="True">
-                                <dxc:XYDiagram2D
-                                    x:Name="Purchases"
-                                    EnableAxisXNavigation="True"
-                                    EnableAxisYNavigation="True"
-                                    Rotated="False">
+                            <dxc:ChartControl x:Name="Achat" EnableAnimation="True">
+                                <dxc:XYDiagram2D x:Name="Purchases"
+                                                 EnableAxisXNavigation="True"
+                                                 EnableAxisYNavigation="True"
+                                                 Rotated="False">
 
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D
-                                            DateTimeGridAlignment="Year"
-                                            DateTimeMeasureUnit="Year"
-                                            GridLinesVisible="False"
-                                            Interlaced="False"
-                                            TickmarksMinorVisible="True"
-                                            TickmarksVisible="True"
-                                            Visible="True">
+                                        <dxc:AxisX2D DateTimeGridAlignment="Year"
+                                                     DateTimeMeasureUnit="Year"
+                                                     GridLinesVisible="False"
+                                                     Interlaced="False"
+                                                     TickmarksMinorVisible="True"
+                                                     TickmarksVisible="True"
+                                                     Visible="True">
                                             <dxc:AxisX2D.Title>
                                                 <dxc:AxisTitle Content="Date des achats" />
                                             </dxc:AxisX2D.Title>
@@ -97,25 +87,21 @@
                                     </dxc:XYDiagram2D.AxisX>
 
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D
-                                            GridLinesVisible="True"
-                                            Interlaced="True"
-                                            TickmarksMinorVisible="False"
-                                            Visible="True">
+                                        <dxc:AxisY2D GridLinesVisible="True"
+                                                     Interlaced="True"
+                                                     TickmarksMinorVisible="False"
+                                                     Visible="True">
                                             <dxc:AxisY2D.Title>
                                                 <dxc:AxisTitle Content="Somme des achats" />
                                             </dxc:AxisY2D.Title>
                                             <dxc:AxisY2D.Label>
-                                                <dxc:AxisLabel
-                                                    ElementTemplate="{StaticResource AxisXLabelTemplate}"
-                                                    EndText=" DA" />
+                                                <dxc:AxisLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" EndText=" DA" />
                                             </dxc:AxisY2D.Label>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
-                                    <dxc:BarSideBySideSeries2D
-                                        DisplayName="produits"
-                                        ShowInLegend="True"
-                                        Visible="True">
+                                    <dxc:BarSideBySideSeries2D DisplayName="produits"
+                                                               ShowInLegend="True"
+                                                               Visible="True">
                                         <dxc:BarSideBySideSeries2D.Label>
                                             <dxc:SeriesLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" />
                                         </dxc:BarSideBySideSeries2D.Label>
@@ -130,38 +116,31 @@
                     </dx:DXTabItem>
                     <dx:DXTabItem Header="Ventes">
                         <Grid>
-                            <dxc:ChartControl
-                                x:Name="Ventes"
-                                EnableAnimation="True">
-                                <dxc:XYDiagram2D
-                                    x:Name="Sales"
-                                    EnableAxisXNavigation="True"
-                                    EnableAxisYNavigation="True">
+                            <dxc:ChartControl x:Name="Ventes" EnableAnimation="True">
+                                <dxc:XYDiagram2D x:Name="Sales"
+                                                 EnableAxisXNavigation="True"
+                                                 EnableAxisYNavigation="True">
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D
-                                            GridLinesVisible="True"
-                                            Interlaced="True"
-                                            TickmarksMinorVisible="False"
-                                            Visible="True">
+                                        <dxc:AxisY2D GridLinesVisible="True"
+                                                     Interlaced="True"
+                                                     TickmarksMinorVisible="False"
+                                                     Visible="True">
                                             <dxc:AxisY2D.Title>
                                                 <dxc:AxisTitle Content="Somme des ventes" />
                                             </dxc:AxisY2D.Title>
                                             <dxc:AxisY2D.Label>
-                                                <dxc:AxisLabel
-                                                    ElementTemplate="{StaticResource AxisXLabelTemplate}"
-                                                    EndText=" DA" />
+                                                <dxc:AxisLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" EndText=" DA" />
                                             </dxc:AxisY2D.Label>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D
-                                            DateTimeGridAlignment="Year"
-                                            DateTimeMeasureUnit="Year"
-                                            GridLinesVisible="False"
-                                            Interlaced="False"
-                                            TickmarksMinorVisible="True"
-                                            TickmarksVisible="True"
-                                            Visible="True">
+                                        <dxc:AxisX2D DateTimeGridAlignment="Year"
+                                                     DateTimeMeasureUnit="Year"
+                                                     GridLinesVisible="False"
+                                                     Interlaced="False"
+                                                     TickmarksMinorVisible="True"
+                                                     TickmarksVisible="True"
+                                                     Visible="True">
                                             <dxc:AxisX2D.Title>
                                                 <dxc:AxisTitle Content="Date des ventes" />
                                             </dxc:AxisX2D.Title>
@@ -170,10 +149,9 @@
                                             </dxc:AxisX2D.Label>
                                         </dxc:AxisX2D>
                                     </dxc:XYDiagram2D.AxisX>
-                                    <dxc:BarSideBySideSeries2D
-                                        DisplayName="produits"
-                                        ShowInLegend="True"
-                                        Visible="True">
+                                    <dxc:BarSideBySideSeries2D DisplayName="produits"
+                                                               ShowInLegend="True"
+                                                               Visible="True">
                                         <dxc:BarSideBySideSeries2D.Label>
                                             <dxc:SeriesLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" />
                                         </dxc:BarSideBySideSeries2D.Label>
@@ -188,38 +166,31 @@
                     </dx:DXTabItem>
                     <dx:DXTabItem Header="Produits">
                         <Grid>
-                            <dxc:ChartControl
-                                x:Name="Produits"
-                                EnableAnimation="True">
-                                <dxc:XYDiagram2D
-                                    x:Name="Products"
-                                    EnableAxisXNavigation="True"
-                                    EnableAxisYNavigation="True">
+                            <dxc:ChartControl x:Name="Produits" EnableAnimation="True">
+                                <dxc:XYDiagram2D x:Name="Products"
+                                                 EnableAxisXNavigation="True"
+                                                 EnableAxisYNavigation="True">
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D
-                                            GridLinesVisible="True"
-                                            Interlaced="True"
-                                            TickmarksMinorVisible="False"
-                                            Visible="True">
+                                        <dxc:AxisY2D GridLinesVisible="True"
+                                                     Interlaced="True"
+                                                     TickmarksMinorVisible="False"
+                                                     Visible="True">
                                             <dxc:AxisY2D.Title>
                                                 <dxc:AxisTitle Content="Somme des ventes" />
                                             </dxc:AxisY2D.Title>
                                             <dxc:AxisY2D.Label>
-                                                <dxc:AxisLabel
-                                                    ElementTemplate="{StaticResource AxisXLabelTemplate}"
-                                                    EndText=" DA" />
+                                                <dxc:AxisLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" EndText=" DA" />
                                             </dxc:AxisY2D.Label>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D
-                                            DateTimeGridAlignment="Year"
-                                            DateTimeMeasureUnit="Year"
-                                            GridLinesVisible="False"
-                                            Interlaced="False"
-                                            TickmarksMinorVisible="True"
-                                            TickmarksVisible="True"
-                                            Visible="True">
+                                        <dxc:AxisX2D DateTimeGridAlignment="Year"
+                                                     DateTimeMeasureUnit="Year"
+                                                     GridLinesVisible="False"
+                                                     Interlaced="False"
+                                                     TickmarksMinorVisible="True"
+                                                     TickmarksVisible="True"
+                                                     Visible="True">
                                             <dxc:AxisX2D.Title>
                                                 <dxc:AxisTitle Content="Les produits vendus" />
                                             </dxc:AxisX2D.Title>
@@ -228,10 +199,9 @@
                                             </dxc:AxisX2D.Label>
                                         </dxc:AxisX2D>
                                     </dxc:XYDiagram2D.AxisX>
-                                    <dxc:BarSideBySideSeries2D
-                                        DisplayName="produits"
-                                        ShowInLegend="True"
-                                        Visible="True">
+                                    <dxc:BarSideBySideSeries2D DisplayName="produits"
+                                                               ShowInLegend="True"
+                                                               Visible="True">
                                         <dxc:BarSideBySideSeries2D.Label>
                                             <dxc:SeriesLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" />
                                         </dxc:BarSideBySideSeries2D.Label>
@@ -246,38 +216,31 @@
                     </dx:DXTabItem>
                     <dx:DXTabItem Header="Fournisseurs">
                         <Grid>
-                            <dxc:ChartControl
-                                x:Name="Fournisseurs"
-                                EnableAnimation="True">
-                                <dxc:XYDiagram2D
-                                    x:Name="Suppliers"
-                                    EnableAxisXNavigation="True"
-                                    EnableAxisYNavigation="True">
+                            <dxc:ChartControl x:Name="Fournisseurs" EnableAnimation="True">
+                                <dxc:XYDiagram2D x:Name="Suppliers"
+                                                 EnableAxisXNavigation="True"
+                                                 EnableAxisYNavigation="True">
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D
-                                            GridLinesVisible="True"
-                                            Interlaced="True"
-                                            TickmarksMinorVisible="False"
-                                            Visible="True">
+                                        <dxc:AxisY2D GridLinesVisible="True"
+                                                     Interlaced="True"
+                                                     TickmarksMinorVisible="False"
+                                                     Visible="True">
                                             <dxc:AxisY2D.Title>
                                                 <dxc:AxisTitle Content="Achats par fournisseur" />
                                             </dxc:AxisY2D.Title>
                                             <dxc:AxisY2D.Label>
-                                                <dxc:AxisLabel
-                                                    ElementTemplate="{StaticResource AxisXLabelTemplate}"
-                                                    EndText=" DA" />
+                                                <dxc:AxisLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" EndText=" DA" />
                                             </dxc:AxisY2D.Label>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D
-                                            DateTimeGridAlignment="Year"
-                                            DateTimeMeasureUnit="Year"
-                                            GridLinesVisible="False"
-                                            Interlaced="False"
-                                            TickmarksMinorVisible="True"
-                                            TickmarksVisible="True"
-                                            Visible="True">
+                                        <dxc:AxisX2D DateTimeGridAlignment="Year"
+                                                     DateTimeMeasureUnit="Year"
+                                                     GridLinesVisible="False"
+                                                     Interlaced="False"
+                                                     TickmarksMinorVisible="True"
+                                                     TickmarksVisible="True"
+                                                     Visible="True">
                                             <dxc:AxisX2D.Title>
                                                 <dxc:AxisTitle Content="Les fournisseurs" />
                                             </dxc:AxisX2D.Title>
@@ -286,10 +249,9 @@
                                             </dxc:AxisX2D.Label>
                                         </dxc:AxisX2D>
                                     </dxc:XYDiagram2D.AxisX>
-                                    <dxc:BarSideBySideSeries2D
-                                        DisplayName="produits"
-                                        ShowInLegend="True"
-                                        Visible="True">
+                                    <dxc:BarSideBySideSeries2D DisplayName="produits"
+                                                               ShowInLegend="True"
+                                                               Visible="True">
                                         <dxc:BarSideBySideSeries2D.Label>
                                             <dxc:SeriesLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" />
                                         </dxc:BarSideBySideSeries2D.Label>
@@ -304,38 +266,31 @@
                     </dx:DXTabItem>
                     <dx:DXTabItem Header="Clients">
                         <Grid>
-                            <dxc:ChartControl
-                                x:Name="Clients"
-                                EnableAnimation="True">
-                                <dxc:XYDiagram2D
-                                    x:Name="Customers"
-                                    EnableAxisXNavigation="True"
-                                    EnableAxisYNavigation="True">
+                            <dxc:ChartControl x:Name="Clients" EnableAnimation="True">
+                                <dxc:XYDiagram2D x:Name="Customers"
+                                                 EnableAxisXNavigation="True"
+                                                 EnableAxisYNavigation="True">
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D
-                                            GridLinesVisible="True"
-                                            Interlaced="True"
-                                            TickmarksMinorVisible="False"
-                                            Visible="True">
+                                        <dxc:AxisY2D GridLinesVisible="True"
+                                                     Interlaced="True"
+                                                     TickmarksMinorVisible="False"
+                                                     Visible="True">
                                             <dxc:AxisY2D.Title>
                                                 <dxc:AxisTitle Content="Ventes par client" />
                                             </dxc:AxisY2D.Title>
                                             <dxc:AxisY2D.Label>
-                                                <dxc:AxisLabel
-                                                    ElementTemplate="{StaticResource AxisXLabelTemplate}"
-                                                    EndText=" DA" />
+                                                <dxc:AxisLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" EndText=" DA" />
                                             </dxc:AxisY2D.Label>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D
-                                            DateTimeGridAlignment="Year"
-                                            DateTimeMeasureUnit="Year"
-                                            GridLinesVisible="False"
-                                            Interlaced="False"
-                                            TickmarksMinorVisible="True"
-                                            TickmarksVisible="True"
-                                            Visible="True">
+                                        <dxc:AxisX2D DateTimeGridAlignment="Year"
+                                                     DateTimeMeasureUnit="Year"
+                                                     GridLinesVisible="False"
+                                                     Interlaced="False"
+                                                     TickmarksMinorVisible="True"
+                                                     TickmarksVisible="True"
+                                                     Visible="True">
                                             <dxc:AxisX2D.Title>
                                                 <dxc:AxisTitle Content="Les cliens" />
                                             </dxc:AxisX2D.Title>
@@ -344,10 +299,9 @@
                                             </dxc:AxisX2D.Label>
                                         </dxc:AxisX2D>
                                     </dxc:XYDiagram2D.AxisX>
-                                    <dxc:BarSideBySideSeries2D
-                                        DisplayName="produits"
-                                        ShowInLegend="True"
-                                        Visible="True">
+                                    <dxc:BarSideBySideSeries2D DisplayName="produits"
+                                                               ShowInLegend="True"
+                                                               Visible="True">
                                         <dxc:BarSideBySideSeries2D.Label>
                                             <dxc:SeriesLabel ElementTemplate="{StaticResource AxisXLabelTemplate}" />
                                         </dxc:BarSideBySideSeries2D.Label>

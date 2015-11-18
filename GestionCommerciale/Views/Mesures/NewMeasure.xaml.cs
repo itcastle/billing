@@ -2,10 +2,10 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Input;
-using GestionCommerciale.Views.ProductFolder;
-using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
+using GestionCommerciale.Views.Products;
 
-namespace GestionCommerciale.Views
+namespace GestionCommerciale.Views.Mesures
 {
     /// <summary>
     /// Interaction logic for NewProductMeasure.xaml

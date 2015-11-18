@@ -26,8 +26,11 @@ namespace GestionCommerciale.DomainModel.Entities
         }
     
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Command> Commands { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<DatabaseLog> DatabaseLogs { get; set; }
+        public virtual DbSet<DocModel> DocModels { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Facture> Factures { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }

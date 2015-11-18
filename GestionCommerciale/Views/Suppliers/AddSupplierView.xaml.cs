@@ -8,7 +8,7 @@ using DevExpress.Xpf.Core;
 using DevExpress.Xpf.LayoutControl;
 using GestionCommerciale.DomainModel;
 
-namespace GestionCommerciale.Views.SupplierFolder
+namespace GestionCommerciale.Views.Suppliers
 {
     /// <summary>
     /// Interaction logic for AddSupplierView.xaml

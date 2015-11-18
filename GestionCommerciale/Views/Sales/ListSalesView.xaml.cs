@@ -1,187 +1,152 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
+using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
-using GestionCommerciale.Helpers;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.Helpers;
 
-namespace GestionCommerciale.Views.SaleFolder
+namespace GestionCommerciale.Views.Sales
 {
     /// <summary>
-    /// Interaction logic for ListSuppliersView.xaml
+    /// Interaction logic for ListSalesView.xaml
     /// </summary>
     public partial class ListSalesView
     {
-   
-        readonly SuppliersManager _supplierClient;
-        readonly PurchaseClient _purchaseClient;
-        List<Customer> _customerList;
-        List<Purchase> _purchaseList;
-
-     
-        readonly PurchaseDetailsManager _purchaseDetailsManager;
-        CategorysClient cc;
-        CategorysManager mc;
-    
-        List<PurchaseStore> _purchaseStoresList;
+        private readonly CustomersManager _customersMng =new CustomersManager();
+        private List<Customer> _customersList;
         private readonly TabHelper _tabHlp;
+        private readonly TvaClient _tvaClient;
+        readonly ProductManger _productManger=new ProductManger();
+        List<Product> _productsList=new List<Product>();
 
         public ListSalesView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
             _tabHlp = hlp;
-           
-          
-            _supplierClient = new SuppliersManager();
-            _purchaseClient = new PurchaseClient();
-            EditPurchaseBtn.Visibility = Visibility.Collapsed;
-            CancelPurchaseBtn.Visibility = Visibility.Collapsed;
-            image1.Visibility = Visibility.Collapsed;
-            image2.Visibility = Visibility.Collapsed;
-         
-            _purchaseDetailsManager = new PurchaseDetailsManager();
-            cc = new CategorysClient();
-           
-            mc = new CategorysManager();
-            if (string.IsNullOrEmpty(animationName)) return;
-            Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
-            LayoutRoot.BeginStoryboard(animation);
-        }
-
-        //private void NewPurchaseBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var item = _tabHlp.AddNewTab(typeof(AddPurchaseView), "Effectuer un achat ", "FadeToLeftAnim",_tabHlp);
-        //}
-        //private void AddSupplierBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    var item = _tabHlp.AddNewTab(typeof(AddSupplierView), "Nouveau fournisseur ", "FadeToLeftAnim");
-        //}
-
-        private void PurchasesDataTable_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
-        {
-            if (SuppliersDataGrid.VisibleRowCount == 0) return;
-            int rowHandle = SuppliersDataGrid.View.FocusedRowHandle;
-
-            if (rowHandle < 0) return;
-            String name = SuppliersDataGrid.GetCellValue(rowHandle, "CompanyName").ToString();
-
-            var getSuppliers = _supplierClient.GetProviderByName(name);
-            if (getSuppliers == null) return;
-            LoadGridPurchases(getSuppliers);
-        }
-
-
-        private void LoadGridPurchases(Provider sup)
-        {
-            Dispatcher.BeginInvoke(new Action(() =>
+            if (!string.IsNullOrEmpty(animationName))
             {
-                _purchaseList = _purchaseClient.GetPurchase();
-                if (_purchaseList != null)
-                    PurchasesDataGrid.ItemsSource = (from t in _purchaseList
-                        where t.SupplierID == sup.SupplierID
-                        select new
-                        {
-                            PurchaseID = t.PurchaseID,
-                            PurchaseDate = t.PurchaseDate,
-                            RequiredDate = t.CommandeDate,
-                          //  Employee = t.Employee.EmployeeFirstname,
-                            Description = t.Description,
-                        }
-                        ).ToList();
-            }));
+                Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
+                LayoutRoot.BeginStoryboard(animation);
+            }
+        }
+
+        private void ThisWindows_Loaded(object sender, RoutedEventArgs e)
+        {
 
         }
 
-        private void LoadGridSuppliers()
+        private void LoadGridAllProducts()
         {
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                _customerList = _supplierClient.GetCustomers();
-                if (_customerList == null) return;
-                SuppliersDataGrid.ItemsSource = (from t in _customerList
-                    select new
-                    {
-                        CompanyName = t.CompanyName,
-                        ContactName = t.ContactName,
-                        ContactTitle = t.ContactTitle,
-                        //Phone = t.Telephones.Phone,
-                        RC = t.RC
-                    }
-                    ).ToList();
-            }));
+            var getProducts = new BackgroundWorker();
+            getProducts.DoWork += GetAllProductsOnDoWork;
+            getProducts.RunWorkerCompleted += GetAllProductsOnRunWorkerCompleted;
+            getProducts.RunWorkerAsync();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void GetAllProductsOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            LoadGridSuppliers();
-        }
-
-        private void tableView3_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
-        {
-           
-            if (SelectedProductsDataGrid.VisibleRowCount == 0) return;
-            int rowHandle = SelectedProductsDataGrid.View.FocusedRowHandle;
-
-            if (rowHandle < 0) return;
-            PurchaseStore purchaseDetails = _purchaseStoresList.ElementAt(rowHandle);
-            if (purchaseDetails == null) return;
-            Afficher(purchaseDetails);
-        }
-
-        private void LoadGridProducts(Purchase purchase)
-        {
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                _purchaseStoresList = _purchaseDetailsManager.GetPurchaseDetails();
-                if (_purchaseStoresList != null)
-
-                    SelectedProductsDataGrid.ItemsSource = (from t in _purchaseStoresList
-                        where t.PurchaseID == purchase.PurchaseID
-                        select new
-                        {
-                            ProductName = t.Product.ProductName,
-                            CategoryName = t.Product.SubCategory.Category.CategoryName,
-                            UnitsInStock = t.Product.UnitsInStock,
-                            PurchasePrice = t.Product.PurchasePrice,
-                            SalePrice = t.Product.SalePrice,
-                         //   Mesure = t.Products.Measures.MesureName,
-                        }
-                        ).ToList();
-            }));
+            var productsList = _productManger.GetProducts();
+            doWorkEventArgs.Result = productsList;
 
         }
 
-        private void Afficher(PurchaseStore purchaseDetails)
+        private void GetAllProductsOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs workerCompleted)
         {
-            QuantiteSaleTxtBox.Text = purchaseDetails.UnitsOnOrder.ToString();
+            _productsList = workerCompleted.Result as List<Product>;
+            SalesDataGrid.ItemsSource = _productsList;
+
+            UpdateProductsDataGridsFromSources();
+            CalculateAndDisplay();
+        }
+
+        private void CalculateAndDisplay()
+        {
             
+
         }
 
-        private void SuppliersDataTable_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        private void UpdateProductsDataGridsFromSources()
         {
-            if (PurchasesDataGrid.VisibleRowCount == 0) return;
-            int rowHandle = PurchasesDataGrid.View.FocusedRowHandle;
-            if (rowHandle < 0) return;
-            PurchaseClient purchaseClient = new PurchaseClient();
-            int purchaseId = (int) PurchasesDataGrid.GetCellValue(rowHandle, "PurchaseID");
-            Purchase getPurchase = purchaseClient.GetPurchaseById(purchaseId);
-            if (getPurchase == null) return;
-            LoadGridProducts(getPurchase);
+            
+
         }
 
-        private void EditPurchaseBtn_Click(object sender, RoutedEventArgs e)
+
+        private void LoadGridAllCustomers()
+        {
+            var getCustomers = new BackgroundWorker();
+            getCustomers.DoWork += GetAllCustomersOnDoWork;
+            getCustomers.RunWorkerCompleted += GetAllCustomersOnRunWorkerCompleted;
+            getCustomers.RunWorkerAsync();
+
+        }
+
+        private void GetAllCustomersOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
+
+            var customersList = _customersMng.GetAllCustomers();
+            doWorkEventArgs.Result = customersList;
+        }
+
+        private void GetAllCustomersOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs workerCompleted)
+        {
+            _customersList = workerCompleted.Result as List<Customer>;
+            CustomersLookUpEdit.ItemsSource = _customersList;
+
+
+        }
+
+
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void CancelPurchaseBtn_Click(object sender, RoutedEventArgs e)
+        private void Invoice_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        
+       
+
+        private void SalesDataGrid_SelectedItemChanged(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void AddProductBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
+
+        private void SelectedProductsTableView_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
+        {
+            
+
+        }
+
+        private void DiscountTxtBox_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            
+
+        }
+
+        private void TvaComboBox_SelectedIndexChanged(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
+
+        private void AddTvaBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
+
+        }
     }
 }

@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
-using DevExpress.Xpf.Grid;
-using GestionCommerciale.Helpers;
-using GestionCommerciale.Views.CategoryFolder;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
+using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel.Validator;
+using GestionCommerciale.Helpers;
 
-namespace GestionCommerciale.Views.ProductFolder
+namespace GestionCommerciale.Views.Products
 {
     /// <summary>
     /// Interaction logic for ListSuppliersView.xaml
@@ -26,7 +24,7 @@ namespace GestionCommerciale.Views.ProductFolder
     {
         Product _produit;
         readonly ProductManger _productClient;
-        readonly CategorysClient _CategorysClient;
+        readonly CategorysClient _categorysClient;
 
     
         List<Product> _productsList;
@@ -40,7 +38,7 @@ namespace GestionCommerciale.Views.ProductFolder
             _tabHlp = hlp;
             _produit = new Product();
             _productClient = new ProductManger();
-            _CategorysClient = new CategorysClient();
+            _categorysClient = new CategorysClient();
         
             if (string.IsNullOrEmpty(animationName)) return;
             Storyboard animation = (Storyboard) Application.Current.Resources[animationName];
@@ -242,7 +240,7 @@ namespace GestionCommerciale.Views.ProductFolder
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                CategorysCbx.ItemsSource = _CategorysClient.GetCategorysNames();
+                CategorysCbx.ItemsSource = _categorysClient.GetCategorysNames();
 
             }));
         }
@@ -258,7 +256,7 @@ namespace GestionCommerciale.Views.ProductFolder
             ProductTypeCbx.Clear();
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                SubCategoryCbx.ItemsSource = _CategorysClient.GetSubCategorysNames(CategoryName);
+                SubCategoryCbx.ItemsSource = _categorysClient.GetSubCategorysNames(CategoryName);
 
             }));
         }

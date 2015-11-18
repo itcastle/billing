@@ -22,7 +22,19 @@ namespace GestionCommerciale.DomainModel
                 return null;
             }
         }
+        public List<Customer> GetAllCustomers()
+        {
+            try
+            {
+                _gestionDb = new GcdbEntities();
 
+                return _gestionDb.Customers.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         public Double GetTotalPerCustomer(Customer cust)
         {
             try

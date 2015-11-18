@@ -1,45 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
-using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.LayoutControl;
-using GestionCommerciale.Helpers;
-using GestionCommerciale.Views.ProductFolder;
-using GestionCommerciale.Views.SupplierFolder;
-using GestionCommerciale.Views.TVAFolder;
 using GestionCommerciale.DomainModel;
-using GestionCommerciale.DomainModel.Validator;
+using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.Helpers;
+using GestionCommerciale.Views.Products;
+using GestionCommerciale.Views.Suppliers;
+using GestionCommerciale.Views.TVAs;
 
-namespace GestionCommerciale.Views.PurchaseFolder
+namespace GestionCommerciale.Views.Purchases
 {
     /// <summary>
-    /// Interaction logic for AddSale.xaml
+    /// Interaction logic for AddPurchaseView.xaml
     /// </summary>
-    public partial class AddPurchaseView
+    public partial class AddPurchaseView : UserControl
     {
-        private struct ProduitsSel
+        public Purchase ThePurchase
         {
-            public String ProductName;
-            public Decimal UnitsOnOrder;
-            public float TotalPriceAchat;
-            public float TotalPriceVente;
-            public float PurchasePrice;
-            public float VentePriceGros;
-            public float VentePriceDetail;
-            public float VentePriceComptoire;
-            public float Discount;
-            public int ProductId;
+            get { return (Purchase)GetValue(ThePurchaseProperty); }
+            set { SetValue(ThePurchaseProperty, value); }
         }
+
+        public static readonly DependencyProperty ThePurchaseProperty =
+            DependencyProperty.Register("ThePurchase", typeof(Purchase), typeof(AddPurchaseView), null);
+
 
         private readonly TabHelper _tabHlp;
 
@@ -49,8 +40,7 @@ namespace GestionCommerciale.Views.PurchaseFolder
         private readonly ProductManger _productManger;
 
         private List<Product> _productsList;
-        private List<ProduitsSel> _productsSelSelected;
-        private List<Product> _productSelected;
+        List<PurchaseStore> ProductsPurchase;
         private List<Provider> _suppliersList;
 
 
@@ -68,18 +58,13 @@ namespace GestionCommerciale.Views.PurchaseFolder
         public AddPurchaseView()
         {
             InitializeComponent();
-
         }
-
         public AddPurchaseView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
-
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            
             _tabHlp = hlp;
-            _productsSelSelected = new List<ProduitsSel>();
-            //produit = new Products();
+            ProductsPurchase = new List<PurchaseStore>();
             _productManger = new ProductManger();
 
             _tvaClient = new TvaClient();
@@ -87,38 +72,62 @@ namespace GestionCommerciale.Views.PurchaseFolder
 
             _suppliersManager = new SuppliersManager();
             _productManger.ResetUnitsOnOrder();
-            _productSelected = new List<Product>();
             if (string.IsNullOrEmpty(animationName)) return;
-            var animation = (Storyboard) Application.Current.Resources[animationName];
+            var animation = (Storyboard)Application.Current.Resources[animationName];
             LayoutRoot.BeginStoryboard(animation);
+            this.ThePurchase = new Purchase()
+            {
+                IsCommand = false
+
+            };
+        }
+        public AddPurchaseView(string animationName, TabHelper hlp,Purchase purchase)
+        {
+            InitializeComponent();
+
+            _tabHlp = hlp;
+            ProductsPurchase = new List<PurchaseStore>();
+            _productManger = new ProductManger();
+
+            _tvaClient = new TvaClient();
+            TvaComboBox.ItemsSource = _tvaClient.GetTvaValues();
+
+            _suppliersManager = new SuppliersManager();
+            _productManger.ResetUnitsOnOrder();
+            if (string.IsNullOrEmpty(animationName)) return;
+            var animation = (Storyboard)Application.Current.Resources[animationName];
+            LayoutRoot.BeginStoryboard(animation);
+
+            this.ThePurchase = purchase;
+            this.ProductsPurchase = purchase.PurchaseStores.ToList();
+
         }
 
 
-        private void GroupBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            GroupBox groupBox = (GroupBox) sender;
-            groupBox.Background = Brushes.AliceBlue;
-        }
 
-        private void GroupBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var groupBox = (GroupBox) sender;
-            groupBox.Background = null;
+            if (SettingsClient.IsNotLegal()) Application.Current.Shutdown();
+            OrderDateDateEdit.DateTime = DateTime.Now;
+            AchatDateDte.DateTime = DateTime.Now;
+            LoadGridAllSuppliers();
+            LoadGridAllProducts();
+            TvaComboBox.ItemsSource = _tvaClient.GetTvaValues();
+
+            
+            
+
+
         }
 
 
 
         private void LoadGridAllProducts()
         {
-
             var getProducts = new BackgroundWorker();
             getProducts.DoWork += GetAllProductsOnDoWork;
             getProducts.RunWorkerCompleted += GetAllProductsOnRunWorkerCompleted;
             getProducts.RunWorkerAsync();
-
-
-
-
         }
 
         private void GetAllProductsOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
@@ -131,19 +140,10 @@ namespace GestionCommerciale.Views.PurchaseFolder
         private void GetAllProductsOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs workerCompleted)
         {
             _productsList = workerCompleted.Result as List<Product>;
+            AllProductsDataGrid.ItemsSource = _productsList;
 
-            if (_productsList != null)
-
-                AllProductsDataGrid.ItemsSource = (from t in _productsList
-                    select new
-                    {
-                        ProductName = t.ProductName,
-                        CategoryName = t.SubCategory.Category.CategoryName,
-                        SubCategoryName = t.SubCategory.SubCategoryName,
-                        ProductID = t.ProductID
-                    }
-                    ).ToList();
-
+            UpdateProductsDataGridsFromSources();
+            CalculateAndDisplay();
         }
 
 
@@ -153,7 +153,6 @@ namespace GestionCommerciale.Views.PurchaseFolder
             getProviders.DoWork += GetAllProvidersOnDoWork;
             getProviders.RunWorkerCompleted += GetAllProvidersOnRunWorkerCompleted;
             getProviders.RunWorkerAsync();
-            //*****
 
         }
 
@@ -167,66 +166,28 @@ namespace GestionCommerciale.Views.PurchaseFolder
         private void GetAllProvidersOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs workerCompleted)
         {
             _suppliersList = workerCompleted.Result as List<Provider>;
-            if (_suppliersList == null) return;
-            ProviderGridControl.ItemsSource = (from t in _suppliersList
-                select new
-                {
-                    CompanyName = t.CompanyName,
-                    ContactName = t.ContactName,
-                    ContactTitle = t.ContactTitle
-                }
-                ).ToList();
+            ProvidersLookUpEdit.ItemsSource = _suppliersList;
+            
+
+
         }
 
-        private void LoadGridProductsSelected()
-        {
 
-         Dispatcher.BeginInvoke(new Action(() =>
-            {
-                if (_productsSelSelected != null)
-                    SelectedProductsDataGrid.ItemsSource = (from t in _productsSelSelected
-                        select new
-                        {
-                            ProductName = t.ProductName,
-                            PurchasePrice = t.PurchasePrice,
-                            VentePriceGros = t.VentePriceGros,
-                            ventePriceDetail = t.VentePriceDetail,
-                            ventePriceComptoire = t.VentePriceComptoire,
-                            TotalPriceAchat = t.TotalPriceAchat,
-                            TotalPriceVente = t.TotalPriceVente,
-                            UnitsOnOrder = t.UnitsOnOrder,
-                            ProductID = t.ProductId
-                        }
-                        ).ToList();
-                SelectedProductsTableView.AutoWidth = true;
-            }));
+        //******************************************************************************************************
+        private void DiscountTxtBox_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            CalculateAndDisplay();
         }
 
-        private void Display()
+        private void TvaComboBox_SelectedIndexChanged(object sender, RoutedEventArgs e)
         {
-            TotalBeforDiscountTxtBox.Text = _total.ToString("###,###.00");
-            TotalAfterDiscountTxtBox.Text = _discount.ToString("###,###.00");
-            TotalPaymentTxtBox.Text = _ttc.ToString("###,###.00");
-            TimbreTxtBox.Text = _timbre.ToString("###,###.00");
+            CalculateAndDisplay();
         }
 
-        private void Calculate()
+        private void AchatTypeCbx_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
-            _total = 0;
-            _ttc = 0;
-            _discount = 0;
-            _tva = 0;
 
-            foreach (ProduitsSel entity in _productsSelSelected)
-            {
-                _total += entity.TotalPriceAchat; // a refaire en cas de comande distribuée
-            }
-            _tva = GetTva();
-            _discount = GetDiscount()*_total;
-
-            _timbre = SetTimbre(_total);
-
-            _ttc = _total - _discount + (_total*_tva) + _timbre;
+            CalculateAndDisplay();
         }
 
         private float SetTimbre(float total)
@@ -237,112 +198,142 @@ namespace GestionCommerciale.Views.PurchaseFolder
             return _timbre;
         }
 
-        private float GetDiscount()
+        private void AddTvaBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            decimal result = ConvertToDecimal(DiscountTxtBox.Text);
-            if (result == 0) return 0;
-            return (float) (result/100);
-
+            var addTva = new AddTvaView();
+            addTva.ShowDialog();
         }
 
-        private float GetTva()
+        private void CalculateAndDisplay()
         {
-            try
+            _total = 0;
+            _ttc = 0;
+            _discount = 0;
+            _tva = 0;
+
+            foreach (var pp in ProductsPurchase)
             {
-                return (float) Convert.ToDecimal(TvaComboBox.Text);
+                _total += (float)pp.TotalPriceAchat.Value;
+                _discount += pp.Discount.Value;
             }
-            catch (Exception)
-            {
-                return (float) Convert.ToDecimal(0.17); //s
-            }
+
+            bool IsTvaValidFloat = float.TryParse(TvaComboBox.Text, out _tva);
+            _tva =  _tva / 100;
+
+            _timbre = SetTimbre(_total);
+
+            _ttc = _total + (_total * _tva) + _timbre - _discount;
+
+            TotalBeforDiscountTxtBox.Value = (decimal)_total;
+            DiscountTxtBox.Value = (decimal)_discount;
+            TotalAfterDiscountTxtBox.Value = (decimal)_total - (decimal)_discount;
+            TotalPaymentTxtBox.Value = (decimal)_ttc;
+            TimbreTxtBox.Value = (decimal)_timbre;
 
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
-        {
-            DXMessageBox.Show(this, Enregistrer(), "ITcastle Solutions");
-        }
 
-        private String Enregistrer()
+
+        //******************************************************************************************************
+        private void CommandBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
                 //   Employee employeeEntity = WhoEmployee.Employee; 
-                _provider = GetProvider();
+                _provider = ProvidersLookUpEdit.SelectedItem as Provider;
                 if (_provider == null)
                 {
-                    DXMessageBox.Show(this, "Vous devez choisir un Fournissuer");
-                    return "pas bien";
+                    ShowErrorAlert("Vous devez choisir un Fournissuer");
+                    return;
                 }
-                if (_productsSelSelected.Count == 0)
+                if (ProductsPurchase.Count == 0)
                 {
-                    DXMessageBox.Show(this, "Vous devez choisir au moin un produit");
-                    return "Achat na pas été enregistrer";
+                    ShowErrorAlert("Vous devez choisir au moin un produit");
+                    return;
                 }
                 DateTime commandeDtae = OrderDateDateEdit.DateTime;
-                float getDicount = GetDiscount();
+                float getDicount = (float)DiscountTxtBox.Value;
                 string etatPayement = EtatPaymentCbx.Text;
                 string modePayement = ModePaymentCbx.Text;
                 string modeAchat = AchatTypeCbx.Text;
                 string commandNum = CommandeNumberTxt.Text;
                 string factureNum = AchatfactureNumTxt.Text;
-                float facturePriceHt = ConvertToFloat(AchatfacturePriceHt.Text);
+                float facturePriceHt = (float)AchatfacturePriceHt.Value;
                 var remarque = RemarqueRichTxtBox.Text;
-                float tvaValue = ConvertToFloat(TvaComboBox.Text);
-                //...
+                float tvaValue = float.Parse(TvaComboBox.Text);
 
+                Purchase TheNewPurchase = CreatePurchase(getDicount, etatPayement, modePayement, modeAchat,
+                    commandNum, factureNum, facturePriceHt, remarque, _provider, commandeDtae, tvaValue,
+                    true);
 
+                CommandsManager CommandsMNG = new CommandsManager();
+                Command TheNewCommand =  CommandsMNG.CreateCommand(TheNewPurchase, DateTime.Now, "");
+                NewCommandView NewCommandWND = new NewCommandView(TheNewCommand);
+                NewCommandWND.Show();
 
-                //**************
-                CreatePurchase(getDicount, etatPayement, modePayement, modeAchat,
-                    commandNum, factureNum, facturePriceHt, remarque, _provider, commandeDtae, tvaValue);
+                ResetAll();
+                ShowSuccessAlert("Votre Commande a été enregistré avec succès");
 
-
-                ClearAfterSave();
-                return "Votre Achat a été bien enregistrer";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "Erreur";
+                ShowErrorAlert(ex.Message);
             }
         }
-        private float ConvertToFloat(string stringVal)
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                decimal decimalVal = Convert.ToDecimal(stringVal);
-                return (float) decimalVal;
+
+                //   Employee employeeEntity = WhoEmployee.Employee; 
+                _provider = ProvidersLookUpEdit.SelectedItem as Provider;
+                if (_provider == null)
+                {
+                    ShowErrorAlert("Vous devez choisir un Fournissuer");
+                    return;
+                }
+                if (ProductsPurchase.Count == 0)
+                {
+                    ShowErrorAlert("Vous devez choisir au moin un produit");
+                    return;
+                }
+                DateTime commandeDtae = OrderDateDateEdit.DateTime;
+                float getDicount = (float)DiscountTxtBox.Value;
+                string etatPayement = EtatPaymentCbx.Text;
+                string modePayement = ModePaymentCbx.Text;
+                string modeAchat = AchatTypeCbx.Text;
+                string commandNum = CommandeNumberTxt.Text;
+                string factureNum = AchatfactureNumTxt.Text;
+                float facturePriceHt = (float)AchatfacturePriceHt.Value;
+                var remarque = RemarqueRichTxtBox.Text;
+                float tvaValue = float.Parse(TvaComboBox.Text);
+           
+                CreatePurchase(getDicount, etatPayement, modePayement, modeAchat,
+                    commandNum, factureNum, facturePriceHt, remarque, _provider, commandeDtae, tvaValue,
+                    false);
+
+                ResetAll();
+                ShowSuccessAlert("Votre Achat a été enregistré avec succès");
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return 0;
+                ShowErrorAlert(ex.Message);
             }
         }
-        private void ClearAfterSave()
-        {
 
-            _productSelected.Clear();
-            _productsSelSelected.Clear();
-
-            RemarqueRichTxtBox.Clear();
-            OrderDateDateEdit.Clear();
-            ClearFields();
-            LoadGridAllProducts();
-        }
-
-
-
-        private void CreatePurchase(float getDicount, string etatPayement, string modePayement,
+        private Purchase CreatePurchase(float getDicount, string etatPayement, string modePayement,
             string modeAchat, string commandNum, string factureNum, float facturePriceHt,
-            string remarque, Provider provider, DateTime commandeDtae, float tvaValue)
+            string remarque, Provider provider, DateTime commandeDtae, float tvaValue,bool isCommand)
         {
 
             try
             {
                 var gestionDb = new GcdbEntities();
                 Provider getProvider = gestionDb.Providers.FirstOrDefault(c => c.SupplierID == provider.SupplierID);
-                if(getProvider==null)return;
+                if (getProvider == null) return null;
                 var newPurchase = new Purchase
                 {
                     TvaValue = tvaValue,
@@ -359,25 +350,26 @@ namespace GestionCommerciale.Views.PurchaseFolder
                     Provider = getProvider,
                     SupplierID = provider.SupplierID,
                     Description = remarque,
-                    Discount = (float?) getDicount,
-                    Timbre = (double?) _timbre
+                    Discount = (float?)getDicount,
+                    Timbre = (double?)_timbre,
+                    IsCommand = isCommand
                 };
-                foreach (var entitys in _productsSelSelected)
+                foreach (var ProdPurchase in ProductsPurchase)
                 {
-                    var getId = Getid(entitys, tvaValue);
-                    Product getProduct = gestionDb.Products.FirstOrDefault(c => c.ProductID == entitys.ProductId);
-                    if(getProduct==null)continue;
+                    var getId = NewStockStore(ProdPurchase, tvaValue);
+                    Product getProduct = gestionDb.Products.FirstOrDefault(c => c.ProductID == ProdPurchase.Product.ProductID);
+                    if (getProduct == null) continue;
                     var nwStore = new PurchaseStore
                     {
                         Product = getProduct,
-                        ProductID = entitys.ProductId,
-                        PurchasePrice = entitys.PurchasePrice,
-                        TotalPriceAchat = entitys.TotalPriceAchat,
-                        UnitsOnOrder = (double?) entitys.UnitsOnOrder,
-                        VentePriceGros = entitys.VentePriceGros,
-                        VentePriceDetail = entitys.VentePriceDetail,
-                        VentePriceComptoire = entitys.VentePriceComptoire,
-                        Discount = entitys.Discount,
+                        ProductID = getProduct.ProductID,
+                        PurchasePrice = ProdPurchase.PurchasePrice,
+                        TotalPriceAchat = ProdPurchase.TotalPriceAchat,
+                        UnitsOnOrder = (double?)ProdPurchase.UnitsOnOrder,
+                        VentePriceGros = ProdPurchase.VentePriceGros,
+                        VentePriceDetail = ProdPurchase.VentePriceDetail,
+                        VentePriceComptoire = ProdPurchase.VentePriceComptoire,
+                        Discount = ProdPurchase.Discount,
                         TvaValue = tvaValue,
                         StockStoreID = getId
                     };
@@ -385,35 +377,37 @@ namespace GestionCommerciale.Views.PurchaseFolder
                 }
                 gestionDb.Purchases.Add(newPurchase);
                 gestionDb.SaveChanges();
+                return newPurchase;
             }
             catch (Exception e)
             {
+                ShowErrorAlert(e.ToString());
+                return null;
 
-                MessageBox.Show(e.ToString());
             }
 
         }
 
-        private int Getid(ProduitsSel entitys, float tvaValue)
+        private int NewStockStore(PurchaseStore ProdPurchase, float tvaValue)
         {
-            string stockageId = StockageIDtxt.Text;
-            string productSnumber = ProductSNtxt.Text;
-            string productState = ProductStateCbx.Text;
-            string refrenceNum = ReferenceTxt.Text;
-            string stockObs = StockObStxt.Text;
+            string stockageId = "";//StockageIDtxt.Text;
+            string productSnumber = "";//ProductSNtxt.Text;
+            string productState = "";//ProductStateCbx.Text;
+            string refrenceNum = ""; //ReferenceTxt.Text;
+            string stockObs = "";//StockObStxt.Text;
             var gestionDb = new GcdbEntities();
 
             var newStockStore = new StockStore
             {
-                Discount = entitys.Discount,
-                VentePriceGros = entitys.VentePriceGros,
-                VentePriceDetail = entitys.VentePriceDetail,
-                VentePriceComptoire = entitys.VentePriceComptoire,
-                PurchasePrice = entitys.PurchasePrice,
-                UnitsOnOrder = (double?) entitys.UnitsOnOrder,
+                Discount = ProdPurchase.Discount,
+                VentePriceGros = ProdPurchase.VentePriceGros,
+                VentePriceDetail = ProdPurchase.VentePriceDetail,
+                VentePriceComptoire = ProdPurchase.VentePriceComptoire,
+                PurchasePrice = ProdPurchase.PurchasePrice,
+                UnitsOnOrder = (double?)ProdPurchase.UnitsOnOrder,
                 TvaValue = tvaValue,
-                TotalPriceAchat = entitys.TotalPriceAchat,
-                ProductID = entitys.ProductId,
+                TotalPriceAchat = ProdPurchase.TotalPriceAchat,
+                ProductID = ProdPurchase.Product.ProductID,
                 ProductState = productState,
                 Serialnumber = productSnumber,
                 Observation = stockObs,
@@ -427,321 +421,187 @@ namespace GestionCommerciale.Views.PurchaseFolder
         }
 
 
-        private Provider GetProvider()
+       
+
+        //******************************************************************************************************
+        private void AddProductToPurchaseBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (ProviderGridControl.VisibleRowCount == 0) return null;
-            int rowHandle = ProviderGridControl.View.FocusedRowHandle;
-            String companyName = ProviderGridControl.GetCellValue(rowHandle, "CompanyName").ToString();
-            _provider = _suppliersManager.GetProviderByName(companyName);
-            return _provider;
+            try
+            {
+
+
+                Product TheProduct = AllProductsDataGrid.SelectedItem as Product;
+
+                if (TheProduct != null)
+                {
+                    ProductPurchaseDetails ProductToPurchaseWnd = new ProductPurchaseDetails();
+                    ProductToPurchaseWnd.ValidateBtnText = "Ajouter";
+                
+                    PurchaseStore ProductPurchase = new PurchaseStore() { Product = TheProduct };
+                    ProductToPurchaseWnd.ProductPurchase = ProductPurchase;
+                    if (ProductToPurchaseWnd.ShowDialog() == true)
+                    {
+
+                        int unitsOnorder = Convert.ToInt16(ProductToPurchaseWnd.Quantite_SpinEdit.Value);
+                        float purchasePrice = (float)ProductToPurchaseWnd.AchatPriceUnit_SpinEdit.Value;
+                        float ventePriceGros = (float)ProductToPurchaseWnd.VentePriceUnitGros_SpinEdit.Value;
+                        float ventePriceDetail = (float)ProductToPurchaseWnd.VentePriceUnitDetail_SpinEdit.Value;
+                        float ventePriceComptoire = (float)ProductToPurchaseWnd.VentePriceUnitComptoire_SpinEdit.Value;
+
+                        float discount = (float)ProductToPurchaseWnd.Discount_SpinEdit.Value;
+
+                        var NewProductPurchase = new PurchaseStore
+                        {
+                            Product = TheProduct,
+                            UnitsOnOrder = unitsOnorder,
+                            PurchasePrice = purchasePrice,
+                            VentePriceGros = ventePriceGros,
+                            VentePriceDetail = ventePriceDetail,
+                            VentePriceComptoire = ventePriceComptoire,
+                            Discount = discount,
+                            TotalPriceAchat = purchasePrice * unitsOnorder
+                        };
+
+
+                        ProductsPurchase.Add(NewProductPurchase);
+                        UpdateProductsDataGridsFromSources();
+                        CalculateAndDisplay();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorAlert(ex.Message);
+            }
 
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void RemoveProductFromPurchaseBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (SettingsClient.IsNotLegal()) Application.Current.Shutdown();
-            OrderDateDateEdit.DateTime = DateTime.Now;
-            LoadGridAllSuppliers();
+
+            try
+            {
+                PurchaseStore TheProductPurchase = SelectedProductsDataGrid.SelectedItem as PurchaseStore;
+
+                if (TheProductPurchase != null)
+                {
+                    
+                    var index = ProductsPurchase.IndexOf(TheProductPurchase);
+                    ProductsPurchase.RemoveAt(index);
+                    UpdateProductsDataGridsFromSources();
+
+
+                    CalculateAndDisplay();
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorAlert(ex.Message);
+            }
+
+
+        }
+
+        private void SelectedProductsTableView_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
+        {
+            try
+            {
+                PurchaseStore TheProductPurchase = SelectedProductsDataGrid.SelectedItem as PurchaseStore;
+
+                if (TheProductPurchase != null)
+                {
+
+                    ProductPurchaseDetails ProductToPurchaseWnd = new ProductPurchaseDetails();
+                    ProductToPurchaseWnd.ValidateBtnText = "Modifier";
+                    ProductToPurchaseWnd.ProductPurchase = TheProductPurchase;
+                    if (ProductToPurchaseWnd.ShowDialog() == true)
+                    {
+
+                        var index = ProductsPurchase.IndexOf(TheProductPurchase);
+                        ProductsPurchase[index] = ProductToPurchaseWnd.ProductPurchase;
+                        UpdateProductsDataGridsFromSources();
+                        CalculateAndDisplay();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorAlert(ex.Message);
+            }
+        }
+
+        void UpdateProductsDataGridsFromSources()
+        {
+            AllProductsDataGrid.ItemsSource = _productsList.Where(p => !IsProductsPurchaseContainProduct(p));
+            AllProductsDataGrid.RefreshData();
+            SelectedProductsDataGrid.ItemsSource = this.ProductsPurchase;
+            SelectedProductsDataGrid.RefreshData();
+        }
+
+        bool IsProductsPurchaseContainProduct(Product TheProduct)
+        {
+            var result = this.ProductsPurchase.FirstOrDefault(pp => pp.Product.ProductID == TheProduct.ProductID);
+            return (result!=null) ? true : false;
+        }
+        void ResetAll()
+        {
+            this.ProductsPurchase.Clear();
+            SelectedProductsDataGrid.ItemsSource = this.ProductsPurchase;
+            SelectedProductsDataGrid.RefreshData();
             LoadGridAllProducts();
-            TvaComboBox.ItemsSource = _tvaClient.GetTvaValues();
 
+            ProvidersLookUpEdit.SelectedItem = null;
+            OrderDateDateEdit.DateTime = DateTime.Now;
+            AchatDateDte.DateTime = DateTime.Now;
+            CommandeNumberTxt.Clear();
+            AchatfactureNumTxt.Clear();
+            AchatTypeCbx.SelectedIndex = 0;
+            EtatPaymentCbx.SelectedIndex = 0;
+            ModePaymentCbx.SelectedIndex = 0;
+            AchatfacturePriceHt.Clear();
+            RemarqueRichTxtBox.Clear();
+
+            CalculateAndDisplay();
         }
 
-        private void AddProductToSaleBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        //******************************************************************************************************
+        private void AllProductsTableView_RowDoubleClick(object sender, RowDoubleClickEventArgs e)
         {
-
-            if (AllProductsDataGrid.VisibleRowCount == 0) return;
-            var rowHandle = AllProductsDataGrid.View.FocusedRowHandle;
-            if (rowHandle < 0) return;
-
-
-            int productId = (int) AllProductsDataGrid.GetCellValue(rowHandle, "ProductID");
-
-            var getProduit = _productManger.GetProductById(productId);
-
-            if (getProduit == null) return;
-            if (String.IsNullOrEmpty(QuantiteSaleTxtBox.Text) || !Validator.IsNumberValid(QuantiteSaleTxtBox.Text))
-            {
-                DXMessageBox.Show(this, "Vous devez saisir une quantité ");
-                QuantiteSaleTxtBox.Text = "";
-                return;
-            }
-
-            int unitsOnorder = Convert.ToInt16(QuantiteSaleTxtBox.Text);
-            float purchasePrice = ConvertToFloat(AchatPriceUnitTxt.Text);
-            float ventePriceGros = ConvertToFloat(VentePriceUnitGrosTxt.Text);
-            float ventePriceDetail = ConvertToFloat(VentePriceUnitDetailTxt.Text);
-            float ventePriceComptoire = ConvertToFloat(VentePriceUnitComptoireTxt.Text);
-
-            float discount = ConvertToFloat(DiscountTxt.Text);
-
-            var prodSel = new ProduitsSel
-            {
-                ProductId = getProduit.ProductID,
-                ProductName = getProduit.ProductName,
-                UnitsOnOrder = unitsOnorder,
-                PurchasePrice = purchasePrice,
-                VentePriceGros = ventePriceGros,
-                VentePriceDetail = ventePriceDetail,
-                VentePriceComptoire = ventePriceComptoire,
-                Discount = discount,
-                TotalPriceVente = ventePriceGros*unitsOnorder,
-                TotalPriceAchat = purchasePrice*unitsOnorder
-            };
-
-
-            var exist = _productSelected.Exists(item => item.ProductID == getProduit.ProductID);
-
-            //  int index = _productSelected.IndexOf(getProduit);
-            if (!exist)
-            {
-                _productSelected.Add(getProduit);
-                _productsSelSelected.Add(prodSel);
-            }
-            else
-            {
-                UpdateFunction(getProduit, unitsOnorder, purchasePrice, discount);
-
-            }
-            ClearFields();
+            AddProductToPurchaseBtn_Click(null, null);
         }
 
-        private void UpdateFunction(Product getProduit, int unitsOnorder, float purchasePrice, float discount)
+        private void AllProductsDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (e.Key == Key.Enter)
             {
-                bool exist = _productsSelSelected.Exists(item => item.ProductId == getProduit.ProductID);
-                if (!exist) return;
-                var returnProduct = _productsSelSelected.Find(item => item.ProductId == getProduit.ProductID);
-                var prodSel = new ProduitsSel
-                {
-                    ProductId = getProduit.ProductID,
-                    ProductName = getProduit.ProductName,
-                    UnitsOnOrder = unitsOnorder + returnProduct.UnitsOnOrder,
-                    PurchasePrice = purchasePrice + returnProduct.PurchasePrice,
-                    Discount = discount,
-                    VentePriceGros = returnProduct.VentePriceGros,
-                    VentePriceDetail = returnProduct.VentePriceDetail,
-                    VentePriceComptoire = returnProduct.VentePriceComptoire,
-                    TotalPriceVente = returnProduct.VentePriceGros*(float) (unitsOnorder + returnProduct.UnitsOnOrder),
-                    TotalPriceAchat = purchasePrice*(float) (unitsOnorder + returnProduct.UnitsOnOrder)
-                };
-
-                var index = _productsSelSelected.IndexOf(returnProduct);
-                _productsSelSelected.RemoveAt(index);
-                _productsSelSelected.Add(prodSel);
-            }
-            catch (Exception)
-            {
-                //
+                AddProductToPurchaseBtn_Click(null, null);
             }
         }
 
-        private void RemoveProductFromSaleBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        private void SelectedProductsDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-
-            try
+            if (e.Key == Key.Enter)
             {
-                if (SelectedProductsDataGrid.VisibleRowCount == 0) return;
-                var rowHandle = SelectedProductsDataGrid.View.FocusedRowHandle;
-                if (rowHandle < 0) return;
-                int productId = (int) SelectedProductsDataGrid.GetCellValue(rowHandle, "ProductID");
-                var getProduit = _productManger.GetProductById(productId);
-                if (getProduit == null) return;
-
-                decimal unitsOnOrder = (decimal)SelectedProductsDataGrid.GetCellValue(rowHandle, "UnitsOnOrder");
-                float purchasePrice = (float)SelectedProductsDataGrid.GetCellValue(rowHandle, "PurchasePrice");
-                float ventePriceGros = (float)SelectedProductsDataGrid.GetCellValue(rowHandle, "VentePriceGros");
-                float ventePriceDetail =
-                    (float)SelectedProductsDataGrid.GetCellValue(rowHandle, "VentePriceDetail");
-                float ventePriceComptoire =
-                    (float)SelectedProductsDataGrid.GetCellValue(rowHandle, "VentePriceComptoire");
-                float discount = (float)SelectedProductsDataGrid.GetCellValue(rowHandle, "Discounts");
-                var prodSel = new ProduitsSel
-                {
-                    ProductId = getProduit.ProductID,
-                    ProductName = getProduit.ProductName,
-                    UnitsOnOrder = unitsOnOrder,
-                    PurchasePrice = purchasePrice,
-                    VentePriceGros = ventePriceGros,
-                    VentePriceDetail = ventePriceDetail,
-                    Discount = discount,
-                    VentePriceComptoire = ventePriceComptoire,
-                    TotalPriceVente = ventePriceGros*(float) unitsOnOrder,
-                    TotalPriceAchat = purchasePrice*(float) unitsOnOrder
-                };
-
-                var index = _productsSelSelected.IndexOf(prodSel);
-                _productsSelSelected.RemoveAt(index);
-
-
-                _productSelected.Remove(getProduit);
-                ClearFields();
-
-
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
+                SelectedProductsTableView_RowDoubleClick(null, null);
             }
         }
-
-        private void ClearFields()
-        {
-            Calculate();
-            Display();
-            LoadGridProductsSelected();
-            QuantiteSaleTxtBox.Clear();
-            ProductNameTxtBox.Clear();
-            CategoryTxt.Clear();
-            SubCategoryTxt.Clear();
-            AchatPriceUnitTxt.Clear();
-            VentePriceUnitGrosTxt.Clear();
-            VentePriceUnitDetailTxt.Clear();
-            VentePriceUnitComptoireTxt.Clear();
-            AchatTotalHTtxt.Clear();
-        }
-
-        private decimal ConvertToDecimal(string stringVal)
-        {
-            try
-            {
-                decimal decimalVal = Convert.ToDecimal(stringVal);
-                return decimalVal;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-
-        private void AddTvaBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var addTva = new AddTvaView();
-            addTva.ShowDialog();
-        }
-
-        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-
-        }
-
 
         private void AddSupplierBtn_Click(object sender, RoutedEventArgs e)
         {
-            var item = _tabHlp.AddNewTab(typeof (AddSupplierView), "Nouveau fournisseur ", "FadeToLeftAnim");
+            var item = _tabHlp.AddNewTab(typeof(AddSupplierView), "Nouveau fournisseur ", "FadeToLeftAnim");
         }
 
         private void AddProductBtn_Click(object sender, RoutedEventArgs e)
         {
-            var item = _tabHlp.AddNewTab(typeof (AddProductView), "Nouveau produit ", "FadeToLeftAnim");
+            var item = _tabHlp.AddNewTab(typeof(AddProductView), "Nouveau produit ", "FadeToLeftAnim");
         }
-
-        private void DiscountTxtBox_LostFocus(object sender, RoutedEventArgs e)
+        void ShowSuccessAlert(string Message)
         {
-            Calculate();
-            Display();
+            msgbar.SetSuccessAlert(Message, 3);
         }
-
-        private void TvaComboBox_SelectedIndexChanged(object sender, RoutedEventArgs e)
+        void ShowErrorAlert(string Message)
         {
-            Calculate();
-            Display();
-        }
-
-        //
-        private void SelectedProductsDataGrid_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
-        {
-            if (e.Column.FieldName != "VentePrice") return;
-            e.DisplayText = string.Format("{0:n} Dinars", e.Value);
-        }
-
-        private void AllProductsTableView_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (AllProductsDataGrid.VisibleRowCount == 0) return;
-                var rowHandle = AllProductsDataGrid.View.FocusedRowHandle;
-                if (rowHandle < 0) return;
-
-                int productId = (int) AllProductsDataGrid.GetCellValue(rowHandle, "ProductID");
-
-                var getProduit = _productManger.GetProductById(productId);
-
-                if (getProduit == null)
-                {
-                    ProductNameTxtBox.Clear();
-                    CategoryTxt.Clear();
-                    SubCategoryTxt.Clear();
-                    return;
-                }
-                ProductNameTxtBox.Text = getProduit.ProductName;
-                CategoryTxt.Text = getProduit.SubCategory.Category.CategoryName;
-                SubCategoryTxt.Text = getProduit.SubCategory.SubCategoryName;
-            }
-            catch (Exception)
-            {
-                // 
-            }
-
-        }
-
-        private void AchatPriceUnitTxt_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
-        {
-
-            AutoCalculateTotalByProduct();
-        }
-
-        private void AutoCalculateTotalByProduct()
-        {
-
-            decimal salePrice = ConvertToDecimal(AchatPriceUnitTxt.Text);
-            decimal qte = ConvertToDecimal(QuantiteSaleTxtBox.Text);
-            AchatTotalHTtxt.Text = (salePrice*qte).ToString("###,###.00");
-        }
-
-
-
-        private void AchatTotalHTtxt_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
-        {
-            try
-            {
-                decimal getProductDiscount = ConvertToDecimal(DiscountTxt.Text);
-                decimal getTotalByProduct = ConvertToDecimal(AchatTotalHTtxt.Text);
-                decimal result = getTotalByProduct - (getTotalByProduct*(getProductDiscount/100));
-                AfterDiscountTxtBox.Text = result.ToString("###,###.00");
-            }
-            catch (Exception)
-            {
-                //
-            }
-
-        }
-
-        private void DiscountTxt_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            decimal result = ConvertToDecimal(DiscountTxt.Text);
-            if (result == 0)
-            {
-
-            }
-            else
-            {
-
-                decimal salePrice = ConvertToDecimal(AchatPriceUnitTxt.Text);
-                decimal qte = ConvertToDecimal(QuantiteSaleTxtBox.Text);
-                AchatTotalHTtxt.Text = ((result/100)*salePrice*qte).ToString("###,###.00");
-            }
-
-        }
-
-
-        private void AchatTypeCbx_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
-        {
-
-           Calculate();
-            Display();
+            msgbar.SetDangerAlert(Message.ToString());
         }
     }
 }

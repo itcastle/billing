@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Charts;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 
-namespace GestionCommerciale.Views.StatisticFolder
+namespace GestionCommerciale.Views.Statistics
 {
     /// <summary>
     /// Interaction logic for AddSupplierView.xaml

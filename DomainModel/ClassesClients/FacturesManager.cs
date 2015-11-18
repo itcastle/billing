@@ -115,7 +115,25 @@ namespace GestionCommerciale.DomainModel
             string s = format.Remove(0, 5);
             return int.Parse(s);
         }
-     
+        
+        public void AddDocToFacture(Facture invoice , byte[] doc)
+        {
+            _gestionDb = new GcdbEntities();
+            var fact = _gestionDb.Factures.FirstOrDefault(f => f.FactureID == invoice.FactureID);
+            Document d = new Document()
+            {
+                Type = "facture",DocFile = doc
+            };
+            fact.Document = d;
+            _gestionDb.SaveChanges();
+        }
+
+        public Facture GetFactureById(int id)
+        {
+            _gestionDb = new GcdbEntities();
+            var fact = _gestionDb.Factures.FirstOrDefault(f => f.FactureID == id);
+            return fact;
+        }
 
     }
 

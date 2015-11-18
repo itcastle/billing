@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
+using System.Windows.Media.Imaging;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel.Validator;
-using System.IO;
 using GestionCommerciale.Helpers;
 
-namespace GestionCommerciale.Views.EmployeeFolder
+namespace GestionCommerciale.Views.Employees
 {
     /// <summary>
     /// Interaction logic for ListSuppliersView.xaml

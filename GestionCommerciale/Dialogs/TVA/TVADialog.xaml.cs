@@ -28,7 +28,7 @@ namespace GestionCommerciale.Modals.TVA
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             TvaClient tvas = new TvaClient();
-            dgTVAs.ItemsSource = tvas.GetTva();
+            dgTVAs.ItemsSource = tvas.GetAllTvas();
             dgTVAs.Columns.RemoveAt(3);
                         
         }

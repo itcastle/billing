@@ -5,15 +5,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Core;
-using GestionCommerciale.Helpers;
-
-using DevExpress.Xpf.Grid;
-using GestionCommerciale.Views.SaleFolder;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.Helpers;
+using GestionCommerciale.Views.Sales;
 
-namespace GestionCommerciale.Views.PurchaseFolder
+namespace GestionCommerciale.Views.Purchases
 {
     /// <summary>
     /// Interaction logic for ListSuppliersView.xaml
@@ -21,7 +19,7 @@ namespace GestionCommerciale.Views.PurchaseFolder
     public partial class ListPurchasesView
     {
        
-    
+           
    
         private List<Purchase> _listPurchases; 
         private List<Provider> _suppliersList;
@@ -50,7 +48,7 @@ namespace GestionCommerciale.Views.PurchaseFolder
 
         private void NewSaleBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            var item = _tabHlp.AddNewTab(typeof(AddSaleView), "Effectuer une vente ", "FadeToLeftAnim",_tabHlp);
+            var item = _tabHlp.AddNewTab(typeof(NewSaleView), "Effectuer une vente ", "FadeToLeftAnim",_tabHlp);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

@@ -4,10 +4,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:GestionCommerciale.Views.Options"
     d:DesignHeight="480"
     d:DesignWidth="700"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <local:FileinfonameConverter x:Key="FileinfonameConverter"></local:FileinfonameConverter>
+
+    </UserControl.Resources>
+   
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -18,143 +24,17 @@
             <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox
-            Grid.Column="1"
-            Margin="10">
-            <ListBoxItem
-                Name="seven_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="seven_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/seven.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Seven" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="deepblue_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="deepblue_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/deep-blue.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="deepblue" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="lightgray_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="lightgray_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/light-gray.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="light-gray" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="office2007black_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="office2007black_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/office2007black.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="office2007 black" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="office2007blue_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="office2007blue_theme_btn_Selected"
-                Visibility="Collapsed">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/office2007Blue.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="office2007 blue" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="office2007silver_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="office2007silver_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/office2007Silver.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="office2007 silver" />
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem
-                Name="office2010black_theme_btn"
-                Height="44.28"
-                Background="{DynamicResource ListBoxItemBg}"
-                BorderBrush="#FF107DC2"
-                BorderThickness="1"
-                FontSize="16"
-                Selected="office2010black_theme_btn_Selected">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Width="16"
-                        Source="/GestionCommerciale;component/Images/themes_images/Office-2010-Black.png" />
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="office2010 black" />
-                </StackPanel>
-            </ListBoxItem>
+        <ListBox x:Name="ThemesListbox" Grid.Column="1"
+            Margin="10" SelectionChanged="ThemesListbox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="{Binding LargeGlyph}"></Image>
+                        <TextBlock Text="{Binding FullName}"  VerticalAlignment="Center"
+                                FontWeight="SemiBold" FontSize="16" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
         <TextBlock
             Grid.Column="0"
@@ -164,34 +44,36 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             FontSize="16"
-            Text="Le theme d'interface :"
-            TextWrapping="Wrap" />
+            Text="Le theme d'interface :" TextWrapping="Wrap" FontWeight="Bold"
+                FontStyle="Italic" />
         <TextBlock
             Grid.Column="0"
             Grid.Row="1"
-            Height="Auto"
-            Margin="10"
-            HorizontalAlignment="Right"
+            Height="Auto" Margin="10,15,10,10"
+                HorizontalAlignment="Right"
             VerticalAlignment="Top"
             FontSize="16"
             Text="La couleur de la banniere :"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" FontWeight="Bold"
+                FontStyle="Italic" />
         <ComboBox
-            Name="header_color_combobox"
+            Name="HeadersCombobox"
             Grid.Column="1"
             Grid.Row="1"
             Height="36"
             Margin="10"
             VerticalAlignment="Top"
             FontSize="16"
-            SelectionChanged="header_color_combobox_SelectionChanged">
-            <ComboBoxItem Content="Noir" />
-            <ComboBoxItem Content="Blue" />
-            <ComboBoxItem Content="Blue ciel" />
-            <ComboBoxItem Content="Gris" />
-            <ComboBoxItem Content="Vert" />
-            <ComboBoxItem Content="Rose" />
-            <ComboBoxItem Content="Rouge" />
+            SelectionChanged="HeadersCombobox_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock
+                                Text="{Binding Name,Converter={StaticResource FileinfonameConverter}}" VerticalAlignment="Center"
+                                FontWeight="SemiBold" FontSize="14" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </ComboBox>
     </Grid>
 </UserControl>

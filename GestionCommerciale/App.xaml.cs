@@ -21,6 +21,7 @@ namespace GestionCommerciale
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            DevExpress.Xpf.Core.ThemeManager.ApplicationThemeName = "Office2010Blue";
         }
     }
 }

@@ -1,43 +1,40 @@
-﻿<controls:MetroWindow
-    x:Class="GestionCommerciale.MainWindow"
-    Title="ITcastle Solutions: Gestion commériale V2.0 - 2015"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
-    xmlns:dxnb="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
-    Height="867"
-    Width="1100"
-    EnableDWMDropShadow="True"
-    FlowDirection="LeftToRight"
-    Icon="/GestionCommerciale;component/icon.ico"
-    Loaded="Window_Loaded"
-    ResizeMode="CanResizeWithGrip"
-    ShowTitleBar="True"
-    WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
-    WindowTransitionsEnabled="False"
-    mc:Ignorable="d">
+﻿<controls:MetroWindow x:Class="GestionCommerciale.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                      xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+                      xmlns:dxnb="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      Title="ITcastle Solutions: Gestion commériale V2.0 - 2015"
+                      Width="1100"
+                      Height="867"
+                      EnableDWMDropShadow="True"
+                      FlowDirection="LeftToRight"
+                      Icon="/GestionCommerciale;component/icon.ico"
+                      Loaded="Window_Loaded"
+                      ResizeMode="CanResizeWithGrip"
+                      ShowTitleBar="True"
+                      WindowStartupLocation="CenterScreen"
+                      WindowState="Maximized"
+                      WindowTransitionsEnabled="False"
+                      mc:Ignorable="d">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button
-                x:Name="FlayoutBtn"
-                Click="FlayoutBtn_OnClick"
-                Content="Flayout" />
+            <Button x:Name="FlayoutBtn"
+                    Click="FlayoutBtn_OnClick"
+                    Content="Flayout" />
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout
-                x:Name="SettingsFlyout"
-                Width="200"
-                Header="Flyout"
-                IsOpen="False"
-                Position="Right">
-                <!-- Your custom content here -->
+            <controls:Flyout x:Name="SettingsFlyout"
+                             Width="200"
+                             Header="Flyout"
+                             IsOpen="False"
+                             Position="Right">
+                <!--  Your custom content here  -->
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
@@ -49,188 +46,162 @@
             <RowDefinition Height="52" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image
-            x:Name="HeaderImage"
-            Height="50"
-            Margin="0"
-            VerticalAlignment="Top"
-            Source="/GestionCommerciale;component/Images/banner.jpg"
-            Stretch="Fill" />
-        <dxd:DockLayoutManager
-            x:Name="main_layout"
-            Grid.Row="1">
+        <Image x:Name="HeaderImage"
+               Height="50"
+               Margin="0"
+               VerticalAlignment="Top"
+               Source="pack://application:,,,/GestionCommerciale;component/Images/Headers/blue.jpg"
+               Stretch="Fill" />
+        <Image Name="image20"
+               Width="150"
+               Height="50"
+               Margin="0,0,15,0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Opacity="0.6"
+               Source="/GestionCommerciale;component/Images/logo.png"
+               Stretch="Fill" />
+        <Grid Name="TopMenuGrid"
+              Grid.Row="0"
+              Grid.RowSpan="2"
+              Width="650"
+              Height="450"
+              Margin="10,0,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Panel.ZIndex="1000" />
+        <dxd:DockLayoutManager x:Name="main_layout" Grid.Row="1">
             <dxd:LayoutGroup Orientation="Vertical">
 
                 <dxd:LayoutGroup Orientation="Horizontal">
-                    <dxd:LayoutPanel
-                        Padding="1"
-                        BorderBrush="#FF723E3E"
-                        Caption="navigation"
-                        FontSize="20"
-                        ItemWidth="200"
-                        ShowCaption="False"
-                        ShowCloseButton="False">
-                        <dxnb:NavBarControl
-                            x:Name="navBarControl"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            FontStyle="Normal"
-                            FontWeight="Normal">
+                    <dxd:LayoutPanel BorderBrush="#FF723E3E"
+                                     Caption="navigation"
+                                     FontSize="20"
+                                     ItemWidth="200"
+                                     Padding="1"
+                                     ShowCaption="False"
+                                     ShowCloseButton="False">
+                        <dxnb:NavBarControl x:Name="navBarControl"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            FontStyle="Normal"
+                                            FontWeight="Normal">
                             <dxnb:NavBarControl.Groups>
-                                <dxnb:NavBarGroup
-                                    Header="Produits"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/produits.png">
-                                    <dxnb:NavBarItem
-                                        Name="StockStateNavBtn"
-                                        Click="StockStateNavBtn_Click"
-                                        Content="Etat du stock"
-                                        ImageSource="Images/Icons/Item.png" />
-                                    <dxnb:NavBarItem
-                                        Name="StockInitializeNavBtn"
-                                        Click="StockInitializeNavBtn_OnClick"
-                                        Content="Initialiser un produit"
-                                        ImageSource="Images/Icons/Item.png" />
+                                <dxnb:NavBarGroup Header="Produits" ImageSource="/GestionCommerciale;component/Images/Business_menu/produits.png">
+                                    <dxnb:NavBarItem Name="StockStateNavBtn"
+                                                     Click="StockStateNavBtn_Click"
+                                                     Content="Etat du stock"
+                                                     ImageSource="Images/Icons/Item.png" />
+                                    <dxnb:NavBarItem Name="StockInitializeNavBtn"
+                                                     Click="StockInitializeNavBtn_OnClick"
+                                                     Content="Initialiser un produit"
+                                                     ImageSource="Images/Icons/Item.png" />
 
-                                    <dxnb:NavBarItem
-                                        Name="ListProductsNavBtn"
-                                        Click="ListProductsNavBtn_Click"
-                                        Content="Mes produits"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddProductNavBtn"
-                                        Click="AddProductNavBtn_Click"
-                                        Content="Ajouter un produit"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+                                    <dxnb:NavBarItem Name="ListProductsNavBtn"
+                                                     Click="ListProductsNavBtn_Click"
+                                                     Content="Mes produits"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddProductNavBtn"
+                                                     Click="AddProductNavBtn_Click"
+                                                     Content="Ajouter un produit"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
                                 </dxnb:NavBarGroup>
-                                <dxnb:NavBarGroup
-                                    Header="Achats"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListPurchasesNavBtn"
-                                        Click="ListPurchasesNavBtn_Click"
-                                        Content="Mes Achats"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddPurchaseNavBtn"
-                                        Click="AddPurchaseNavBtn_Click"
-                                        Content="Effectuer un achat"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
-                                    <dxnb:NavBarItem
-                                        Content="Statistiques des achats"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/statistique.png"
-                                        IsVisible="False" />
+                                <dxnb:NavBarGroup Header="Achats" ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
+                                    <dxnb:NavBarItem Name="ListPurchasesNavBtn"
+                                                     Click="ListPurchasesNavBtn_Click"
+                                                     Content="Mes Achats"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddPurchaseNavBtn"
+                                                     Click="AddPurchaseNavBtn_Click"
+                                                     Content="Effectuer un achat"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+                                    <dxnb:NavBarItem Content="Statistiques des achats"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/statistique.png"
+                                                     IsVisible="False" />
+                                    <dxnb:NavBarItem Name="ListCommandsNavBtn"
+                                                     Click="ListCommandsNavBtn_Click"
+                                                     Content="Mes commandes"
+                                                     ImageSource="{dx:DXImage Image=InsertHeader_32x32.png}" />
+
                                 </dxnb:NavBarGroup>
 
-                                <dxnb:NavBarGroup
-                                    Header="Ventes"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListSalesNavBtn"
-                                        Click="ListSalesNavBtn_Click"
-                                        Content="Mes Ventes"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddSaleNavBtn"
-                                        Click="AddSaleNavBtn_Click"
-                                        Content="Effectuer une vente"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
-                                    <dxnb:NavBarItem
-                                        Content="Statistiques des ventes"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/statistique.png"
-                                        IsVisible="False" />
+                                <dxnb:NavBarGroup Header="Ventes" ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png">
+                                    <dxnb:NavBarItem Name="ListSalesNavBtn"
+                                                     Click="ListSalesNavBtn_Click"
+                                                     Content="Mes Ventes"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddSaleNavBtn"
+                                                     Click="AddSaleNavBtn_Click"
+                                                     Content="Effectuer une vente"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+                                    <dxnb:NavBarItem Content="Statistiques des ventes"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/statistique.png"
+                                                     IsVisible="False" />
+                                    <dxnb:NavBarItem Name="ListInvoicesNavBtn"
+                                                     Click="ListInvoicesNavBtn_Click"
+                                                     Content="Mes factures"
+                                                     ImageSource="pack://application:,,,/GestionCommerciale;component/Images/Business_menu/factures.png" />
+
                                 </dxnb:NavBarGroup>
 
-                                <dxnb:NavBarGroup
-                                    Header="Facturations"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/factures.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListInvoicesNavBtn"
-                                        Click="ListInvoicesNavBtn_Click"
-                                        Content="Mes factures"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="NewInvoiceNavBtn"
-                                        Click="NewInvoiceNavBtn_Click"
-                                        Content="Etablir une facture"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+
+                                <dxnb:NavBarGroup Header="Fournisseurs" ImageSource="/GestionCommerciale;component/Images/Business_menu/fournisseurs.png">
+                                    <dxnb:NavBarItem Name="ListSupplierNavBtn"
+                                                     Click="ListSupplierNavBtn_Click"
+                                                     Content="Mes fournisseurs"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddSupplierNavBtn"
+                                                     Click="AddSupplierNavBtn_click"
+                                                     Content="Nouveau fournisseur"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
                                 </dxnb:NavBarGroup>
 
-                                <dxnb:NavBarGroup
-                                    Header="Fournisseurs"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/fournisseurs.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListSupplierNavBtn"
-                                        Click="ListSupplierNavBtn_Click"
-                                        Content="Mes fournisseurs"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddSupplierNavBtn"
-                                        Click="AddSupplierNavBtn_click"
-                                        Content="Nouveau fournisseur"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+                                <dxnb:NavBarGroup Header="Clients" ImageSource="/GestionCommerciale;component/Images/Business_menu/clients.png">
+                                    <dxnb:NavBarItem Name="ListCustomersNavBtn"
+                                                     Click="ListCustomersNavBtn_Click"
+                                                     Content="Mes clients"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddCustomerNavBtn"
+                                                     Click="AddCustomerNavBtn_Click"
+                                                     Content="Nouveau client"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
                                 </dxnb:NavBarGroup>
 
-                                <dxnb:NavBarGroup
-                                    Header="Clients"
-                                    ImageSource="/GestionCommerciale;component/Images/Business_menu/clients.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListCustomersNavBtn"
-                                        Click="ListCustomersNavBtn_Click"
-                                        Content="Mes clients"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddCustomerNavBtn"
-                                        Click="AddCustomerNavBtn_Click"
-                                        Content="Nouveau client"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
-                                </dxnb:NavBarGroup>
-
-                                <dxnb:NavBarGroup
-                                    Header="Employées"
-                                    ImageSource="Images/Icons/Group.png">
-                                    <dxnb:NavBarItem
-                                        Name="ListEmployeesNavBtn"
-                                        Click="ListEmployeesNavBtn_Click"
-                                        Content="Mes employées"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
-                                    <dxnb:NavBarItem
-                                        Name="AddEmployeeNavBtn"
-                                        Click="AddEmployeeNavBtn_Click"
-                                        Content="Nouveau employée"
-                                        ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
+                                <dxnb:NavBarGroup Header="Employées" ImageSource="Images/Icons/Group.png">
+                                    <dxnb:NavBarItem Name="ListEmployeesNavBtn"
+                                                     Click="ListEmployeesNavBtn_Click"
+                                                     Content="Mes employées"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                    <dxnb:NavBarItem Name="AddEmployeeNavBtn"
+                                                     Click="AddEmployeeNavBtn_Click"
+                                                     Content="Nouveau employée"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
 
                                 </dxnb:NavBarGroup>
 
                             </dxnb:NavBarControl.Groups>
                             <dxnb:NavBarControl.View>
-                                <dxnb:ExplorerBarView
-                                    HorizontalAlignment="Stretch"
-                                    Focusable="True"
-                                    FontSize="13"
-                                    FontStyle="Normal" />
+                                <dxnb:ExplorerBarView HorizontalAlignment="Stretch"
+                                                      Focusable="True"
+                                                      FontSize="13"
+                                                      FontStyle="Normal" />
                             </dxnb:NavBarControl.View>
                         </dxnb:NavBarControl>
                     </dxd:LayoutPanel>
-                    <dxd:LayoutGroup
-                        ItemWidth="4*"
-                        Orientation="Vertical">
-                        <dxd:LayoutPanel
-                            Caption="MainView"
-                            ItemHeight="3*"
-                            ShowCaption="False"
-                            ShowCloseButton="False">
-                            <dx:DXTabControl
-                                x:Name="MainTabControl"
-                                FontSize="13">
+                    <dxd:LayoutGroup ItemWidth="4*" Orientation="Vertical">
+                        <dxd:LayoutPanel Caption="MainView"
+                                         ItemHeight="3*"
+                                         ShowCaption="False"
+                                         ShowCloseButton="False">
+                            <dx:DXTabControl x:Name="MainTabControl" FontSize="13">
                                 <dx:DXTabControl.View>
-                                    <dx:TabControlMultiLineView
-                                        AllowHideTabItems="True"
-                                        CloseHeaderMenuOnItemSelecting="True"
-                                        HeaderLocation="Top"
-                                        RemoveTabItemsOnHiding="True"
-                                        ShowDisabledTabItemsInHeaderMenu="True"
-                                        ShowHeaderMenu="True"
-                                        ShowHiddenTabItemsInHeaderMenu="True" />
+                                    <dx:TabControlMultiLineView AllowHideTabItems="True"
+                                                                CloseHeaderMenuOnItemSelecting="True"
+                                                                HeaderLocation="Top"
+                                                                RemoveTabItemsOnHiding="True"
+                                                                ShowDisabledTabItemsInHeaderMenu="True"
+                                                                ShowHeaderMenu="True"
+                                                                ShowHiddenTabItemsInHeaderMenu="True" />
                                 </dx:DXTabControl.View>
                             </dx:DXTabControl>
                         </dxd:LayoutPanel>
@@ -238,25 +209,5 @@
                 </dxd:LayoutGroup>
             </dxd:LayoutGroup>
         </dxd:DockLayoutManager>
-        <Image
-            Name="image20"
-            Height="50"
-            Width="150"
-            Margin="0,0,15,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Opacity="0.6"
-            Source="/GestionCommerciale;component/Images/logo.png"
-            Stretch="Fill" />
-        <Grid
-            Name="TopMenuGrid"
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Height="450"
-            Width="650"
-            Margin="10,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Panel.ZIndex="1000" />
     </Grid>
 </controls:MetroWindow>

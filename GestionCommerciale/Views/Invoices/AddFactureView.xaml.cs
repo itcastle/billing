@@ -4,17 +4,15 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.LayoutControl;
-using DevExpress.Xpf.Printing;
+using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.Modals;
 using GestionCommerciale.Modals.TVA;
-using GestionCommerciale.DomainModel;
-using GestionCommerciale.DomainModel.Validator;
 
-namespace GestionCommerciale.Views.InvoiceFolder
+namespace GestionCommerciale.Views.Invoices
 {
 
     /// <summary>
@@ -268,7 +266,7 @@ namespace GestionCommerciale.Views.InvoiceFolder
 
         private void FactureControl_GotFocus(object sender, RoutedEventArgs e)
         {
-            CbTva.ItemsSource = _tvaClient.GetTva();
+            CbTva.ItemsSource = _tvaClient.GetAllTvas();
             if (CbTva.SelectedIndex < 0) CbTva.SelectedIndex = 0;
             CbTva.DisplayMember = "TauxTVA";
 

@@ -8,7 +8,7 @@ namespace GestionCommerciale.DomainModel
     public class TvaClient
     {
         private GcdbEntities _gestionDb;
-        public List<TVA> GetTva()
+        public List<TVA> GetAllTvas()
         {
             try
             {
@@ -43,6 +43,20 @@ namespace GestionCommerciale.DomainModel
                 _gestionDb = new GcdbEntities();
 
                 return _gestionDb.TVAs.Single(tva => tva.Description.Equals(name));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public TVA GetTvaByValue(float value)
+        {
+            try
+            {
+                _gestionDb = new GcdbEntities();
+
+                return _gestionDb.TVAs.FirstOrDefault(tva => tva.TauxTVA*100 == value);
             }
             catch (Exception)
             {
