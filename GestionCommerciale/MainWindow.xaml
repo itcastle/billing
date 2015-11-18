@@ -124,8 +124,9 @@
                                                      ImageSource="{dx:DXImage Image=InsertHeader_32x32.png}" />
 
                                 </dxnb:NavBarGroup>
-
-                                <dxnb:NavBarGroup Header="Ventes" ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png">
+                                <dxnb:NavBarGroup Header="Ventes"
+                                                  ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png"
+                                                  IsVisible="False">
                                     <dxnb:NavBarItem Name="ListSalesNavBtn"
                                                      Click="ListSalesNavBtn_Click"
                                                      Content="Mes Ventes"
@@ -155,8 +156,9 @@
                                                      Content="Nouveau fournisseur"
                                                      ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
                                 </dxnb:NavBarGroup>
-
-                                <dxnb:NavBarGroup Header="Clients" ImageSource="/GestionCommerciale;component/Images/Business_menu/clients.png">
+                                <dxnb:NavBarGroup Header="Clients"
+                                                  ImageSource="/GestionCommerciale;component/Images/Business_menu/clients.png"
+                                                  IsVisible="False">
                                     <dxnb:NavBarItem Name="ListCustomersNavBtn"
                                                      Click="ListCustomersNavBtn_Click"
                                                      Content="Mes clients"
