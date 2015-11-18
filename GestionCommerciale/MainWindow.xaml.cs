@@ -135,7 +135,18 @@ namespace GestionCommerciale
 
         }
 
-        
+        //
+        private void ListServicesNavBtn_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void AddServicesNavBtn_Click(object sender, EventArgs e)
+        {
+            
+
+        }
     }
 
 }

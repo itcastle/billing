@@ -1,0 +1,143 @@
+﻿<dx:DXWindow x:Class="GestionCommerciale.Views.NewServiceWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             Title="Nouveau Service"
+             Width="400"
+             Height="270"
+             Loaded="NewServiceWindow_OnLoaded"
+             WindowStartupLocation="CenterScreen">
+
+    <StackPanel Orientation="Vertical" dx:ThemeManager.Theme="MetropolisLight">
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+            <Label Width="150"
+                   Height="Auto"
+                   Margin="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Right"
+                   Content="Service :"
+                   FontSize="12"
+                   FontStyle="Normal"
+                   FontWeight="Bold"
+                   Padding="15" />
+            <dxe:TextEdit x:Name="ServiceNameTxt"
+                          Grid.Column="2"
+                          Width="215"
+                          Height="28"
+                          Margin="0,5"
+                          VerticalAlignment="Center"
+                          FontSize="14"
+                          FontStyle="Normal"
+                          TabIndex="0" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+            <Label Width="150"
+                   Height="Auto"
+                   Margin="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Right"
+                   Content="Famille :"
+                   FontSize="12"
+                   FontStyle="Normal"
+                   FontWeight="Bold"
+                   Padding="15" />
+            <dxe:TextEdit x:Name="ServiceFamilleTxt"
+                          Width="215"
+                          Height="28"
+                          Margin="0,5"
+                          VerticalAlignment="Center"
+                          FontSize="14"
+                          FontStyle="Normal"
+                          TabIndex="0" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+            <Label Width="150"
+                   Height="Auto"
+                   Margin="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Right"
+                   Content="Prix HT :"
+                   FontSize="12"
+                   FontStyle="Normal"
+                   FontWeight="Bold"
+                   Padding="15" />
+            <dxe:TextEdit x:Name="ServicePriceHTtxt"
+                          Grid.Column="2"
+                          Width="215"
+                          Height="28"
+                          Margin="0,5"
+                          VerticalAlignment="Center"
+                          FontSize="14"
+                          FontStyle="Normal"
+                          TabIndex="1" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    Visibility="Hidden">
+            <Label Width="150"
+                   Height="Auto"
+                   Margin="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Right"
+                   Content=""
+                   FontSize="12"
+                   FontStyle="Normal"
+                   FontWeight="Bold"
+                   Padding="15" />
+            <dxe:CheckEdit x:Name="FavoriteServiceCheckBox"
+                           Width="150"
+                           Margin="0,5"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Content="Service favoris"
+                           FontSize="12"
+                           FontStyle="Normal"
+                           FontWeight="Bold"
+                           TabIndex="2" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top"
+                    FlowDirection="RightToLeft"
+                    Orientation="Horizontal">
+            <Button x:Name="SaveServiceBtn"
+                    Width="140"
+                    Height="40"
+                    Margin="20,0"
+                    Click="SaveBtn_OnClick"
+                    FlowDirection="LeftToRight"
+                    IsDefault="True">
+                <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
+                    <Image Source="/resources/Images/Icons/save.png" />
+                    <Label VerticalContentAlignment="Center"
+                           Content="Enregistrer"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Padding="10,0,0,0" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="CancelBtn"
+                    Width="140"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    Click="CancelBtn_OnClick"
+                    FlowDirection="LeftToRight"
+                    IsCancel="True"
+                    TabIndex="4">
+                <StackPanel Margin="10,1"
+                            FlowDirection="LeftToRight"
+                            Orientation="Horizontal">
+                    <Image Source="/resources/Images/Icons/close.png" />
+                    <Label VerticalContentAlignment="Center"
+                           Content="Annuler"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Padding="10,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</dx:DXWindow>

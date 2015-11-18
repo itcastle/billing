@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesClients\CategoriesClient.cs" />
+    <Compile Include="ClassesClients\ClientManager.cs" />
     <Compile Include="ClassesClients\CommandManager.cs" />
     <Compile Include="ClassesClients\CustomersManager.cs" />
     <Compile Include="ClassesClients\DocModelsManager.cs" />
@@ -103,10 +104,17 @@
     <Compile Include="ClassesClients\PassWordClient.cs" />
     <Compile Include="ClassesClients\ProductManger.cs" />
     <Compile Include="ClassesClients\SaveBDD.cs" />
+    <Compile Include="ClassesClients\ServiceManager.cs" />
     <Compile Include="ClassesClients\SettingsClient.cs" />
     <Compile Include="ClassesClients\StockManager.cs" />
     <Compile Include="ClassesClients\WhoEmployee.cs" />
     <Compile Include="Entities\Category.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\client.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\clientprovidertype.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\Command.cs">
@@ -163,6 +171,9 @@
     <Compile Include="Entities\ProductState.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\profession.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Provider.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -170,6 +181,18 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\PurchaseStore.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\service.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\servicefacture.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\servicefacturestore.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\servicemodel.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\Setting.cs">
@@ -191,6 +214,12 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\TVA.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ventefacture.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ventemodel.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Invoice\CustomerOrder.cs" />

@@ -49,5 +49,14 @@ namespace GestionCommerciale.DomainModel.Entities
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Telephone> Telephones { get; set; }
         public virtual DbSet<TVA> TVAs { get; set; }
+        public virtual DbSet<service> services { get; set; }
+        public virtual DbSet<client> clients { get; set; }
+        public virtual DbSet<clientprovidertype> clientprovidertypes { get; set; }
+        public virtual DbSet<profession> professions { get; set; }
+        public virtual DbSet<servicefacture> servicefactures { get; set; }
+        public virtual DbSet<servicefacturestore> servicefacturestores { get; set; }
+        public virtual DbSet<servicemodel> servicemodels { get; set; }
+        public virtual DbSet<ventefacture> ventefactures { get; set; }
+        public virtual DbSet<ventemodel> ventemodels { get; set; }
     }
 }

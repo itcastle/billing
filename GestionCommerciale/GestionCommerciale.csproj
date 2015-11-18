@@ -213,6 +213,20 @@
     <Compile Include="Dialogs\TVA\TVADialog.xaml.cs">
       <DependentUpon>TVADialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FactureFolder\FactureService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FactureFolder\FactureService.Designer.cs">
+      <DependentUpon>FactureService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FactureFolder\ServicesDataTable.cs">
+      <DependentUpon>ServicesDataTable.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FactureFolder\ServicesDataTable.Designer.cs">
+      <DependentUpon>ServicesDataTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\MvvmHelpers.cs" />
     <Compile Include="Licence.xaml.cs">
@@ -221,6 +235,7 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseOperationsHelper.cs" />
     <Compile Include="TopMenu.xaml.cs">
       <DependentUpon>TopMenu.xaml</DependentUpon>
     </Compile>
@@ -258,6 +273,12 @@
     </Compile>
     <Compile Include="Views\Invoices\FactureView.xaml.cs">
       <DependentUpon>FactureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewModelNameWindow.xaml.cs">
+      <DependentUpon>NewModelNameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewServiceWindow.xaml.cs">
+      <DependentUpon>NewServiceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Options\GeneralParams.xaml.cs">
       <DependentUpon>GeneralParams.xaml</DependentUpon>
@@ -298,6 +319,9 @@
     <Compile Include="Views\Sales\ProductSaleDetails.xaml.cs">
       <DependentUpon>ProductSaleDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ServiceFolder\ServiceView.xaml.cs">
+      <DependentUpon>ServiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Statistics\StatisticsView.xaml.cs">
       <DependentUpon>StatisticsView.xaml</DependentUpon>
     </Compile>
@@ -315,6 +339,9 @@
     </Compile>
     <Compile Include="Views\TVAs\AddTvaView.xaml.cs">
       <DependentUpon>AddTvaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateService.xaml.cs">
+      <DependentUpon>UpdateService.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -334,12 +361,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="FactureFolder\FactureService.resx">
+      <DependentUpon>FactureService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.Config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="FactureFolder\ServicesDataTable.xsc">
+      <DependentUpon>ServicesDataTable.xsd</DependentUpon>
+    </None>
+    <None Include="FactureFolder\ServicesDataTable.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ServicesDataTable1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="FactureFolder\ServicesDataTable.xss">
+      <DependentUpon>ServicesDataTable.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -445,6 +486,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\NewModelNameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NewServiceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Options\GeneralParams.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -497,6 +546,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ServiceFolder\ServiceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Statistics\StatisticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -518,6 +571,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TVAs\AddTvaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateService.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

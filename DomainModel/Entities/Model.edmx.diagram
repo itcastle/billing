@@ -55,6 +55,15 @@
         <AssociationConnector Association="gcdbModel.FK_StockStore_Stock" />
         <AssociationConnector Association="gcdbModel.Measure" />
         <AssociationConnector Association="gcdbModel.State" />
+        <EntityTypeShape EntityType="gcdbModel.service" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gcdbModel.client" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="gcdbModel.clientprovidertype" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="gcdbModel.profession" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="gcdbModel.servicefacture" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="gcdbModel.servicefacturestore" Width="1.5" PointX="12.375" PointY="4.75" />
+        <EntityTypeShape EntityType="gcdbModel.servicemodel" Width="1.5" PointX="13.375" PointY="8.75" />
+        <EntityTypeShape EntityType="gcdbModel.ventefacture" Width="1.5" PointX="13.375" PointY="12.75" />
+        <EntityTypeShape EntityType="gcdbModel.ventemodel" Width="1.5" PointX="14.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

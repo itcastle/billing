@@ -124,6 +124,14 @@
                                                      ImageSource="{dx:DXImage Image=InsertHeader_32x32.png}" />
 
                                 </dxnb:NavBarGroup>
+                                <dxnb:NavBarGroup Header="Services" ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
+                                    <dxnb:NavBarItem Name="ListServicesNavBtn"
+                                                     Click="ListServicesNavBtn_Click"
+                                                     Content="Mes Services"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+
+
+                                </dxnb:NavBarGroup>
                                 <dxnb:NavBarGroup Header="Ventes"
                                                   ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png"
                                                   IsVisible="False">
