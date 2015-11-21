@@ -19,9 +19,9 @@ namespace GestionCommerciale.DomainModel.Entities
         {
             this.OrderDetails = new HashSet<OrderDetail>();
             this.PurchaseStores = new HashSet<PurchaseStore>();
-            this.StockStores = new HashSet<StockStore>();
             this.ProductMeasures = new HashSet<ProductMeasure>();
             this.ProductStates = new HashSet<ProductState>();
+            this.StockStores = new HashSet<StockStore>();
         }
     
         public int ProductID { get; set; }
@@ -49,10 +49,10 @@ namespace GestionCommerciale.DomainModel.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseStore> PurchaseStores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockStore> StockStores { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductMeasure> ProductMeasures { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductState> ProductStates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockStore> StockStores { get; set; }
     }
 }

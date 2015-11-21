@@ -44,7 +44,6 @@ namespace GestionCommerciale.DomainModel.Entities
         public virtual DbSet<PurchaseStore> PurchaseStores { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
-        public virtual DbSet<StockStore> StockStores { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Telephone> Telephones { get; set; }
@@ -58,5 +57,6 @@ namespace GestionCommerciale.DomainModel.Entities
         public virtual DbSet<servicemodel> servicemodels { get; set; }
         public virtual DbSet<ventefacture> ventefactures { get; set; }
         public virtual DbSet<ventemodel> ventemodels { get; set; }
+        public virtual DbSet<StockStore> StockStores { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="gcdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="gcdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -429,6 +429,8 @@
           <Property Name="Serialnumber" Type="nvarchar" MaxLength="50" />
           <Property Name="StockageID" Type="nvarchar" MaxLength="50" />
           <Property Name="InsertionDate" Type="datetime" />
+          <Property Name="DateOfStartPremption" Type="datetime" />
+          <Property Name="DateOfEndPremption" Type="datetime" />
           <Property Name="TotalPriceAchat" Type="float" />
           <Property Name="UnitsOnOrder" Type="float" />
           <Property Name="PurchasePrice" Type="float" />
@@ -1001,7 +1003,6 @@
           <EntitySet Name="PurchaseStores" EntityType="gcdbModel.PurchaseStore" />
           <EntitySet Name="Settings" EntityType="gcdbModel.Setting" />
           <EntitySet Name="Stocks" EntityType="gcdbModel.Stock" />
-          <EntitySet Name="StockStores" EntityType="gcdbModel.StockStore" />
           <EntitySet Name="SubCategories" EntityType="gcdbModel.SubCategory" />
           <EntitySet Name="sysdiagrams" EntityType="gcdbModel.sysdiagram" />
           <EntitySet Name="Telephones" EntityType="gcdbModel.Telephone" />
@@ -1078,10 +1079,6 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="PurchaseStore" EntitySet="PurchaseStores" />
           </AssociationSet>
-          <AssociationSet Name="FK_StockStore_Product" Association="gcdbModel.FK_StockStore_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StockStore" EntitySet="StockStores" />
-          </AssociationSet>
           <AssociationSet Name="FK_Purchase_Suppliers" Association="gcdbModel.FK_Purchase_Suppliers">
             <End Role="Provider" EntitySet="Providers" />
             <End Role="Purchase" EntitySet="Purchases" />
@@ -1093,14 +1090,6 @@
           <AssociationSet Name="FK_PurchaseStore_Purchase" Association="gcdbModel.FK_PurchaseStore_Purchase">
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseStore" EntitySet="PurchaseStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseStore_StockStore" Association="gcdbModel.FK_PurchaseStore_StockStore">
-            <End Role="StockStore" EntitySet="StockStores" />
-            <End Role="PurchaseStore" EntitySet="PurchaseStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockStore_Stock" Association="gcdbModel.FK_StockStore_Stock">
-            <End Role="Stock" EntitySet="Stocks" />
-            <End Role="StockStore" EntitySet="StockStores" />
           </AssociationSet>
           <AssociationSet Name="Measure" Association="gcdbModel.Measure">
             <End Role="Product" EntitySet="Products" />
@@ -1119,7 +1108,20 @@
           <EntitySet Name="servicemodels" EntityType="gcdbModel.servicemodel" />
           <EntitySet Name="ventefactures" EntityType="gcdbModel.ventefacture" />
           <EntitySet Name="ventemodels" EntityType="gcdbModel.ventemodel" />
-        </EntityContainer>
+          <EntitySet Name="StockStores" EntityType="gcdbModel.StockStore" />
+          <AssociationSet Name="FK_StockStore_Product" Association="gcdbModel.FK_StockStore_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StockStore" EntitySet="StockStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseStore_StockStore" Association="gcdbModel.FK_PurchaseStore_StockStore">
+            <End Role="StockStore" EntitySet="StockStores" />
+            <End Role="PurchaseStore" EntitySet="PurchaseStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockStore_Stock" Association="gcdbModel.FK_StockStore_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockStore" EntitySet="StockStores" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -1340,9 +1342,9 @@
           <NavigationProperty Name="OrderDetails" Relationship="gcdbModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="SubCategory" Relationship="gcdbModel.FK_Product_SubCategorie" FromRole="Product" ToRole="SubCategory" />
           <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_Product" FromRole="Product" ToRole="PurchaseStore" />
-          <NavigationProperty Name="StockStores" Relationship="gcdbModel.FK_StockStore_Product" FromRole="Product" ToRole="StockStore" />
           <NavigationProperty Name="ProductMeasures" Relationship="gcdbModel.Measure" FromRole="Product" ToRole="ProductMeasure" />
           <NavigationProperty Name="ProductStates" Relationship="gcdbModel.State" FromRole="Product" ToRole="ProductState" />
+          <NavigationProperty Name="StockStores" Relationship="gcdbModel.FK_StockStore_Product" FromRole="Product" ToRole="StockStore" />
         </EntityType>
         <EntityType Name="ProductState">
           <Key>
@@ -1464,32 +1466,6 @@
           <Property Name="StockName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StockAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="StockStores" Relationship="gcdbModel.FK_StockStore_Stock" FromRole="Stock" ToRole="StockStore" />
-        </EntityType>
-        <EntityType Name="StockStore">
-          <Key>
-            <PropertyRef Name="StockStoreID" />
-          </Key>
-          <Property Name="StockStoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="StockID" Type="Int32" />
-          <Property Name="ProductState" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RefrenceNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Serialnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StockageID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InsertionDate" Type="DateTime" Precision="3" />
-          <Property Name="TotalPriceAchat" Type="Double" />
-          <Property Name="UnitsOnOrder" Type="Double" />
-          <Property Name="PurchasePrice" Type="Double" />
-          <Property Name="VentePriceGros" Type="Double" />
-          <Property Name="VentePriceDetail" Type="Double" />
-          <Property Name="VentePriceComptoire" Type="Double" />
-          <Property Name="TvaValue" Type="Double" />
-          <Property Name="Discount" Type="Single" />
-          <Property Name="Observation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="gcdbModel.FK_StockStore_Product" FromRole="StockStore" ToRole="Product" />
-          <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_StockStore" FromRole="StockStore" ToRole="PurchaseStore" />
-          <NavigationProperty Name="Stock" Relationship="gcdbModel.FK_StockStore_Stock" FromRole="StockStore" ToRole="Stock" />
         </EntityType>
         <EntityType Name="SubCategory">
           <Key>
@@ -1749,18 +1725,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StockStore_Product">
-          <End Type="gcdbModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="StockStore">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Purchase_Suppliers">
           <End Type="gcdbModel.Provider" Role="Provider" Multiplicity="0..1" />
           <End Type="gcdbModel.Purchase" Role="Purchase" Multiplicity="*" />
@@ -1796,30 +1760,6 @@
             </Principal>
             <Dependent Role="PurchaseStore">
               <PropertyRef Name="PurchaseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseStore_StockStore">
-          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="0..1" />
-          <End Type="gcdbModel.PurchaseStore" Role="PurchaseStore" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockStore">
-              <PropertyRef Name="StockStoreID" />
-            </Principal>
-            <Dependent Role="PurchaseStore">
-              <PropertyRef Name="StockStoreID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockStore_Stock">
-          <End Type="gcdbModel.Stock" Role="Stock" Multiplicity="0..1" />
-          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stock">
-              <PropertyRef Name="StockID" />
-            </Principal>
-            <Dependent Role="StockStore">
-              <PropertyRef Name="StockID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1955,7 +1895,71 @@
           <Property Name="VenteTVA" Type="Double" />
           <Property Name="ProductDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-      </Schema>
+        <EntityType Name="StockStore">
+          <Key>
+            <PropertyRef Name="StockStoreID" />
+          </Key>
+          <Property Name="StockStoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="StockID" Type="Int32" />
+          <Property Name="ProductState" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RefrenceNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Serialnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StockageID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertionDate" Type="DateTime" Precision="3" />
+          <Property Name="DateOfStartPremption" Type="DateTime" Precision="3" />
+          <Property Name="DateOfEndPremption" Type="DateTime" Precision="3" />
+          <Property Name="TotalPriceAchat" Type="Double" />
+          <Property Name="UnitsOnOrder" Type="Double" />
+          <Property Name="PurchasePrice" Type="Double" />
+          <Property Name="VentePriceGros" Type="Double" />
+          <Property Name="VentePriceDetail" Type="Double" />
+          <Property Name="VentePriceComptoire" Type="Double" />
+          <Property Name="TvaValue" Type="Double" />
+          <Property Name="Discount" Type="Single" />
+          <Property Name="Observation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="gcdbModel.FK_StockStore_Product" FromRole="StockStore" ToRole="Product" />
+          <NavigationProperty Name="PurchaseStores" Relationship="gcdbModel.FK_PurchaseStore_StockStore" FromRole="StockStore" ToRole="PurchaseStore" />
+          <NavigationProperty Name="Stock" Relationship="gcdbModel.FK_StockStore_Stock" FromRole="StockStore" ToRole="Stock" />
+        </EntityType>
+        <Association Name="FK_StockStore_Product">
+          <End Type="gcdbModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="StockStore">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseStore_StockStore">
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="0..1" />
+          <End Type="gcdbModel.PurchaseStore" Role="PurchaseStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockStore">
+              <PropertyRef Name="StockStoreID" />
+            </Principal>
+            <Dependent Role="PurchaseStore">
+              <PropertyRef Name="StockStoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockStore_Stock">
+          <End Type="gcdbModel.Stock" Role="Stock" Multiplicity="0..1" />
+          <End Type="gcdbModel.StockStore" Role="StockStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="StockID" />
+            </Principal>
+            <Dependent Role="StockStore">
+              <PropertyRef Name="StockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -2280,30 +2284,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockStores">
-            <EntityTypeMapping TypeName="gcdbModel.StockStore">
-              <MappingFragment StoreEntitySet="StockStores">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
-                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
-                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
-                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
-                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
-                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
-                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
-                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
-                <ScalarProperty Name="StockageID" ColumnName="StockageID" />
-                <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
-                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
-                <ScalarProperty Name="ProductState" ColumnName="ProductState" />
-                <ScalarProperty Name="StockID" ColumnName="StockID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SubCategories">
             <EntityTypeMapping TypeName="gcdbModel.SubCategory">
               <MappingFragment StoreEntitySet="SubCategories">
@@ -2491,6 +2471,32 @@
                 <ScalarProperty Name="VenteModelDate" ColumnName="VenteModelDate" />
                 <ScalarProperty Name="VenteModelName" ColumnName="VenteModelName" />
                 <ScalarProperty Name="VenteModelID" ColumnName="VenteModelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockStores">
+            <EntityTypeMapping TypeName="gcdbModel.StockStore">
+              <MappingFragment StoreEntitySet="StockStores">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
+                <ScalarProperty Name="VentePriceComptoire" ColumnName="VentePriceComptoire" />
+                <ScalarProperty Name="VentePriceDetail" ColumnName="VentePriceDetail" />
+                <ScalarProperty Name="VentePriceGros" ColumnName="VentePriceGros" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
+                <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
+                <ScalarProperty Name="DateOfEndPremption" ColumnName="DateOfEndPremption" />
+                <ScalarProperty Name="DateOfStartPremption" ColumnName="DateOfStartPremption" />
+                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
+                <ScalarProperty Name="StockageID" ColumnName="StockageID" />
+                <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
+                <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />
+                <ScalarProperty Name="ProductState" ColumnName="ProductState" />
+                <ScalarProperty Name="StockID" ColumnName="StockID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="StockStoreID" ColumnName="StockStoreID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

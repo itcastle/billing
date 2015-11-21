@@ -28,10 +28,7 @@ namespace GestionCommerciale.DomainModel
            return qte;
        }
 
-       public string AddNewProductToStock(Product product,
-           float prixAchat, int qteAchter, float prixVenteGros,float prixVenteDetail,float prixVenteComptoire, float totalPriceHt,
-           string stockageId, string productSnumber, string productState,
-           string stockObs, DateTime insertionDate, string refrenceNum)
+       public string AddNewProductToStock(Product product, float prixAchat, int qteAchter, float prixVenteGros, float prixVenteDetail, float prixVenteComptoire, float totalPriceHt, string stockageId, string productSnumber, string productState, string stockObs, DateTime insertionDate, string refrenceNum, DateTime starTime, DateTime endTime)
        {
 
            try
@@ -55,7 +52,9 @@ namespace GestionCommerciale.DomainModel
                    Observation = stockObs,
                    InsertionDate = insertionDate,
                    RefrenceNum = refrenceNum,
-                   StockageID = stockageId
+                   StockageID = stockageId,
+                   DateOfEndPremption = endTime,
+                   DateOfStartPremption = starTime
                };
 
                gestionDb.StockStores.Add(newsStockStore);

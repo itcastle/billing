@@ -46,24 +46,21 @@ namespace GestionCommerciale.Views.Stocks
             _dataTable.Columns.Add("Catégorie", typeof(string));
             _dataTable.Columns.Add("Sous Catégorie", typeof(string));
             _dataTable.Columns.Add("Produit", typeof(string));
-            _dataTable.Columns.Add("Référence", typeof(string));
-            _dataTable.Columns.Add("Designation", typeof(string));
-            _dataTable.Columns.Add("Unité", typeof(string));
-
             _dataTable.Columns.Add("Qte Min", typeof(int));
             _dataTable.Columns.Add("Qte Max", typeof(int));
-
+            _dataTable.Columns.Add("Qte en stock", typeof(int));
+            _dataTable.Columns.Add("Référence", typeof(string));
+            _dataTable.Columns.Add("Unité", typeof(string));
             _dataTable.Columns.Add("Prix d'achat", typeof(float));
             _dataTable.Columns.Add("Prix de vente", typeof(float));
             _dataTable.Columns.Add("Prix Total", typeof(float));
-
+          
+            _dataTable.Columns.Add("Date Mise à jour", typeof(DateTime));
+            _dataTable.Columns.Add("Stockage ID", typeof(string));
+            _dataTable.Columns.Add("Designation", typeof(string));
             _dataTable.Columns.Add("Etat", typeof(string));
             _dataTable.Columns.Add("N° serie", typeof(string));
             _dataTable.Columns.Add("OBS", typeof(string));
-
-            _dataTable.Columns.Add("Qte en stock", typeof(int));
-            _dataTable.Columns.Add("Date Mise à jour", typeof(DateTime));
-            _dataTable.Columns.Add("Stockage ID", typeof(string));
             StockGridControl.ItemsSource = _dataTable.DefaultView;
             StockTableView.AutoWidth = false;
 
@@ -106,6 +103,22 @@ namespace GestionCommerciale.Views.Stocks
                 //****************************
                 StockGridControl.Columns[0].ShowInColumnChooser = true;
                 StockGridControl.Columns[0].Visible = false;
+                StockGridControl.Columns[1].ShowInColumnChooser = true;
+                StockGridControl.Columns[1].Visible = false;
+                StockGridControl.Columns[2].ShowInColumnChooser = true;
+                StockGridControl.Columns[2].Visible = false;
+                StockGridControl.Columns[8].ShowInColumnChooser = true;
+                StockGridControl.Columns[8].Visible = false;
+                StockGridControl.Columns[11].ShowInColumnChooser = true;
+                StockGridControl.Columns[11].Visible = false;
+                StockGridControl.Columns[13].ShowInColumnChooser = true;
+                StockGridControl.Columns[13].Visible = false;
+                StockGridControl.Columns[14].ShowInColumnChooser = true;
+                StockGridControl.Columns[14].Visible = false;
+                StockGridControl.Columns[16].ShowInColumnChooser = true;
+                StockGridControl.Columns[16].Visible = false;
+                StockGridControl.Columns[17].ShowInColumnChooser = true;
+                StockGridControl.Columns[17].Visible = false;
                 //***************************
                 StockTableView.ShowAutoFilterRow = true;
                 StockTableView.BestFitColumns();
@@ -168,9 +181,11 @@ namespace GestionCommerciale.Views.Stocks
                     string stockObs = StockObStxt.Text;
                     string refrenceNum = ReferenceTxt.Text;
                     DateTime insertionDate = ProductSaleDateDte.DateTime;
+                DateTime starTime = DateStartPremptionDte.DateTime;
+                DateTime endTime = DateEndPremptionDte.DateTime;
 
                     string result = _stockManager.AddNewProductToStock(_product, prixAchat, qteAchter,
-                        prixVenteGros,prixVenteDetail,prixVenteComptoire, totalPriceHt, stockageId, productSnumber, productState, stockObs, insertionDate, refrenceNum);
+                        prixVenteGros, prixVenteDetail, prixVenteComptoire, totalPriceHt, stockageId, productSnumber, productState, stockObs, insertionDate, refrenceNum, starTime, endTime);
                     DXMessageBox.Show(this, result);
                     RefreshFields_OnClick(null, null);
            

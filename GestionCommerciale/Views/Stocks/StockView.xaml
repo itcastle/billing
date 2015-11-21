@@ -185,7 +185,7 @@
                     <Label Grid.Row="0"
                            Grid.Column="2"
                            VerticalContentAlignment="Center"
-                           Content="ID stockage :"
+                           Content="Stockage :"
                            FontWeight="SemiBold"
                            Padding="5" />
                     <editors:TextEdit x:Name="StockageIDtxt"
@@ -241,13 +241,13 @@
                            VerticalContentAlignment="Center"
                            Content="Etat :"
                            FontWeight="SemiBold"
-                           Padding="5" />
+                           Padding="5" Visibility="Collapsed" />
                     <editors:ComboBoxEdit x:Name="ProductStateCBX"
                                           Grid.Row="2"
                                           Grid.Column="3"
                                           Height="33"
                                           Margin="0,1"
-                                          HorizontalContentAlignment="Center" />
+                                          HorizontalContentAlignment="Center" Visibility="Collapsed" />
                     <Label Grid.Row="3"
                            Grid.Column="0"
                            VerticalContentAlignment="Center"
@@ -268,12 +268,12 @@
                            VerticalContentAlignment="Center"
                            Content="Réference :"
                            FontWeight="SemiBold"
-                           Padding="5" />
+                           Padding="5" Visibility="Collapsed" />
                     <editors:TextEdit x:Name="ReferenceTxt"
                                       Grid.Row="3"
                                       Grid.Column="3"
                                       HorizontalContentAlignment="Center"
-                                      IsReadOnly="False" />
+                                      IsReadOnly="False" Visibility="Collapsed" />
                     <Label Grid.Row="4"
                            VerticalContentAlignment="Center"
                            Content="Prix de détail :"
@@ -290,14 +290,14 @@
                                       MaskType="Numeric"
                                       MaskUseAsDisplayFormat="True"
                                       TabIndex="3" />
-                    <Label Grid.Row="4"
+                    <Label Grid.Row="2"
                            Grid.Column="2"
                            VerticalContentAlignment="Center"
                            Content="Total HT :"
                            FontWeight="SemiBold"
                            Padding="5" />
                     <editors:TextEdit x:Name="TotalPrixTxt"
-                                      Grid.Row="4"
+                                      Grid.Row="2"
                                       Grid.Column="3"
                                       Height="33"
                                       Margin="0,1"
@@ -348,6 +348,26 @@
                                       Padding="0"
                                       TextWrapping="Wrap"
                                       VerticalScrollBarVisibility="Auto" />
+                    <Label Grid.Row="3"
+                    	VerticalContentAlignment="Center"
+                    	Content="Date Du :"
+                    	FontWeight="SemiBold"
+                    	Padding="5" Grid.Column="2" />
+                    <editors:DateEdit x:Name="DateStartPremptionDte"
+                    	Grid.Row="3"
+                    	Grid.Column="3"
+                    	Height="33"
+                    	Margin="0,1" />
+                    <Label Grid.Row="4"
+                    	VerticalContentAlignment="Center"
+                    	Content="Date Au :"
+                    	FontWeight="SemiBold"
+                    	Padding="5" Grid.Column="2" />
+                    <editors:DateEdit x:Name="DateEndPremptionDte"
+                    	Grid.Row="4"
+                    	Grid.Column="3"
+                    	Height="33"
+                    	Margin="0,1" />
                 </Grid>
             </core:GroupFrame>
             <StackPanel Grid.Row="0" Grid.Column="2">

@@ -28,6 +28,8 @@ namespace GestionCommerciale.DomainModel.Entities
         public string Serialnumber { get; set; }
         public string StockageID { get; set; }
         public Nullable<System.DateTime> InsertionDate { get; set; }
+        public Nullable<System.DateTime> DateOfStartPremption { get; set; }
+        public Nullable<System.DateTime> DateOfEndPremption { get; set; }
         public Nullable<double> TotalPriceAchat { get; set; }
         public Nullable<double> UnitsOnOrder { get; set; }
         public Nullable<double> PurchasePrice { get; set; }

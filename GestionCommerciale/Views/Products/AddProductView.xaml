@@ -69,7 +69,7 @@
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            VerticalContentAlignment="Center"
-                           Content="Category :"
+                           Content="Categorie :"
                            FontSize="12"
                            FontStyle="Normal"
                            FontWeight="Bold"
