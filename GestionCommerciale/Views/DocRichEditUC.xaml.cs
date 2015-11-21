@@ -65,7 +65,7 @@ namespace GestionCommerciale.Views
         private RichEditSearchPanel _SearchPanel;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-           // _UserControlOwnerWindow = Helper.GetTopParent(this) as Window;
+            _UserControlOwnerWindow = Helper.GetTopParent(this) as Window;
             _SearchPanel = Helper.FindVisualChildByName<RichEditSearchPanel>(DocRichEdit, "SearchPanel");
           
         }

@@ -13,7 +13,14 @@ namespace GestionCommerciale
 {
     public static class Helper
     {
-
+        public static DependencyObject GetTopParent(DependencyObject current)
+        {
+            while (VisualTreeHelper.GetParent(current) != null)
+            {
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return current;
+        }
         public static FileInfo[] GetFilesinfosFromFilesnames(String[] FilesNames)
         {
             List<FileInfo> files = new List<FileInfo>();

@@ -584,60 +584,6 @@ namespace GestionCommerciale.DomainModel.ClassesClients
           
        }
 
-       public static DataTable GetAllVenteFactures(DataTable dataTable)
-       {
 
-           try
-           {
-               var gpdb = new GcdbEntities();
-               var query = from m in gpdb.ventefactures
-                           select m;
-               if (!query.Any()) return dataTable;
-
-
-               int counter = 1;
-               foreach (var entity in query)
-               {
-                   var row = dataTable.NewRow();
-                   row["Ordre"] = counter++;
-                   row["Client"] = entity.ServiceClientFullName;
-                   row["Date"] = entity.VenteFactureDate;
-                   row["Type"] = entity.ServiceFactureType;
-                   row["N°"] = entity.VenteFactureID;
-
-                   dataTable.Rows.Add(row);
-               }
-               return dataTable;
-           }
-           catch (Exception)
-           {
-               return dataTable;
-           }
-       }
-
-       public static DataTable GetAllVenteModels(DataTable dataTable)
-       {
-           try
-           {
-               var gpdb = new GcdbEntities();
-               var query = from m in gpdb.ventemodels
-                           select m.VenteModelName;
-               if (!query.Any()) return dataTable;
-               query = query.Distinct();
-
-               foreach (string modelName in query)
-               {
-                   var row = dataTable.NewRow();
-                   row[0] = modelName;
-                   dataTable.Rows.Add(row);
-               }
-               return dataTable;
-           }
-           catch (Exception)
-           {
-               return dataTable;
-           }
-
-       }
     }
 }

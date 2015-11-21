@@ -53,7 +53,7 @@
           <Property Name="PurchaseID" Type="int" />
           <Property Name="DocumentID" Type="int" />
           <Property Name="Num" Type="nchar" MaxLength="10" />
-          <Property Name="Date" Type="datetime" />
+          <Property Name="Date" Type="date" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
@@ -97,7 +97,7 @@
           <Key>
             <PropertyRef Name="DocModelID" />
           </Key>
-          <Property Name="DocModelID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocModelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DocFile" Type="varbinary(max)" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar(max)" />
@@ -106,7 +106,7 @@
           <Key>
             <PropertyRef Name="DocumentID" />
           </Key>
-          <Property Name="DocumentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DocFile" Type="varbinary(max)" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
         </EntityType>
@@ -153,7 +153,6 @@
           <Property Name="Status" Type="int" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentID" Type="int" />
-          <Property Name="TvaValue" Type="float" />
         </EntityType>
         <EntityType Name="Measure">
           <Key>
@@ -428,9 +427,9 @@
           <Property Name="RefrenceNum" Type="nvarchar" MaxLength="50" />
           <Property Name="Serialnumber" Type="nvarchar" MaxLength="50" />
           <Property Name="StockageID" Type="nvarchar" MaxLength="50" />
-          <Property Name="InsertionDate" Type="datetime" />
           <Property Name="DateOfStartPremption" Type="datetime" />
           <Property Name="DateOfEndPremption" Type="datetime" />
+          <Property Name="InsertionDate" Type="datetime" />
           <Property Name="TotalPriceAchat" Type="float" />
           <Property Name="UnitsOnOrder" Type="float" />
           <Property Name="PurchasePrice" Type="float" />
@@ -478,35 +477,6 @@
           <Property Name="TVAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TauxTVA" Type="real" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="ventefactures">
-          <Key>
-            <PropertyRef Name="VenteFactureID" />
-          </Key>
-          <Property Name="VenteFactureID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VenteFactureDate" Type="datetime" />
-          <Property Name="ServiceFactureType" Type="nvarchar" MaxLength="50" />
-          <Property Name="ServiceModePayment" Type="nvarchar" MaxLength="50" />
-          <Property Name="ServiceEtatPayement" Type="nvarchar" MaxLength="50" />
-          <Property Name="ServiceTvaValue" Type="float" />
-          <Property Name="ServiceClientFullName" Type="nvarchar" MaxLength="255" />
-          <Property Name="ServiceCommandeNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="ServiceCommandeDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="ventemodels">
-          <Key>
-            <PropertyRef Name="VenteModelID" />
-          </Key>
-          <Property Name="VenteModelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VenteModelName" Type="nvarchar" MaxLength="50" />
-          <Property Name="VenteModelDate" Type="datetime" />
-          <Property Name="ProductID" Type="int" />
-          <Property Name="ProductName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ProductFamille" Type="nvarchar" MaxLength="50" />
-          <Property Name="ProductQte" Type="int" />
-          <Property Name="ProductPriceHT" Type="float" />
-          <Property Name="VenteTVA" Type="float" />
-          <Property Name="ProductDescription" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <Association Name="FK_Commands_Documents">
           <End Role="Documents" Type="Self.Documents" Multiplicity="0..1" />
@@ -592,19 +562,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Measure_ProductMeasures">
-          <End Role="ProductMeasures" Type="Self.ProductMeasures" Multiplicity="1" />
-          <End Role="Measure" Type="Self.Measure" Multiplicity="*" />
+        <Association Name="FK_Factures_TVA">
+          <End Role="TVAs" Type="Self.TVAs" Multiplicity="0..1" />
+          <End Role="Factures" Type="Self.Factures" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProductMeasures">
-              <PropertyRef Name="ProMeasureID" />
+            <Principal Role="TVAs">
+              <PropertyRef Name="TVAID" />
             </Principal>
-            <Dependent Role="Measure">
-              <PropertyRef Name="ProductMeasures_ProMeasureID" />
+            <Dependent Role="Factures">
+              <PropertyRef Name="TVAID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Measure_Products">
+        <Association Name="FK_Measure_Product">
           <End Role="Products" Type="Self.Products" Multiplicity="1" />
           <End Role="Measure" Type="Self.Measure" Multiplicity="*" />
           <ReferentialConstraint>
@@ -613,6 +583,18 @@
             </Principal>
             <Dependent Role="Measure">
               <PropertyRef Name="Products_ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Measure_ProductMeasure">
+          <End Role="ProductMeasures" Type="Self.ProductMeasures" Multiplicity="1" />
+          <End Role="Measure" Type="Self.Measure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMeasures">
+              <PropertyRef Name="ProMeasureID" />
+            </Principal>
+            <Dependent Role="Measure">
+              <PropertyRef Name="ProductMeasures_ProMeasureID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -750,7 +732,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_State_Products">
+        <Association Name="FK_State_Product">
           <End Role="Products" Type="Self.Products" Multiplicity="1" />
           <End Role="State" Type="Self.State" Multiplicity="*" />
           <ReferentialConstraint>
@@ -762,7 +744,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_State_ProductStates">
+        <Association Name="FK_State_ProductState">
           <End Role="ProductStates" Type="Self.ProductStates" Multiplicity="1" />
           <End Role="State" Type="Self.State" Multiplicity="*" />
           <ReferentialConstraint>
@@ -868,8 +850,6 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Telephones" EntityType="Self.Telephones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVAs" EntityType="Self.TVAs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ventefactures" EntityType="Self.ventefactures" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ventemodels" EntityType="Self.ventemodels" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Commands_Documents" Association="Self.FK_Commands_Documents">
             <End Role="Documents" EntitySet="Documents" />
             <End Role="Commands" EntitySet="Commands" />
@@ -898,12 +878,16 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Factures" EntitySet="Factures" />
           </AssociationSet>
-          <AssociationSet Name="FK_Measure_ProductMeasures" Association="Self.FK_Measure_ProductMeasures">
-            <End Role="ProductMeasures" EntitySet="ProductMeasures" />
+          <AssociationSet Name="FK_Factures_TVA" Association="Self.FK_Factures_TVA">
+            <End Role="TVAs" EntitySet="TVAs" />
+            <End Role="Factures" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Measure_Product" Association="Self.FK_Measure_Product">
+            <End Role="Products" EntitySet="Products" />
             <End Role="Measure" EntitySet="Measure" />
           </AssociationSet>
-          <AssociationSet Name="FK_Measure_Products" Association="Self.FK_Measure_Products">
-            <End Role="Products" EntitySet="Products" />
+          <AssociationSet Name="FK_Measure_ProductMeasure" Association="Self.FK_Measure_ProductMeasure">
+            <End Role="ProductMeasures" EntitySet="ProductMeasures" />
             <End Role="Measure" EntitySet="Measure" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
@@ -950,11 +934,11 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Settings" EntitySet="Settings" />
           </AssociationSet>
-          <AssociationSet Name="FK_State_Products" Association="Self.FK_State_Products">
+          <AssociationSet Name="FK_State_Product" Association="Self.FK_State_Product">
             <End Role="Products" EntitySet="Products" />
             <End Role="State" EntitySet="State" />
           </AssociationSet>
-          <AssociationSet Name="FK_State_ProductStates" Association="Self.FK_State_ProductStates">
+          <AssociationSet Name="FK_State_ProductState" Association="Self.FK_State_ProductState">
             <End Role="ProductStates" EntitySet="ProductStates" />
             <End Role="State" EntitySet="State" />
           </AssociationSet>
@@ -1099,15 +1083,13 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductState" EntitySet="ProductStates" />
           </AssociationSet>
-          <EntitySet Name="services" EntityType="gcdbModel.service" />
           <EntitySet Name="clients" EntityType="gcdbModel.client" />
           <EntitySet Name="clientprovidertypes" EntityType="gcdbModel.clientprovidertype" />
           <EntitySet Name="professions" EntityType="gcdbModel.profession" />
           <EntitySet Name="servicefactures" EntityType="gcdbModel.servicefacture" />
           <EntitySet Name="servicefacturestores" EntityType="gcdbModel.servicefacturestore" />
           <EntitySet Name="servicemodels" EntityType="gcdbModel.servicemodel" />
-          <EntitySet Name="ventefactures" EntityType="gcdbModel.ventefacture" />
-          <EntitySet Name="ventemodels" EntityType="gcdbModel.ventemodel" />
+          <EntitySet Name="services" EntityType="gcdbModel.service" />
           <EntitySet Name="StockStores" EntityType="gcdbModel.StockStore" />
           <AssociationSet Name="FK_StockStore_Product" Association="gcdbModel.FK_StockStore_Product">
             <End Role="Product" EntitySet="Products" />
@@ -1121,7 +1103,7 @@
             <End Role="Stock" EntitySet="Stocks" />
             <End Role="StockStore" EntitySet="StockStores" />
           </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -1140,7 +1122,7 @@
           <Property Name="PurchaseID" Type="Int32" />
           <Property Name="DocumentID" Type="Int32" />
           <Property Name="Num" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Document" Relationship="gcdbModel.FK_Commands_Documents" FromRole="Command" ToRole="Document" />
           <NavigationProperty Name="Purchase" Relationship="gcdbModel.FK_Commands_Purchases" FromRole="Command" ToRole="Purchase" />
         </EntityType>
@@ -1257,7 +1239,6 @@
           <NavigationProperty Name="Facture1" Relationship="gcdbModel.FK_Factures_Factures" FromRole="Facture1" ToRole="Facture" />
           <NavigationProperty Name="Order" Relationship="gcdbModel.FK_Factures_Orders" FromRole="Facture" ToRole="Order" />
           <NavigationProperty Name="TVA" Relationship="gcdbModel.FK_Factures_TVA" FromRole="Facture" ToRole="TVA" />
-          <Property Name="TvaValue" Type="Double" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -1771,17 +1752,6 @@
           <End Type="gcdbModel.Product" Role="Product" Multiplicity="*" />
           <End Type="gcdbModel.ProductState" Role="ProductState" Multiplicity="*" />
         </Association>
-        <EntityType Name="service">
-          <Key>
-            <PropertyRef Name="ServiceID" />
-          </Key>
-          <Property Name="ServiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceFamilly" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServicePrice" Type="Double" />
-          <Property Name="ServiceDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ServiceInsertionDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="client">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -1866,34 +1836,16 @@
           <Property Name="ServiceDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceID" Type="Int32" />
         </EntityType>
-        <EntityType Name="ventefacture">
+        <EntityType Name="service">
           <Key>
-            <PropertyRef Name="VenteFactureID" />
+            <PropertyRef Name="ServiceID" />
           </Key>
-          <Property Name="VenteFactureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VenteFactureDate" Type="DateTime" Precision="3" />
-          <Property Name="ServiceFactureType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceModePayment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceEtatPayement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceTvaValue" Type="Double" />
-          <Property Name="ServiceClientFullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceCommandeNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceCommandeDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="ventemodel">
-          <Key>
-            <PropertyRef Name="VenteModelID" />
-          </Key>
-          <Property Name="VenteModelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VenteModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VenteModelDate" Type="DateTime" Precision="3" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductFamille" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductQte" Type="Int32" />
-          <Property Name="ProductPriceHT" Type="Double" />
-          <Property Name="VenteTVA" Type="Double" />
-          <Property Name="ProductDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceFamilly" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServicePrice" Type="Double" />
+          <Property Name="ServiceDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceInsertionDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="StockStore">
           <Key>
@@ -1906,9 +1858,9 @@
           <Property Name="RefrenceNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Serialnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StockageID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InsertionDate" Type="DateTime" Precision="3" />
           <Property Name="DateOfStartPremption" Type="DateTime" Precision="3" />
           <Property Name="DateOfEndPremption" Type="DateTime" Precision="3" />
+          <Property Name="InsertionDate" Type="DateTime" Precision="3" />
           <Property Name="TotalPriceAchat" Type="Double" />
           <Property Name="UnitsOnOrder" Type="Double" />
           <Property Name="PurchasePrice" Type="Double" />
@@ -2076,7 +2028,6 @@
           <EntitySetMapping Name="Factures">
             <EntityTypeMapping TypeName="gcdbModel.Facture">
               <MappingFragment StoreEntitySet="Factures">
-                <ScalarProperty Name="TvaValue" ColumnName="TvaValue" />
                 <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -2341,18 +2292,6 @@
               <ScalarProperty Name="ProductID" ColumnName="Products_ProductID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="services">
-            <EntityTypeMapping TypeName="gcdbModel.service">
-              <MappingFragment StoreEntitySet="services">
-                <ScalarProperty Name="ServiceInsertionDate" ColumnName="ServiceInsertionDate" />
-                <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
-                <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
-                <ScalarProperty Name="ServiceFamilly" ColumnName="ServiceFamilly" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
-                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="clients">
             <EntityTypeMapping TypeName="gcdbModel.client">
               <MappingFragment StoreEntitySet="clients">
@@ -2443,34 +2382,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ventefactures">
-            <EntityTypeMapping TypeName="gcdbModel.ventefacture">
-              <MappingFragment StoreEntitySet="ventefactures">
-                <ScalarProperty Name="ServiceCommandeDate" ColumnName="ServiceCommandeDate" />
-                <ScalarProperty Name="ServiceCommandeNumber" ColumnName="ServiceCommandeNumber" />
-                <ScalarProperty Name="ServiceClientFullName" ColumnName="ServiceClientFullName" />
-                <ScalarProperty Name="ServiceTvaValue" ColumnName="ServiceTvaValue" />
-                <ScalarProperty Name="ServiceEtatPayement" ColumnName="ServiceEtatPayement" />
-                <ScalarProperty Name="ServiceModePayment" ColumnName="ServiceModePayment" />
-                <ScalarProperty Name="ServiceFactureType" ColumnName="ServiceFactureType" />
-                <ScalarProperty Name="VenteFactureDate" ColumnName="VenteFactureDate" />
-                <ScalarProperty Name="VenteFactureID" ColumnName="VenteFactureID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ventemodels">
-            <EntityTypeMapping TypeName="gcdbModel.ventemodel">
-              <MappingFragment StoreEntitySet="ventemodels">
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="VenteTVA" ColumnName="VenteTVA" />
-                <ScalarProperty Name="ProductPriceHT" ColumnName="ProductPriceHT" />
-                <ScalarProperty Name="ProductQte" ColumnName="ProductQte" />
-                <ScalarProperty Name="ProductFamille" ColumnName="ProductFamille" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="VenteModelDate" ColumnName="VenteModelDate" />
-                <ScalarProperty Name="VenteModelName" ColumnName="VenteModelName" />
-                <ScalarProperty Name="VenteModelID" ColumnName="VenteModelID" />
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="gcdbModel.service">
+              <MappingFragment StoreEntitySet="services">
+                <ScalarProperty Name="ServiceInsertionDate" ColumnName="ServiceInsertionDate" />
+                <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
+                <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
+                <ScalarProperty Name="ServiceFamilly" ColumnName="ServiceFamilly" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2487,9 +2407,9 @@
                 <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
                 <ScalarProperty Name="UnitsOnOrder" ColumnName="UnitsOnOrder" />
                 <ScalarProperty Name="TotalPriceAchat" ColumnName="TotalPriceAchat" />
+                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
                 <ScalarProperty Name="DateOfEndPremption" ColumnName="DateOfEndPremption" />
                 <ScalarProperty Name="DateOfStartPremption" ColumnName="DateOfStartPremption" />
-                <ScalarProperty Name="InsertionDate" ColumnName="InsertionDate" />
                 <ScalarProperty Name="StockageID" ColumnName="StockageID" />
                 <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
                 <ScalarProperty Name="RefrenceNum" ColumnName="RefrenceNum" />

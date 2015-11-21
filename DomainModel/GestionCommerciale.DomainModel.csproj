@@ -216,12 +216,6 @@
     <Compile Include="Entities\TVA.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\ventefacture.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\ventemodel.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Invoice\CustomerOrder.cs" />
     <Compile Include="Invoice\InvoiceDetail.cs" />
     <Compile Include="UseCases\FactureCase.cs" />
