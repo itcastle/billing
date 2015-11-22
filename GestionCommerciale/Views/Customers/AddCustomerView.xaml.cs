@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -20,8 +22,8 @@ namespace GestionCommerciale.Views.Customers
         public AddCustomerView()
         {
             InitializeComponent();
-            //Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+           Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
 
         public AddCustomerView(string animationName)

@@ -218,6 +218,7 @@
     </Compile>
     <Compile Include="Invoice\CustomerOrder.cs" />
     <Compile Include="Invoice\InvoiceDetail.cs" />
+    <Compile Include="Invoice\ProductInStok.cs" />
     <Compile Include="UseCases\FactureCase.cs" />
     <Compile Include="ClassesClients\PurchaseClient.cs" />
     <Compile Include="ClassesClients\PurchaseDetailsManager.cs" />

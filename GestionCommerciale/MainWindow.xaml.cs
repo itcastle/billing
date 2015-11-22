@@ -3,6 +3,7 @@ using System.Windows;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.Helpers;
 using GestionCommerciale.Views;
+using GestionCommerciale.Views.Consomation;
 using GestionCommerciale.Views.Customers;
 using GestionCommerciale.Views.Employees;
 using GestionCommerciale.Views.Invoices;
@@ -53,6 +54,10 @@ namespace GestionCommerciale
             var item = TabHlp.AddNewTab(typeof(AddCustomerView), "Nouveau client ", "FadeToLeftAnim");
         }
 
+        private void AddConsommationNavBtn_Click(object sender, EventArgs e)
+        {
+            var item = TabHlp.AddNewTab(typeof(ConsomationView), "Nouveau Consomation ", "FadeToLeftAnim");
+          }
         private void AddEmployeeNavBtn_Click(object sender, EventArgs e)
         {
             var item = TabHlp.AddNewTab(typeof(AddEmployeeView), "Nouveau employée ", "FadeToLeftAnim");
@@ -103,6 +108,11 @@ namespace GestionCommerciale
         {
             var item = TabHlp.AddNewTab(typeof(InvoicesView), "Mes factures ", "FadeToLeftAnim");
         }
+        private void AddConsommationListNavBtn_Click(object sender, EventArgs e)
+        {
+            var item = TabHlp.AddNewTab(typeof(ConsomationListView), "Mes Consomations ", "FadeToLeftAnim");
+
+        }
         private void NewInvoiceNavBtn_Click(object sender, EventArgs e)
         {
             var item = TabHlp.AddNewTab(typeof(FactureView), "Nouvelle facture ", "FadeToLeftAnim");
@@ -142,13 +152,9 @@ namespace GestionCommerciale
         }
 
         //
-      
 
-        private void AddServicesNavBtn_Click(object sender, EventArgs e)
-        {
-            
 
-        }
+       
     }
 
 }

@@ -37,14 +37,15 @@ namespace GestionCommerciale.Views.Invoices
 
         private void TheTableView_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
+          
             if(e.NewRow != null)
             {
-                Facture SelectedFacture = e.NewRow as Facture;
-                if(SelectedFacture != null)
+                Facture selectedFacture = e.NewRow as Facture;
+                if(selectedFacture != null)
                 {
-                    if (SelectedFacture.Document != null)
+                    if (selectedFacture.Document != null)
                     {
-                        byte[] decompressed = Helper.Decompress(SelectedFacture.Document.DocFile);
+                        byte[] decompressed = Helper.Decompress(selectedFacture.Document.DocFile);
                         Stream stream = new MemoryStream(decompressed);
                         
 

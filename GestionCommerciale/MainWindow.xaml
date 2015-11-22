@@ -106,6 +106,7 @@
                                                      Content="Ajouter un produit"
                                                      ImageSource="/GestionCommerciale;component/Images/Business_menu/nouveau.png" />
                                 </dxnb:NavBarGroup>
+
                                 <dxnb:NavBarGroup Header="Achats" ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
                                     <dxnb:NavBarItem Name="ListPurchasesNavBtn"
                                                      Click="ListPurchasesNavBtn_Click"
@@ -124,6 +125,17 @@
                                                      ImageSource="{dx:DXImage Image=InsertHeader_32x32.png}" />
 
                                 </dxnb:NavBarGroup>
+                                <dxnb:NavBarGroup Header="Consomations" ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
+                                    <dxnb:NavBarItem Name="ListConsommationNavBtn"
+                                                     Click="AddConsommationNavBtn_Click"
+                                                     Content="Nouveau Consomation"
+                                                     ImageSource="/GestionCommerciale;component/Images/Icons/add.png" />
+                                    <dxnb:NavBarItem Name="ListConsommationLIstNavBtn"
+                                                     Click="AddConsommationListNavBtn_Click"
+                                                     Content="Mes Consomations"
+                                                     DisplayMode="Default"
+                                                     ImageSource="/GestionCommerciale;component/Images/Business_menu/liste.png" />
+                                </dxnb:NavBarGroup>
                                 <dxnb:NavBarGroup Header="Services" ImageSource="/GestionCommerciale;component/Images/Business_menu/achats.png">
                                     <dxnb:NavBarItem Name="ListServicesNavBtn"
                                                      Click="ListServicesNavBtn_Click"
@@ -134,7 +146,7 @@
                                 </dxnb:NavBarGroup>
                                 <dxnb:NavBarGroup Header="Ventes"
                                                   ImageSource="/GestionCommerciale;component/Images/Business_menu/ventes.png"
-                                                  IsVisible="False">
+                                                  IsVisible="True">
                                     <dxnb:NavBarItem Name="ListSalesNavBtn"
                                                      Click="ListSalesNavBtn_Click"
                                                      Content="Mes Ventes"

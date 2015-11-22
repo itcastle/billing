@@ -187,8 +187,15 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MouseOperationsHelper.cs" />
+    <Compile Include="ProductInStok.cs" />
     <Compile Include="TopMenu.xaml.cs">
       <DependentUpon>TopMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Consomation\ConsomationListView.xaml.cs">
+      <DependentUpon>ConsomationListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Consomation\ConsomationView.xaml.cs">
+      <DependentUpon>ConsomationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DocRichEditUC.xaml.cs">
       <DependentUpon>DocRichEditUC.xaml</DependentUpon>
@@ -315,6 +322,7 @@
     <EmbeddedResource Include="FactureFolder\FactureService.resx">
       <DependentUpon>FactureService.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -392,6 +400,14 @@
     <Page Include="TopMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Consomation\ConsomationListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Consomation\ConsomationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocRichEditUC.xaml">
       <Generator>MSBuild:Compile</Generator>

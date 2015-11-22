@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.DomainModel.Invoice;
 
 namespace GestionCommerciale.DomainModel.ClassesClients
 {
@@ -201,5 +203,7 @@ namespace GestionCommerciale.DomainModel.ClassesClients
            }
 
        }
+
+
     }
 }
