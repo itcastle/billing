@@ -9,6 +9,7 @@ using GestionCommerciale.Views.Invoices;
 using GestionCommerciale.Views.Products;
 using GestionCommerciale.Views.Purchases;
 using GestionCommerciale.Views.Sales;
+using GestionCommerciale.Views.ServiceFolder;
 using GestionCommerciale.Views.Stocks;
 using GestionCommerciale.Views.Suppliers;
 using MahApps.Metro.Controls;
@@ -89,6 +90,11 @@ namespace GestionCommerciale
         {
             var item = TabHlp.AddNewTab(typeof(ListSalesView), "Mes ventes ", "FadeToLeftAnim", TabHlp);
         }
+        private void ListServicesNavBtn_Click(object sender, EventArgs e)
+        {
+
+            var item = TabHlp.AddNewTab(typeof(ServiceView), "Mes Services ", "FadeToLeftAnim", TabHlp);
+        }
         private void StockStateNavBtn_Click(object sender, EventArgs e)
         {
             var item = TabHlp.AddNewTab(typeof(StockState), "Etat de stock ", "FadeToLeftAnim");
@@ -136,11 +142,7 @@ namespace GestionCommerciale
         }
 
         //
-        private void ListServicesNavBtn_Click(object sender, EventArgs e)
-        {
-            
-
-        }
+      
 
         private void AddServicesNavBtn_Click(object sender, EventArgs e)
         {

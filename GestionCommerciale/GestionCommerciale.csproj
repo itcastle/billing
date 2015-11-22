@@ -589,7 +589,12 @@
     <Resource Include="Images\Business_menu\nouveau.png" />
     <Resource Include="Images\Business_menu\statistique.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Icons\navigate_down.png" />
+    <Resource Include="Images\Icons\navigate_left.png" />
+    <Resource Include="Images\Icons\navigate_right.png" />
+    <Resource Include="Images\Icons\navigate_up.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Business_menu\adresse.png" />
     <Resource Include="Images\Business_menu\book.png" />
@@ -666,6 +671,40 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cash_register.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\add.png" />
+    <Resource Include="Images\Icons\Agenda.png" />
+    <Resource Include="Images\Icons\banner.ico" />
+    <Resource Include="Images\Icons\CarnetAdress.png" />
+    <Resource Include="Images\Icons\ChargesDeponses.png" />
+    <Resource Include="Images\Icons\close.png" />
+    <Resource Include="Images\Icons\Configuration.png" />
+    <Resource Include="Images\Icons\contacts.png" />
+    <Resource Include="Images\Icons\copy.png" />
+    <Resource Include="Images\Icons\courriers.png" />
+    <Resource Include="Images\Icons\Date1_Arrow.png" />
+    <Resource Include="Images\Icons\Date2_Arrow.png" />
+    <Resource Include="Images\Icons\Empty.png" />
+    <Resource Include="Images\Icons\GestionProjet.ico" />
+    <Resource Include="Images\Icons\Graph.ico" />
+    <Resource Include="Images\Icons\Graph.png" />
+    <Resource Include="Images\Icons\Key.png" />
+    <Resource Include="Images\Icons\leftrow.png" />
+    <Resource Include="Images\Icons\Listing.ico" />
+    <Resource Include="Images\Icons\logo.png" />
+    <Resource Include="Images\Icons\Memonto.png" />
+    <Resource Include="Images\Icons\mission.png" />
+    <Resource Include="Images\Icons\PieStatistics.png" />
+    <Resource Include="Images\Icons\print.png" />
+    <Resource Include="Images\Icons\Rent.png" />
+    <Resource Include="Images\Icons\rightrow.png" />
+    <Resource Include="Images\Icons\sale.png" />
+    <Resource Include="Images\Icons\save.png" />
+    <Resource Include="Images\Icons\Statistics.png" />
+    <Resource Include="Images\Icons\Stock.ico" />
+    <Resource Include="Images\Icons\syncronize.png" />
+    <Resource Include="Images\Icons\visualiser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />

@@ -13,7 +13,7 @@ namespace GestionCommerciale.Views.Purchases
     /// <summary>
     /// Interaction logic for ListCommandsView.xaml
     /// </summary>
-    public partial class ListCommandsView : UserControl
+    public partial class ListCommandsView
     {
         private readonly TabHelper _tabHlp;
 
@@ -29,10 +29,8 @@ namespace GestionCommerciale.Views.Purchases
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             GcdbEntities db = new GcdbEntities();
-
             TheDataGrid.ItemsSource = db.Commands.ToList();
             Command cmd = new Command();
-           
         }
 
         private void PrintBtn_Click(object sender, RoutedEventArgs e)
@@ -44,21 +42,15 @@ namespace GestionCommerciale.Views.Purchases
         {
             if (e.NewRow != null)
             {
-                Command SelectedCommand = e.NewRow as Command;
-                if (SelectedCommand != null)
+                Command selectedCommand = e.NewRow as Command;
+                if (selectedCommand == null) return;
+                if (selectedCommand.Document != null)
                 {
-                    if (SelectedCommand.Document != null)
-                    {
-                        byte[] decompressed = Helper.Decompress(SelectedCommand.Document.DocFile);
-                        Stream stream = new MemoryStream(decompressed);
-
-
-                        DocRichEdit.DocRichEdit.LoadDocument(stream, DocumentFormat.OpenXml);
-                    }
-                    else DocRichEdit.DocRichEdit.CreateNewDocument();
-                    
+                    byte[] decompressed = Helper.Decompress(selectedCommand.Document.DocFile);
+                    Stream stream = new MemoryStream(decompressed);
+                    DocRichEdit.DocRichEdit.LoadDocument(stream, DocumentFormat.OpenXml);
                 }
-
+                else DocRichEdit.DocRichEdit.CreateNewDocument();
             }
             else DocRichEdit.DocRichEdit.CreateNewDocument();
 
@@ -66,10 +58,10 @@ namespace GestionCommerciale.Views.Purchases
 
         private void PurchaseBtn_Click(object sender, RoutedEventArgs e)
         {
-            Command SelectedCommand = TheDataGrid.SelectedItem as Command;
-            if (SelectedCommand != null)
+            Command selectedCommand = TheDataGrid.SelectedItem as Command;
+            if (selectedCommand != null)
             {
-                var item = _tabHlp.AddNewTab(typeof(AddPurchaseView), "Effectuer un achat ", "FadeToLeftAnim", _tabHlp,SelectedCommand.Purchase);
+                var item = _tabHlp.AddNewTab(typeof(AddPurchaseView), "Effectuer un achat ", "FadeToLeftAnim", _tabHlp,selectedCommand.Purchase);
             }
         }
     }

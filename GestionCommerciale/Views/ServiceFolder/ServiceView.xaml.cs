@@ -4,7 +4,10 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
@@ -12,6 +15,7 @@ using DevExpress.Xpf.Printing;
 using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.FactureFolder;
+using GestionCommerciale.Helpers;
 
 namespace GestionCommerciale.Views.ServiceFolder
 {
@@ -25,16 +29,22 @@ namespace GestionCommerciale.Views.ServiceFolder
         private DataTable _selectedServices;
 
         private int _ordreSelectedServiceNumber;
-
+        private readonly TabHelper _tabHlp;
         private int _serviceFactureID;
 
         public string ServiceModelName { get; set; }
 
         public bool ExitEditModel { get; set; }
 
-        public ServiceView()
+        public ServiceView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            _tabHlp = hlp;
+            if (!string.IsNullOrEmpty(animationName))
+            {
+                Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
+                LayoutRoot.BeginStoryboard(animation);
+            }
             _selectedServices = new DataTable();
             _selectedServices.Columns.Add("Ordre", typeof(int));
             _selectedServices.Columns.Add("Name", typeof(string));
@@ -47,7 +57,43 @@ namespace GestionCommerciale.Views.ServiceFolder
             SelectedServicesDataGrid.ItemsSource = _selectedServices.DefaultView;
             SelectedServicesTableView.BestFitColumns();
         }
+        private void TabControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(e.Source is TabControl)) return;
+            var tabcontrol = (TabControl)sender;
 
+            foreach (TabItem item in tabcontrol.Items)
+            {
+                var itemheader = (Border)item.Header;
+                itemheader.Background = Brushes.White;
+                itemheader.Opacity = 0.6;
+                itemheader.BorderBrush = Brushes.White;
+            }
+
+            var tab = (TabItem)tabcontrol.SelectedItem;
+            var header = (Border)tab.Header;
+            header.Opacity = 1;
+            header.Background = Brushes.YellowGreen;
+            header.BorderBrush = Brushes.DarkGreen;
+        }
+
+        private void Border_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var header = (Border)sender;
+            header.Opacity = 1;
+        }
+
+        private void Border_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var header = (Border)sender;
+            // ReSharper disable once PossibleUnintendedReferenceComparison
+            if (header.Background == Brushes.White)
+            {
+                header.Opacity = 0.6;
+            }
+        }
+
+        
         private void Window1_OnLoaded(object sender, RoutedEventArgs e)
         {
             EmptyServiceFieldsBtn.IsEnabled = false;
@@ -710,7 +756,11 @@ namespace GestionCommerciale.Views.ServiceFolder
                 dataTable.Columns.Add("N°", typeof(int));
                 DataTable allServiceFacture = ServiceManager.GetAllServiceFactures(dataTable);
                 ServiceFactureGridControl.ItemsSource = allServiceFacture.DefaultView;
-                ServiceFactureTableView.BestFitColumns();
+                ServiceFactureGridControl.Columns["Ordre"].Visible = false;
+                ServiceFactureGridControl.Columns["Ordre"].ShowInColumnChooser = true;
+                ServiceFactureGridControl.Columns["N°"].Visible = false;
+                ServiceFactureGridControl.Columns["N°"].ShowInColumnChooser = true;
+                ServiceFactureTableView.AutoWidth=false;
             }));
 
         }
@@ -742,14 +792,14 @@ namespace GestionCommerciale.Views.ServiceFolder
             }
         }
 
-        private void LoadServiceFacture(int serviceFactureID)
+        private void LoadServiceFacture(int serviceFactureId)
         {
             
             var serviceManager = new ServiceManager();
-            servicefacture getServicefacture = serviceManager.GetServiceFacture(serviceFactureID);
+            servicefacture getServicefacture = serviceManager.GetServiceFacture(serviceFactureId);
             if (getServicefacture == null) return;
             _selectedServices.Rows.Clear();
-            _selectedServices = serviceManager.GetServiceFactureStore(_selectedServices, serviceFactureID);
+            _selectedServices = serviceManager.GetServiceFactureStore(_selectedServices, serviceFactureId);
 
             try 
             {
