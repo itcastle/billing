@@ -4,7 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using DevExpress.Xpf.Charts;
 using DevExpress.Xpf.Editors;
-using GestionCommerciale.DomainModel;
+using DevExpress.Xpf.LayoutControl;
 using GestionCommerciale.DomainModel.ClassesClients;
 
 namespace GestionCommerciale.Views.Stocks
@@ -16,23 +16,23 @@ namespace GestionCommerciale.Views.Stocks
     {
 
         object _datasource;
-        readonly CategorysClient _CategorysClient;
+        readonly CategorysClient _categorysClient;
         readonly ProductManger _productManger;
 
        
         public StockState()
         {
             InitializeComponent();
-            _CategorysClient = new CategorysClient();
+            _categorysClient = new CategorysClient();
             _productManger=new ProductManger();
-            cbCategorys.ItemsSource = _CategorysClient.GetCategorysNames();
+            cbCategorys.ItemsSource = _categorysClient.GetCategorysNames();
             cbCategorys_SelectedIndexChanged(null, null);
            
         }
         public StockState(string animationName)
         {
             InitializeComponent();
-            _CategorysClient = new CategorysClient();
+            _categorysClient = new CategorysClient();
             _productManger = new ProductManger();
             GetCategorys();
             if (string.IsNullOrEmpty(animationName)) return;
@@ -43,33 +43,19 @@ namespace GestionCommerciale.Views.Stocks
 
         private void GetCategorys()
         {
-           
-          
-            cbCategorys.ItemsSource = _CategorysClient.GetCategorysNames();
+            cbCategorys.ItemsSource = _categorysClient.GetCategorysNames();
         }
-
-
-
-        #region GroupBox_focus_event
-
-        private void GroupBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            DevExpress.Xpf.LayoutControl.GroupBox groupBox = (DevExpress.Xpf.LayoutControl.GroupBox)sender;
-            groupBox.Background = Brushes.AliceBlue;
-        }
-
-        private void GroupBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            DevExpress.Xpf.LayoutControl.GroupBox groupBox = (DevExpress.Xpf.LayoutControl.GroupBox)sender;
-            groupBox.Background = null;
-        }
-        #endregion
 
         private void cbCategorys_SelectedIndexChanged(object sender, RoutedEventArgs e)
         {
            string catName = cbCategorys.Text;
            
             object ds = _productManger.GetCategoryByName(catName);//.GetProductsByCategory((int)cat.CategoryID);
+            if (ds == null)
+            {
+                Series.DataSource = null;
+                return;
+            }
             Draw(ds, "Stock");
         }
         private void Draw(object dataSource, string title)
