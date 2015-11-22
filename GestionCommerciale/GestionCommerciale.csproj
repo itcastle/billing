@@ -671,9 +671,9 @@
     <Resource Include="Images\Icons\edit.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModel\GestionCommerciale.DomainModel.csproj">
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj">
       <Project>{1856487e-6c32-4a13-a691-782751c54bdb}</Project>
-      <Name>GestionCommerciale.DomainModel</Name>
+      <Name>DomainModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
