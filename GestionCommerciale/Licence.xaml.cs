@@ -5,6 +5,7 @@ using System.Windows;
 using GestionCommerciale.DomainModel.Entities;
 using DevExpress.Xpf.Core;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Validator;
 
 namespace GestionCommerciale
