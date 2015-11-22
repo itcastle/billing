@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -58,11 +60,14 @@ namespace GestionCommerciale.Views.Purchases
         public AddPurchaseView()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
         public AddPurchaseView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
-            
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _tabHlp = hlp;
             ProductsPurchase = new List<PurchaseStore>();
             _productManger = new ProductManger();

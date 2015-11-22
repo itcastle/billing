@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -16,28 +18,30 @@ namespace GestionCommerciale.Views.Stocks
     {
 
         object _datasource;
-        readonly CategorysClient _categorysClient;
-        readonly ProductManger _productManger;
+        readonly CategorysClient _categorysClient=new CategorysClient();
+        readonly ProductManger _productManger = new ProductManger();
 
-       
+        
         public StockState()
         {
             InitializeComponent();
-            _categorysClient = new CategorysClient();
-            _productManger=new ProductManger();
-            cbCategorys.ItemsSource = _categorysClient.GetCategorysNames();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            GetCategorys();
             cbCategorys_SelectedIndexChanged(null, null);
            
         }
         public StockState(string animationName)
         {
             InitializeComponent();
-            _categorysClient = new CategorysClient();
-            _productManger = new ProductManger();
-            GetCategorys();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+           
             if (string.IsNullOrEmpty(animationName)) return;
             Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
             LayoutRoot.BeginStoryboard(animation);
+            GetCategorys();
+            cbCategorys_SelectedIndexChanged(null, null);
         }
 
 

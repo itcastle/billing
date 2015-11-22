@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -31,10 +33,12 @@ namespace GestionCommerciale.Views.Products
 
 
         private readonly TabHelper _tabHlp;
-        private int productId;
+        private int _productId;
         public ListProductsView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _tabHlp = hlp;
             _produit = new Product();
             _productClient = new ProductManger();
@@ -113,12 +117,12 @@ namespace GestionCommerciale.Views.Products
                 int rowHandle = ProductsDataGrid.View.FocusedRowHandle;
                 if (rowHandle < 0) return;
                 ProductManger productManger = new ProductManger();
-                productId = (int) ProductsDataGrid.GetCellValue(rowHandle, "ProductID");
-                Product produit = productManger.GetProductById(productId);
+                _productId = (int) ProductsDataGrid.GetCellValue(rowHandle, "ProductID");
+                Product produit = productManger.GetProductById(_productId);
 
                 if (produit == null)
                 {
-                    productId = -1;
+                    _productId = -1;
                     return;
                 }
                 LoadProductFields(produit);
@@ -134,7 +138,7 @@ namespace GestionCommerciale.Views.Products
 
         private void LoadProductFields(Product produit)
         {
-            productId = produit.ProductID;
+            _productId = produit.ProductID;
             CategorysCbx.Text = produit.SubCategory.Category.CategoryName;
             SubCategoryCbx.Text = produit.SubCategory.SubCategoryName;
             ProductNameTxtBox.Text = produit.ProductName;
@@ -151,7 +155,7 @@ namespace GestionCommerciale.Views.Products
         private void EditSupplierBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            if (productId == -1) return;
+            if (_productId == -1) return;
 
             if (DXMessageBox.Show(this,"Êtes-vous sûr de vouloir modifier ce produit?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
 
@@ -159,7 +163,7 @@ namespace GestionCommerciale.Views.Products
 
             ProductManger productManger = new ProductManger();
          
-            Product produit = productManger.GetProductById(productId);
+            Product produit = productManger.GetProductById(_productId);
 
             if (produit == null) return;
 
@@ -221,7 +225,7 @@ namespace GestionCommerciale.Views.Products
 
         private void ClearProductFiealds()
         {
-            productId = -1;
+            _productId = -1;
             CategorysCbx.Clear();
             SubCategoryCbx.Clear();
             ProductNameTxtBox.Clear();

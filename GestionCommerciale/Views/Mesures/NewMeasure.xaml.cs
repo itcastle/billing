@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using GestionCommerciale.DomainModel.ClassesClients;
@@ -19,6 +21,8 @@ namespace GestionCommerciale.Views.Mesures
         public NewMeasure(AddProductView newProductView)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _addProductView = newProductView; 
         }
 

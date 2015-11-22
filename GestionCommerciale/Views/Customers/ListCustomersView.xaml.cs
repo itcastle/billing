@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -31,6 +33,8 @@ namespace GestionCommerciale.Views.Customers
         public ListCustomersView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _tabHlp = hlp;
             _customerClient = new CustomersManager();
             _customersManager = new CustomersManager();

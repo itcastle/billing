@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Core;
-using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.Helpers;
@@ -20,29 +20,26 @@ namespace GestionCommerciale.Views.Suppliers
     /// </summary>
     public partial class ListSuppliersView
     {
-        private Provider _provider;
-        private readonly SuppliersManager _supplierClient;
+    
+        private readonly SuppliersManager _supplierManager=new SuppliersManager();
         private List<Provider> _providerList;
 
-        private TabHelper TabHlp;
+        private readonly TabHelper _tabHlp;
 
         public ListSuppliersView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
-            TabHlp = hlp;
-            if (!string.IsNullOrEmpty(animationName))
-            {
-                Storyboard animation = (Storyboard) Application.Current.Resources[animationName];
-                LayoutRoot.BeginStoryboard(animation);
-            }
-            _provider = new Provider();
-            _supplierClient = new SuppliersManager();
-
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            _tabHlp = hlp;
+            if (string.IsNullOrEmpty(animationName)) return;
+            Storyboard animation = (Storyboard) Application.Current.Resources[animationName];
+            LayoutRoot.BeginStoryboard(animation);
         }
 
         private void NewSupplierBtn_Click(object sender, RoutedEventArgs e)
         {
-            var item = TabHlp.AddNewTab(typeof (AddSupplierView), "Nouveau fournisseur ", "FadeToLeftAnim");
+            var item = _tabHlp.AddNewTab(typeof (AddSupplierView), "Nouveau fournisseur ", "FadeToLeftAnim");
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -55,8 +52,8 @@ namespace GestionCommerciale.Views.Suppliers
             if (ProviderGridControl.VisibleRowCount == 0) return;
             int rowHandle = ProviderGridControl.View.FocusedRowHandle;
             if (rowHandle < 0) return;
-            SuppliersManager suppliersManager = new SuppliersManager();
-            Provider provider = suppliersManager.GetProviderByName(ProviderGridControl.GetCellValue(rowHandle, "CompanyName").ToString());
+          
+            Provider provider = _supplierManager.GetProviderByName(ProviderGridControl.GetCellValue(rowHandle, "CompanyName").ToString());
 
             if (provider == null) return;
             LoadProviderFields(provider);
@@ -93,7 +90,7 @@ namespace GestionCommerciale.Views.Suppliers
         private void GetAllProvidersOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
 
-            var supplierClient = _supplierClient.GetTheSuppliers();
+            var supplierClient = _supplierManager.GetTheSuppliers();
             doWorkEventArgs.Result = supplierClient;
         }
 
@@ -212,12 +209,12 @@ namespace GestionCommerciale.Views.Suppliers
 
             int rowHandle = ProviderGridControl.View.FocusedRowHandle;
 
-            SuppliersManager suppliersManager = new SuppliersManager();
+        
             Provider provider =
-                suppliersManager.GetProviderByName(ProviderGridControl.GetCellValue(rowHandle, "CompanyName").ToString());
+                _supplierManager.GetProviderByName(ProviderGridControl.GetCellValue(rowHandle, "CompanyName").ToString());
 
             if (provider == null) return;
-            suppliersManager.DesactivateProvider(provider);
+            _supplierManager.DesactivateProvider(provider);
             RefreshBtn_OnClick(null, null);
         }
 

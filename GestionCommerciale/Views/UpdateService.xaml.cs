@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
@@ -12,13 +14,16 @@ namespace GestionCommerciale.Views
     public partial class UpdateService
     {
         private readonly int _serviceID;
-        private readonly ServiceView _serviceViewUC;
+        private readonly ServiceView _serviceViewUc;
+        private readonly ServiceManager _serviceManager = new ServiceManager();
 
         public UpdateService(ServiceView serviceView, int serviceID)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _serviceID = serviceID;
-            _serviceViewUC = serviceView;
+            _serviceViewUc = serviceView;
         }
 
         public void Connect(int connectionId, object target)
@@ -42,7 +47,7 @@ namespace GestionCommerciale.Views
             }
             catch (Exception)
             {
-
+                //
             }
 
         }
@@ -58,22 +63,22 @@ namespace GestionCommerciale.Views
             }
             catch (Exception)
             {
-
+                //
             }
         }
 
         private void ReloadAllServiceGridControl()
         {
-            _serviceViewUC.LoadAllServices();
-            _serviceViewUC.FocusServicesSearchColmn();
+            _serviceViewUc.LoadAllServices();
+            _serviceViewUc.FocusServicesSearchColmn();
 
 
         }
 
         private void UpdateService_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var serviceManager = new ServiceManager();
-            service getService = serviceManager.GetServiceByID(_serviceID);
+       
+            service getService = _serviceManager.GetServiceByID(_serviceID);
             if (getService == null) return;
             ServiceNameTxt.Text =getService.ServiceName;
             ServiceFamilleTxt.Text =getService.ServiceFamilly;

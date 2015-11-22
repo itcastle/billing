@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Threading;
+using System.Windows;
 using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel.Entities;
 
@@ -7,7 +9,7 @@ namespace GestionCommerciale.Views.Sales
     /// <summary>
     /// Interaction logic for ProductPurchaseDetails.xaml
     /// </summary>
-    public partial class ProductSaleDetails : Window
+    public partial class ProductSaleDetails
     {
        
         public OrderDetail ProductSale
@@ -36,6 +38,8 @@ namespace GestionCommerciale.Views.Sales
         public ProductSaleDetails()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -53,47 +57,41 @@ namespace GestionCommerciale.Views.Sales
         private void CalculateAndDisplay()
         {
 
-            decimal UnitePrice = PriceUnit_SpinEdit.Value;
-            decimal Qte = Quantite_SpinEdit.Value;
-            decimal TotalBeforDiscount = UnitePrice * Qte;
-            TotalBeforeDiscount_SpinEdit.Value = TotalBeforDiscount;
+            decimal unitePrice = PriceUnit_SpinEdit.Value;
+            decimal qte = Quantite_SpinEdit.Value;
+            decimal totalBeforDiscount = unitePrice * qte;
+            TotalBeforeDiscount_SpinEdit.Value = totalBeforDiscount;
 
 
-            decimal Discount = Discount_SpinEdit.Value;
-            Total_SpinEdit.Value = TotalBeforDiscount - Discount;
+            decimal discount = Discount_SpinEdit.Value;
+            Total_SpinEdit.Value = totalBeforDiscount - discount;
         }
 
         private void Add_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            DialogResult = true;
 
         }
         
 
         private void DiscountPercentage_SpinEdit_EditValueChanged(object sender, EditValueChangedEventArgs e)
         {
-            if (DiscountPercentage_SpinEdit.IsKeyboardFocusWithin)
-            {
-                decimal TotalBeforDiscount = TotalBeforeDiscount_SpinEdit.Value;
-                decimal DiscountPercentage = DiscountPercentage_SpinEdit.Value;
-                Discount_SpinEdit.Value = (TotalBeforDiscount * DiscountPercentage) / 100;
-                CalculateAndDisplay();
-                _isDiscountPercentage = true;
-            }
-            
+            if (!DiscountPercentage_SpinEdit.IsKeyboardFocusWithin) return;
+            decimal totalBeforDiscount = TotalBeforeDiscount_SpinEdit.Value;
+            decimal discountPercentage = DiscountPercentage_SpinEdit.Value;
+            Discount_SpinEdit.Value = (totalBeforDiscount * discountPercentage) / 100;
+            CalculateAndDisplay();
+            _isDiscountPercentage = true;
         }
 
         private void Discount_SpinEdit_EditValueChanged(object sender, EditValueChangedEventArgs e)
         {
-            if (Discount_SpinEdit.IsKeyboardFocusWithin)
-            {
-                decimal TotalBeforDiscount = TotalBeforeDiscount_SpinEdit.Value;
-                decimal Discount = Discount_SpinEdit.Value;
-                DiscountPercentage_SpinEdit.Value = (Discount * 100) / TotalBeforDiscount;
-                CalculateAndDisplay();
-                _isDiscountPercentage = false;
-
-            }
+            if (!Discount_SpinEdit.IsKeyboardFocusWithin) return;
+            decimal totalBeforDiscount = TotalBeforeDiscount_SpinEdit.Value;
+            decimal discount = Discount_SpinEdit.Value;
+            DiscountPercentage_SpinEdit.Value = (discount * 100) / totalBeforDiscount;
+            CalculateAndDisplay();
+            _isDiscountPercentage = false;
         }
     }
 }

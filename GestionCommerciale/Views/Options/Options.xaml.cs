@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -15,6 +17,8 @@ namespace GestionCommerciale.Views.Options
 		public Options(Window mainwnd,Image header,string animationName="")
 		{
 		    InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
 			_headerImage = header;
 			_mainWnd = mainwnd;
 

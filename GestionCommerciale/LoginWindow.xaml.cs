@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.Validator;
 using System.Security.Cryptography;
+using System.Threading;
 using GestionCommerciale.DomainModel.ClassesClients;
 
 
@@ -21,6 +23,8 @@ namespace GestionCommerciale
         public LoginWindow()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
 
         private void LoginBtn_OnClick(object sender, RoutedEventArgs e)

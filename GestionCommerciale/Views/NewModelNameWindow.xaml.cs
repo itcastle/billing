@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using DevExpress.Xpf.Core;
@@ -16,6 +18,8 @@ namespace GestionCommerciale.Views
         public NewModelNameWindow(UserControl child, string modelName, string viewType)
             {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _theChild = child;
             _theOldModelName = modelName;
             ModelNameTxtBox.Text = modelName;

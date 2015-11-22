@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -6,7 +8,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.LayoutControl;
-using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.ClassesClients;
 
 namespace GestionCommerciale.Views.Suppliers
@@ -20,16 +21,17 @@ namespace GestionCommerciale.Views.Suppliers
         public AddSupplierView()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
         public AddSupplierView(string animationName)
         {
             InitializeComponent();
-
-            if (!string.IsNullOrEmpty(animationName))
-            {
-                Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
-                LayoutRoot.BeginStoryboard(animation);
-            }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            if (string.IsNullOrEmpty(animationName)) return;
+            Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
+            LayoutRoot.BeginStoryboard(animation);
         }
         
         private void GroupBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -51,7 +53,7 @@ namespace GestionCommerciale.Views.Suppliers
             }
             catch (Exception exception)
             {
-                
+                //
 
             }
 

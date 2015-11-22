@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Editors;
@@ -19,6 +21,8 @@ namespace GestionCommerciale.Views.Options
         public GeneralParams()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

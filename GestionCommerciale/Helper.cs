@@ -197,16 +197,16 @@ namespace GestionCommerciale
         }
 
       
-        public static List<string> GetModelsNamesList(List<DocModel> models)
-        {
-            var fileNames = new List<string>();
-            foreach (var model in models)
-            {
-                string name = model.Name;
-                fileNames.Add(name);
-            }
-            return fileNames;
-        }
+        //public static List<string> GetModelsNamesList(List<DocModel> models)
+        //{
+        //    var fileNames = new List<string>();
+        //    foreach (var model in models)
+        //    {
+        //        string name = model.Name;
+        //        fileNames.Add(name);
+        //    }
+        //    return fileNames;
+        //}
         
         public static byte[] Compress(byte[] data)
         {

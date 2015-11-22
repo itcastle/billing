@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using DevExpress.XtraRichEdit;
-using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
-using GestionCommerciale.Helpers;
 
 namespace GestionCommerciale.Views.Purchases
 {
@@ -17,17 +16,19 @@ namespace GestionCommerciale.Views.Purchases
     /// </summary>
     public partial class NewCommandView : Window
     {
-        private Command _Command;
-        private CommandsManager _commandsMNG = new CommandsManager();
-        private DocModelsManager _docModelMNG = new DocModelsManager();
-        private SettingsClient _settingMNG = new SettingsClient();
-        private List<DocModel> _models = new List<DocModel>();
+        private readonly Command _command;
+        private readonly CommandsManager _commandsManager = new CommandsManager();
+        private readonly DocModelsManager _docModelManager = new DocModelsManager();
+        private readonly SettingsClient _settingManager = new SettingsClient();
+        private  List<DocModel> _listModels = new List<DocModel>();
 
 
-        public NewCommandView(Command TheCommand)
+        public NewCommandView(Command theCommand)
         {
             InitializeComponent();
-            _Command = _commandsMNG.GetCommandByID(TheCommand.CommandID);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            _command = _commandsManager.GetCommandByID(theCommand.CommandID);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -37,9 +38,10 @@ namespace GestionCommerciale.Views.Purchases
         {
             try
             {
-                _models = _docModelMNG.getDocModelsByType("command");
-                Models_ComboBox.ItemsSource = Helper.GetModelsNamesList(_models);
-                if (_models.Count > 0)
+                _listModels = _docModelManager.GetDocModelsByType("command");
+                if (_listModels == null) return;
+                Models_ComboBox.ItemsSource = _listModels;
+                if (_listModels.Count > 0)
                 {
                     Models_ComboBox.SelectedIndex = 0;
                 }
@@ -55,15 +57,12 @@ namespace GestionCommerciale.Views.Purchases
         {
             try
             {
-                if (Models_ComboBox.SelectedIndex >= 0)
+                var ee = Models_ComboBox.SelectedItemValue; 
+                if (Models_ComboBox.SelectedIndex < 0||_listModels == null) return;
+             
+                if (_listModels.Count > Models_ComboBox.SelectedIndex)
                 {
-                    if (_models != null)
-                    {
-                        if (_models.Count > Models_ComboBox.SelectedIndex)
-                        {
-                            LoadDocsModel(_models[Models_ComboBox.SelectedIndex]);
-                        }
-                    }
+                    LoadDocsModel(_listModels[Models_ComboBox.SelectedIndex]);
                 }
             }
 
@@ -74,6 +73,7 @@ namespace GestionCommerciale.Views.Purchases
             }
 
         }
+
         private void LoadDocsModel(DocModel model)
         {
             try
@@ -85,61 +85,35 @@ namespace GestionCommerciale.Views.Purchases
 
                 DocRichEdit.DocRichEdit.LoadDocument(stream, DocumentFormat.OpenXml);
 
-
-                var CompanyInfos = _settingMNG.GetSetting();
-
-                DocRichEdit.DocRichEdit.Document.Variables.Add("Date", DateTime.Now.ToShortDateString());
-                if (CompanyInfos.CompanyName != null)
+                string dateOfNow = DateTime.Now.ToShortDateString(); 
+                var companyInfos = _settingManager.GetSetting();
+                var companyName = companyInfos.CompanyName ?? "";
+                string adress = companyInfos.Adresse ?? "";
+                string phone = companyInfos.Phone ?? "";
+                string rC = companyInfos.RC ?? "";
+                string nis = companyInfos.NIS ?? "";
+                var date = _command.Date != null ? _command.Date.Value.Date.ToShortDateString() : "";
+                string telephone = "";
+                var firstOrDefault = _command.Purchase.Provider.Telephones.FirstOrDefault();
+                if (firstOrDefault != null)
                 {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyName", CompanyInfos.CompanyName);
+                     telephone = firstOrDefault.TELEPHONENUMBER ?? "";
                 }
-
-                if (CompanyInfos.Adresse != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyAdresse", CompanyInfos.Adresse);
-                }
-                if (CompanyInfos.Phone != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyTel", CompanyInfos.Phone);
-                }
-                if (CompanyInfos.RC != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyRC", CompanyInfos.RC);
-                }
-
-                if (CompanyInfos.NIS != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyNIF", CompanyInfos.NIS);
-                }
-                //--------------------------------------------------------------------
-                if (_Command.Date != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("DATE", _Command.Date);
-                }
-                if (_Command.Num != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("FN", _Command.Num);
-                }
-
-                //-------------------------------------------------------------------
-                if (_Command.Purchase.Provider.CompanyName != null)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderName", _Command.Purchase.Provider.CompanyName);
-                }
-
-                if (_Command.Purchase.Provider.Address != null)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderAdresse", _Command.Purchase.Provider.Address);
-                }
-
-                if (_Command.Purchase.Provider.Telephones != null && _Command.Purchase.Provider.Telephones.Count > 0)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderTel", _Command.Purchase.Provider.Telephones.FirstOrDefault().TELEPHONENUMBER);
-                }
-
+                string providerName = _command.Purchase.Provider.CompanyName ?? "";
+                string commandNum = _command.Num ?? "";
+                string providerAddress = _command.Purchase.Provider.Address ?? "";
+                //-------------------------------------------------------------------------
+                DocRichEdit.DocRichEdit.Document.Variables.Add("Date", dateOfNow);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyName", companyName);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyAdresse", adress);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyTel", phone);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyRC", rC);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyNIF",nis);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("DATE", date);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("FN", commandNum);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderName", providerName);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderAdresse", providerAddress);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ProviderTel", telephone);
                 DocRichEdit.DocRichEdit.Document.Fields.Update();
                 AddProductsToCommand();
             }
@@ -154,16 +128,13 @@ namespace GestionCommerciale.Views.Purchases
             try
             {
 
-                foreach (var ProductOrd in _Command.Purchase.PurchaseStores)
+                foreach (var productOrd in _command.Purchase.PurchaseStores)
                 {
                     var row = DocRichEdit.DocRichEdit.Document.Tables[2].Rows.Append();
                     row.Height = 100;
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[0].Range.Start, ProductOrd.Product.ProductName);
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[1].Range.Start, ProductOrd.UnitsOnOrder.Value.ToString("0.0", CultureInfo.InvariantCulture));
-
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[0].Range.Start, productOrd.Product.ProductName);
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[1].Range.Start, productOrd.UnitsOnOrder.Value.ToString("0.0", CultureInfo.InvariantCulture));
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -178,13 +149,11 @@ namespace GestionCommerciale.Views.Purchases
         {
             try
             {
-                if (CancelDoc_btn.IsEnabled)
-                {
+                
                     if (Helper.ShowQuestionMessageBox("Confirmation", "Voulez vous vraiment annuler ?") == MessageBoxResult.Yes)
                     {
                         Close();
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -196,42 +165,30 @@ namespace GestionCommerciale.Views.Purchases
 
         private void SaveDocBtn_OnClick(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                if (SaveDoc_btn.IsEnabled)
-                {
-                    MemoryStream stream = new MemoryStream();
-                    DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
-                    byte[] compressed = Helper.Compress(stream.ToArray());
-
-                    _commandsMNG.AddDocToCommand(_Command, compressed);
-                    Close();
-
-                }
-
+                MemoryStream stream = new MemoryStream();
+                DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
+                byte[] compressed = Helper.Compress(stream.ToArray());
+                _commandsManager.AddDocToCommand(_command, compressed);
+                Close();
             }
             catch (Exception ex)
             {
                 Helper.ShowErrorMessageBox("Erreur", ex.Message);
             }
-
         }
 
         private void SavePrintDocBtn_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (SavePrintDoc_btn.IsEnabled)
-                {
-                    MemoryStream stream = new MemoryStream();
-                    DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
-                    byte[] compressed = Helper.Compress(stream.ToArray());
-                    _commandsMNG.AddDocToCommand(_Command, compressed);
 
-                    DocRichEdit.biFilePrint.PerformClick();
-
-                }
+                MemoryStream stream = new MemoryStream();
+                DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
+                byte[] compressed = Helper.Compress(stream.ToArray());
+                _commandsManager.AddDocToCommand(_command, compressed);
+                DocRichEdit.biFilePrint.PerformClick();
             }
             catch (Exception ex)
             {

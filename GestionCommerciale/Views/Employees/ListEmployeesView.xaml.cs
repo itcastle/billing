@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Animation;
@@ -27,15 +29,14 @@ namespace GestionCommerciale.Views.Employees
         public ListEmployeesView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             TabHlp = hlp;
             employee = new Employee();
             employeeClient = new EmployeesManager();
-            if (!string.IsNullOrEmpty(animationName))
-            {
-                Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
-                LayoutRoot.BeginStoryboard(animation);
-            }
-           
+            if (string.IsNullOrEmpty(animationName)) return;
+            Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
+            LayoutRoot.BeginStoryboard(animation);
         }
 
         private void NewEmployeeBtn_Click(object sender, RoutedEventArgs e)
@@ -46,10 +47,10 @@ namespace GestionCommerciale.Views.Employees
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            loadGrid();
+            LoadGrid();
         }
 
-        private void loadGrid()
+        private void LoadGrid()
         {
             employeeList = employeeClient.GetEmployees();
             if (employeeList!=null)
@@ -179,7 +180,7 @@ namespace GestionCommerciale.Views.Employees
             String s = employeeClient.MajEmployee(emp);
             MessageBox.Show(s);
 
-            loadGrid();
+            LoadGrid();
 
             EmployeesDataGrid.View.FocusedRowHandle = rowHandle;
 
@@ -245,7 +246,7 @@ namespace GestionCommerciale.Views.Employees
 
             if (emp == null) return;
             empc.DesactivateEmployee(emp);
-            loadGrid();
+            LoadGrid();
         }
 
         

@@ -29,6 +29,8 @@ namespace GestionCommerciale.Views.Customers
         public AddCustomerView(string animationName)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _customersManager = new CustomersManager();
             if (string.IsNullOrEmpty(animationName)) return;
             var animation = (Storyboard)Application.Current.Resources[animationName];

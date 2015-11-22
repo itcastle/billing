@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using DevExpress.Data;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
-using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
-using Application = System.Windows.Application;
 
 namespace GestionCommerciale.Views.Stocks
 {
@@ -23,11 +22,11 @@ namespace GestionCommerciale.Views.Stocks
     {
       
         private DataTable _dataTable;
-        private readonly CategorysClient _CategorysClient;
+        private readonly CategorysClient _categorysClient=new CategorysClient();
         private StockStore _getStockStore;
         private Product _product;
-        private readonly ProductManger _productManger;
-        private readonly StockManager _stockManager;
+        private readonly ProductManger _productManger=new ProductManger();
+        private readonly StockManager _stockManager=new StockManager();
 
         public StockView()
         {
@@ -78,16 +77,15 @@ namespace GestionCommerciale.Views.Stocks
         public StockView(string animationName)
         {
             InitializeComponent();
-        
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             if (!string.IsNullOrEmpty(animationName))
             {
                 Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
                 LayoutRoot.BeginStoryboard(animation);
             }
             LoadEmptyble();
-            _CategorysClient=new CategorysClient();
-            _productManger=new ProductManger();
-            _stockManager=new StockManager();
+         
         }
         public void Connect(int connectionId, object target)
         {
@@ -135,9 +133,9 @@ namespace GestionCommerciale.Views.Stocks
         {
             try
             {
-                var stockManager = new StockManager();
+              
                 _dataTable.Rows.Clear();
-                e.Result = stockManager.GetStockDataTable(_dataTable);
+                e.Result = _stockManager.GetStockDataTable(_dataTable);
             }
             catch (Exception)
             {
@@ -155,7 +153,7 @@ namespace GestionCommerciale.Views.Stocks
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                CategoryCbx.ItemsSource = _CategorysClient.GetCategorysNames();
+                CategoryCbx.ItemsSource = _categorysClient.GetCategorieNames();
 
             }));
 
@@ -168,28 +166,29 @@ namespace GestionCommerciale.Views.Stocks
             try
             {
 
-                if (_product==null|| _getStockStore!=null) return;
-              
-                    float prixAchat = ConverToFloat(PrixAchatTxt.Text);
-                    int qteAchter = ConvertToInteger(QteAchterSpin.Value);
-                    float prixVenteGros = ConverToFloat(PrixVenteGrosTxt.Text);
-                    float prixVenteDetail = ConverToFloat(VentePriceUnitDetailTxt.Text);
-                    float prixVenteComptoire = ConverToFloat(VentePriceUnitComptoireTxt.Text);
-                    float totalPriceHt = ConverToFloat(TotalPrixTxt.Text);
-                    string stockageId = StockageIDtxt.Text;
-                    string productSnumber = ProductSNtxt.Text;
-                    string productState = ProductStateCBX.Text;
-                    string stockObs = StockObStxt.Text;
-                    string refrenceNum = ReferenceTxt.Text;
-                    DateTime insertionDate = ProductSaleDateDte.DateTime;
+                if (_product == null || _getStockStore != null) return;
+
+                float prixAchat = ConverToFloat(PrixAchatTxt.Text);
+                int qteAchter = ConvertToInteger(QteAchterSpin.Value);
+                float prixVenteGros = ConverToFloat(PrixVenteGrosTxt.Text);
+                float prixVenteDetail = ConverToFloat(VentePriceUnitDetailTxt.Text);
+                float prixVenteComptoire = ConverToFloat(VentePriceUnitComptoireTxt.Text);
+                float totalPriceHt = ConverToFloat(TotalPrixTxt.Text);
+                string stockageId = StockageIDtxt.Text;
+                string productSnumber = ProductSNtxt.Text;
+                string productState = ProductStateCBX.Text;
+                string stockObs = StockObStxt.Text;
+                string refrenceNum = ReferenceTxt.Text;
+                DateTime insertionDate = ProductSaleDateDte.DateTime;
                 DateTime starTime = DateStartPremptionDte.DateTime;
                 DateTime endTime = DateEndPremptionDte.DateTime;
 
-                    string result = _stockManager.AddNewProductToStock(_product, prixAchat, qteAchter,
-                        prixVenteGros, prixVenteDetail, prixVenteComptoire, totalPriceHt, stockageId, productSnumber, productState, stockObs, insertionDate, refrenceNum, starTime, endTime);
-                    DXMessageBox.Show(this, result);
-                    RefreshFields_OnClick(null, null);
-           
+                string result = _stockManager.AddNewProductToStock(_product, prixAchat, qteAchter,
+                    prixVenteGros, prixVenteDetail, prixVenteComptoire, totalPriceHt, stockageId, productSnumber,
+                    productState, stockObs, insertionDate, refrenceNum, starTime, endTime);
+                DXMessageBox.Show(this, result);
+                RefreshFields_OnClick(null, null);
+
             }
             catch (Exception)
             {
@@ -450,19 +449,17 @@ namespace GestionCommerciale.Views.Stocks
             StockGridControl.CopyToClipboard();
         }
 
-     
-
         private void CategoryCbx_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
-            string CategoryName = CategoryCbx.Text;
-            if (string.IsNullOrEmpty(CategoryName) || string.IsNullOrWhiteSpace(CategoryName)) return;
+            string categoryName = CategoryCbx.Text;
+            if (string.IsNullOrEmpty(categoryName) || string.IsNullOrWhiteSpace(categoryName)) return;
             SubCategoryCbx.Clear();
             ProductNameCbx.Clear();
             MeasureTxt.Clear();
             DesignationTxt.Clear();
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                SubCategoryCbx.ItemsSource = _CategorysClient.GetSubCategorysNames(CategoryName);
+                SubCategoryCbx.ItemsSource = _categorysClient.GetSubCategorysNames(categoryName);
 
             }));
 
@@ -471,7 +468,7 @@ namespace GestionCommerciale.Views.Stocks
         private void SubCategoryCbx_OnEditValueChanged(object sender, EditValueChangedEventArgs e)
         {
             string subCategoryName = SubCategoryCbx.Text;
-            string CategoryName = CategoryCbx.Text;
+            string categoryName = CategoryCbx.Text;
             if (string.IsNullOrEmpty(subCategoryName) || string.IsNullOrWhiteSpace(subCategoryName))
             {
                 ProductNameCbx.ItemsSource=new List<string>();
@@ -479,7 +476,7 @@ namespace GestionCommerciale.Views.Stocks
                DesignationTxt.Clear();
                 return;
             }
-            if (string.IsNullOrEmpty(CategoryName) || string.IsNullOrWhiteSpace(CategoryName))
+            if (string.IsNullOrEmpty(categoryName) || string.IsNullOrWhiteSpace(categoryName))
             {
                 SubCategoryCbx.ItemsSource = new List<string>();
                 ProductNameCbx.ItemsSource = new List<string>();
@@ -492,7 +489,7 @@ namespace GestionCommerciale.Views.Stocks
             MeasureTxt.Clear();
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                ProductNameCbx.ItemsSource = _CategorysClient.GetProducts(CategoryName,subCategoryName);
+                ProductNameCbx.ItemsSource = _categorysClient.GetProducts(categoryName,subCategoryName);
                 ProductNameCbx.DisplayMember = "ProductName";
                 ProductNameCbx.ValueMember = "ProductID";
             }));
@@ -530,7 +527,6 @@ namespace GestionCommerciale.Views.Stocks
 
         private string GetQteInStock(int  getProductId)
         {
-
             try
             {
                 decimal getQte = _stockManager.GetStockQte(getProductId);

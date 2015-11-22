@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -27,7 +29,7 @@ namespace GestionCommerciale.Views.Purchases
        
         private PurchaseClient _purchaseClient;
 
-        private readonly CategorysClient _CategorysClient;
+        private readonly CategorysClient _categorysClient;
         private Purchase _getPurchase;
         private readonly SuppliersManager _suppliersManager;
         private Provider _getProvider;
@@ -35,6 +37,8 @@ namespace GestionCommerciale.Views.Purchases
         public ListPurchasesView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _tabHlp = hlp;
             if (!string.IsNullOrEmpty(animationName))
             {
@@ -44,7 +48,7 @@ namespace GestionCommerciale.Views.Purchases
             
             _suppliersManager = new SuppliersManager();
             _purchaseClient=new PurchaseClient();
-            _CategorysClient=new CategorysClient();
+            _categorysClient=new CategorysClient();
         }
 
         private void NewSaleBtn_OnClick(object sender, RoutedEventArgs e)
@@ -65,7 +69,7 @@ namespace GestionCommerciale.Views.Purchases
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    CategoryCBX.ItemsSource = _CategorysClient.GetCategorysNames();
+                    CategoryCBX.ItemsSource = _categorysClient.GetCategorysNames();
 
                 }));
             }
@@ -82,7 +86,7 @@ namespace GestionCommerciale.Views.Purchases
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                SubCategoryCBX.ItemsSource = _CategorysClient.GetSubCategorysNames(CategoryName);
+                SubCategoryCBX.ItemsSource = _categorysClient.GetSubCategorysNames(CategoryName);
 
             }));
 

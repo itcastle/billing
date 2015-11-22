@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.ClassesClients;
@@ -11,16 +13,19 @@ namespace GestionCommerciale.Views.TVAs
     /// </summary>
     public partial class AddTvaView : Window
     {
+        readonly TvaClient _tvac = new TvaClient();
         public AddTvaView()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
 
         private void AddTvaBtn_Click(object sender, RoutedEventArgs e)
         {
             TVA tva = new TVA();
             
-            TvaClient tvac = new TvaClient();
+        
 
             String input = null;
 
@@ -37,7 +42,7 @@ namespace GestionCommerciale.Views.TVAs
                 Decimal dec = Convert.ToDecimal(input);
                 tva.TauxTVA = (float)dec;
 
-            String s =tvac.AddTva(tva);
+            String s =_tvac.AddTva(tva);
 
             MessageBox.Show(s);
             Close();

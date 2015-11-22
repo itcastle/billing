@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Threading;
+using System.Windows;
 using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel.Entities;
 
@@ -36,6 +38,8 @@ namespace GestionCommerciale.Views.Purchases
         public ProductPurchaseDetails()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             this.DataContext = ProductPurchase;
         }
 

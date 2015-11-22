@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -27,6 +29,8 @@ namespace GestionCommerciale.Views.Sales
         public ListSalesView(string animationName, TabHelper hlp)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             _tabHlp = hlp;
             if (!string.IsNullOrEmpty(animationName))
             {

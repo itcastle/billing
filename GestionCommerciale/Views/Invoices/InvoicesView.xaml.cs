@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -18,6 +20,8 @@ namespace GestionCommerciale.Views.Invoices
         public InvoicesView(string animationName)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             if (string.IsNullOrEmpty(animationName)) return;
             var animation = (Storyboard)Application.Current.Resources[animationName];
             LayoutRoot.BeginStoryboard(animation);

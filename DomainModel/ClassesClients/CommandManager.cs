@@ -8,36 +8,52 @@ namespace GestionCommerciale.DomainModel.ClassesClients
     {
         public Command GetCommandByID(int id)
         {
-            GcdbEntities Db = new GcdbEntities();
-            Command cmd = Db.Commands.FirstOrDefault(c => c.CommandID == id);
+            GcdbEntities gcdb = new GcdbEntities();
+            Command cmd = gcdb.Commands.FirstOrDefault(c => c.CommandID == id);
             return cmd;
         }
 
-        public Command CreateCommand(Purchase ThePurchase, DateTime DateCreation,string CommandNum )
+        public Command CreateCommand(Purchase thePurchase, DateTime dateCreation,string commandNum )
         {
-            Command cmd = new Command()
+            try
             {
-                PurchaseID = ThePurchase.PurchaseID,
-                Date = DateCreation,
-                Num = CommandNum
-            };
-            GcdbEntities Db = new GcdbEntities();
-            Db.Commands.Add(cmd);
-            Db.SaveChanges();
-            return cmd;
+                Command newCommand = new Command()
+                {
+                    PurchaseID = thePurchase.PurchaseID,
+                    Date = dateCreation,
+                    Num = commandNum
+                };
+                GcdbEntities gcdb = new GcdbEntities();
+                gcdb.Commands.Add(newCommand);
+                gcdb.SaveChanges();
+                return newCommand;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
-        public void AddDocToCommand(Command TheCommand, byte[] doc)
+        public void AddDocToCommand(Command theCommand, byte[] doc)
         {
-            GcdbEntities _gestionDb = new GcdbEntities();
-            var fact = _gestionDb.Commands.FirstOrDefault(c => c.CommandID == TheCommand.CommandID);
-            Document d = new Document()
+            try
             {
-                Type = "command",
-                DocFile = doc
-            };
-            fact.Document = d;
-            _gestionDb.SaveChanges();
+                GcdbEntities gcdb = new GcdbEntities();
+                var fact = gcdb.Commands.FirstOrDefault(c => c.CommandID == theCommand.CommandID);
+                if (fact == null) return;
+                Document d = new Document()
+                {
+                    Type = "command",
+                    DocFile = doc
+                };
+                fact.Document = d;
+                gcdb.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                
+                //
+            }
         }
 
     }

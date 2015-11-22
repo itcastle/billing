@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -21,16 +23,18 @@ namespace GestionCommerciale.Views.Employees
         public AddEmployeeView()
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
         }
         public AddEmployeeView(string animationName)
         {
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
 
-            if (!string.IsNullOrEmpty(animationName))
-            {
-                Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
-                LayoutRoot.BeginStoryboard(animation);
-            }
+            if (string.IsNullOrEmpty(animationName)) return;
+            Storyboard animation = (Storyboard)Application.Current.Resources[animationName];
+            LayoutRoot.BeginStoryboard(animation);
         }
 
         

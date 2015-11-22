@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using DevExpress.XtraRichEdit;
 using GestionCommerciale.DomainModel;
@@ -18,16 +19,19 @@ namespace GestionCommerciale.Views.Invoices
     public partial class NewInvoiceView : Window
     {
 
-        private Facture _Invoice;
-        private FacturesClient _factureManager = new FacturesClient();
-        private DocModelsManager _docModelMNG = new DocModelsManager();
-        private SettingsClient _settingMNG = new SettingsClient();
-        private List<DocModel> _models = new List<DocModel>();
+        private readonly Facture _invoice;
+        private readonly FacturesClient _factureManager = new FacturesClient();
+        private readonly DocModelsManager _docModelManager = new DocModelsManager();
+        private readonly SettingsClient _settingManager = new SettingsClient();
+        private List<DocModel> _listModels = new List<DocModel>();
 
-        public NewInvoiceView(Facture TheFacture)
+        public NewInvoiceView(Facture theFacture)
         {
-            _Invoice = _factureManager.GetFactureById(TheFacture.FactureID);
+          
             InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            _invoice = _factureManager.GetFactureById(theFacture.FactureID);
             
         }
 
@@ -41,9 +45,10 @@ namespace GestionCommerciale.Views.Invoices
         {
             try
             {
-                _models = _docModelMNG.getDocModelsByType("facture");
-                Models_ComboBox.ItemsSource = Helper.GetModelsNamesList(_models);
-                if (_models.Count > 0)
+                _listModels = _docModelManager.GetDocModelsByType("facture");
+                if(_listModels==null)return;
+                Models_ComboBox.ItemsSource = _listModels;
+                if (_listModels.Count > 0)
                 {
                     Models_ComboBox.SelectedIndex = 0;
                 }
@@ -59,91 +64,56 @@ namespace GestionCommerciale.Views.Invoices
         {
             try
             {
-                if (Models_ComboBox.SelectedIndex >= 0)
-                {
-                    if (_models != null)
-                    {
-                        if (_models.Count > Models_ComboBox.SelectedIndex)
-                        {
-                            LoadDocsModel(_models[Models_ComboBox.SelectedIndex]);
-                        }
-                    }
-                }
+                if (Models_ComboBox.SelectedIndex < 0||_listModels == null) return;
+                if (_listModels.Count < Models_ComboBox.SelectedIndex) return;
+                string dateOfNow = DateTime.Now.ToShortDateString();
+                var companyInfos = _settingManager.GetSetting();
+                var companyName = companyInfos.CompanyName ?? "";
+                string adress = companyInfos.Adresse ?? "";
+                string phone = companyInfos.Phone ?? "";
+                string rC = companyInfos.RC ?? "";
+                string nis = companyInfos.NIS ?? "";
+                LoadDocsModel(_listModels[Models_ComboBox.SelectedIndex], dateOfNow, companyName, adress, phone, rC, nis);
             }
-
-
             catch (Exception ex)
             {
                 Helper.ShowErrorMessageBox("Erreur", ex.Message);
             }
 
         }
-        private void LoadDocsModel(DocModel model)
+
+        private void LoadDocsModel(DocModel model, string dateOfNow, string companyName, string adress, string phone,
+            string rC, string nis)
         {
             try
             {
-
                 byte[] decompressed = Helper.Decompress(model.DocFile);
                 Stream stream = new MemoryStream(decompressed);
 
+                var date = _invoice.FactureDate != null ? _invoice.FactureDate.Value.Date.ToShortDateString() : "";
+                string telephone = "";
+                var firstOrDefault = _invoice.Order.Customer.Telephones.FirstOrDefault();
+                if (firstOrDefault != null)
+                {
+                    telephone = firstOrDefault.TELEPHONENUMBER ?? "";
+                }
+                string cientName = _invoice.Order.Customer.CompanyName ?? "";
+                string factureNum = _invoice.FactureNum.ToString() ?? 0.ToString();
+                string clientAddress = _invoice.Order.Customer.Address ?? "";
 
                 DocRichEdit.DocRichEdit.LoadDocument(stream, DocumentFormat.OpenXml);
 
-
-                var CompanyInfos = _settingMNG.GetSetting();
-
-                DocRichEdit.DocRichEdit.Document.Variables.Add("Date", DateTime.Now.ToShortDateString());
-                if (CompanyInfos.CompanyName != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyName", CompanyInfos.CompanyName);
-                }
-
-                if (CompanyInfos.Adresse != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyAdresse", CompanyInfos.Adresse);
-                }
-                if (CompanyInfos.Phone != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyTel", CompanyInfos.Phone);
-                }
-                if (CompanyInfos.RC != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyRC", CompanyInfos.RC);
-                }
-
-                if (CompanyInfos.NIS != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyNIF", CompanyInfos.NIS);
-                }
-                //--------------------------------------------------------------------
-                if (_Invoice.FactureDate != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("DATE", _Invoice.FactureDate);
-                }
-                if (_Invoice.FactureNum != null)
-                {
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("FN", _Invoice.FactureNum);
-                }
-
-                //-------------------------------------------------------------------
-                if (_Invoice.Order.Customer.CompanyName != null)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ClientName", _Invoice.Order.Customer.CompanyName);
-                }
-
-                if (_Invoice.Order.Customer.Address != null)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ClientAdresse", _Invoice.Order.Customer.Address);
-                }
-
-                if (_Invoice.Order.Customer.Telephones != null && _Invoice.Order.Customer.Telephones.Count > 0)
-                {
-
-                    DocRichEdit.DocRichEdit.Document.Variables.Add("ClientTel", _Invoice.Order.Customer.Telephones.FirstOrDefault().TELEPHONENUMBER);
-                }
-
+                DocRichEdit.DocRichEdit.Document.Variables.Add("Date", dateOfNow);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyName", companyName);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyAdresse", adress);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyTel", phone);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyRC", rC);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("CompanyNIF", nis);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("DATE", date);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("FN", factureNum);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ClientName", cientName);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ClientAdresse", clientAddress);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("ClientTel", telephone);
                 DocRichEdit.DocRichEdit.Document.Fields.Update();
                 AddProductsToInvoice();
             }
@@ -159,29 +129,29 @@ namespace GestionCommerciale.Views.Invoices
             try
             {
 
-                decimal TotalHT = 0;
+                decimal totalHT = 0;
                 int i = 0;
-                foreach (var ProductOrd in _Invoice.Order.OrderDetails)
+                foreach (var productOrd in _invoice.Order.OrderDetails)
                 {
                     var row = DocRichEdit.DocRichEdit.Document.Tables[2].Rows.InsertAfter(i);
                     row.Height = 100;
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[0].Range.Start, ProductOrd.Product.ProductName);
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[1].Range.Start, ProductOrd.UnitPrice.ToString("###,###.00"));
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[2].Range.Start, ProductOrd.Quantity.ToString("0.0", CultureInfo.InvariantCulture));
-                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[3].Range.Start, ProductOrd.TotalPrice.ToString("###,###.00"));
-                    TotalHT += ProductOrd.TotalPrice;
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[0].Range.Start, productOrd.Product.ProductName);
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[1].Range.Start, productOrd.UnitPrice.ToString("###,###.00"));
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[2].Range.Start, productOrd.Quantity.ToString("0.0", CultureInfo.InvariantCulture));
+                    DocRichEdit.DocRichEdit.Document.InsertText(row.Cells[3].Range.Start, productOrd.TotalPrice.ToString("###,###.00"));
+                    totalHT += productOrd.TotalPrice;
                     i++;
                 }
 
-                decimal TotalTTC = TotalHT;
-                if (_Invoice.Order.TvaValue.HasValue)
+                decimal totalTtc = totalHT;
+                if (_invoice.Order.TvaValue.HasValue)
                 {
-                    TotalTTC = TotalHT * (1 + _Invoice.Order.TvaValue.Value / 100);
+                    totalTtc = totalHT * (1 + _invoice.Order.TvaValue.Value / 100);
                 }
-                DocRichEdit.DocRichEdit.Document.Variables.Add("TotalHT", TotalHT.ToString("###,###.00"));
-                DocRichEdit.DocRichEdit.Document.Variables.Add("TotalTTC", TotalTTC.ToString("###,###.00"));
-                string TotalLettres = Helper.ConvertChifreToLettre(TotalTTC);
-                DocRichEdit.DocRichEdit.Document.Variables.Add("SommeLettres", TotalLettres);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("TotalHT", totalHT.ToString("###,###.00"));
+                DocRichEdit.DocRichEdit.Document.Variables.Add("TotalTTC", totalTtc.ToString("###,###.00"));
+                string totalLettres = Helper.ConvertChifreToLettre(totalTtc);
+                DocRichEdit.DocRichEdit.Document.Variables.Add("SommeLettres", totalLettres);
                 DocRichEdit.DocRichEdit.Document.Fields.Update();
 
 
@@ -201,13 +171,12 @@ namespace GestionCommerciale.Views.Invoices
         {
             try
             {
-                if (CancelDoc_btn.IsEnabled)
-                {
+                
                     if (Helper.ShowQuestionMessageBox("Confirmation", "Voulez vous vraiment annuler ?") == MessageBoxResult.Yes)
                     {
                         Close();
                     }
-                }
+                
             }
             catch (Exception ex)
             {
@@ -228,7 +197,7 @@ namespace GestionCommerciale.Views.Invoices
                     DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
                     byte[] compressed = Helper.Compress(stream.ToArray());
 
-                    _factureManager.AddDocToFacture(_Invoice, compressed);
+                    _factureManager.AddDocToFacture(_invoice, compressed);
                     Close();
 
                 }
@@ -250,7 +219,7 @@ namespace GestionCommerciale.Views.Invoices
                     MemoryStream stream = new MemoryStream();
                     DocRichEdit.DocRichEdit.SaveDocument(stream, DocumentFormat.OpenXml);
                     byte[] compressed = Helper.Compress(stream.ToArray());
-                    _factureManager.AddDocToFacture(_Invoice, compressed);
+                    _factureManager.AddDocToFacture(_invoice, compressed);
 
 
                     DocRichEdit.biFilePrint.PerformClick();
