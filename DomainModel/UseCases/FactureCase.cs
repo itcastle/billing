@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using GestionCommerciale.DomainModel.Entities;
-using GestionCommerciale.DomainModel;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.UseCases
 {
     public class FactureCase
     {

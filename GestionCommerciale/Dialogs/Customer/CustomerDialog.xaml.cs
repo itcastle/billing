@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 
 namespace GestionCommerciale.Modals
 {
@@ -25,7 +26,7 @@ namespace GestionCommerciale.Modals
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            GestionCommerciale.DomainModel.CustomersManager customers = new GestionCommerciale.DomainModel.CustomersManager();
+            CustomersManager customers = new CustomersManager();
             dgCustomers.ItemsSource = customers.GetCustomers();          
         }
     }

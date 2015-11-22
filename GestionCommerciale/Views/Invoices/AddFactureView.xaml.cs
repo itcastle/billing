@@ -8,7 +8,9 @@ using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.LayoutControl;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.DomainModel.UseCases;
 using GestionCommerciale.Modals;
 using GestionCommerciale.Modals.TVA;
 

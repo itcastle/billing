@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Core;
-using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Validator;
 using GestionCommerciale.Views.Products;
 using Categorys = GestionCommerciale.DomainModel.Entities.Category;
@@ -17,13 +17,13 @@ namespace GestionCommerciale.Views.Categories
     /// </summary>
     public partial class AddCategoryView
     {
-        readonly CategorysClient _CategorysClient;
-        private AddProductView _addProductView;
+        readonly CategorysClient _categorysClient;
+        private readonly AddProductView _addProductView;
         public AddCategoryView(AddProductView addProductView)
         {
             
             InitializeComponent();
-            _CategorysClient = new CategorysClient();
+            _categorysClient = new CategorysClient();
             _addProductView = addProductView;
 
         }
@@ -48,9 +48,9 @@ namespace GestionCommerciale.Views.Categories
                 }
             }
 
-            var Categoryname = CategoryNameCbx.Text ?? "";
+            var categoryname = CategoryNameCbx.Text ?? "";
             string subCategoryname = SubCategoryNameTxt.Text;
-            if (String.IsNullOrEmpty(Categoryname))
+            if (String.IsNullOrEmpty(categoryname))
             {
                 DXMessageBox.Show(this, "Erreur dans le Nom du catégorie (ne doit pas etre vide");
                 return;
@@ -61,7 +61,7 @@ namespace GestionCommerciale.Views.Categories
                 return;
             }
 
-            if (_CategorysClient.IsSubCategoryExist(subCategoryname.Trim(), Categoryname))
+            if (_categorysClient.IsSubCategoryExist(subCategoryname.Trim(), categoryname))
             {
                 DXMessageBox.Show(this, "sous catégorie existe déjà");
                 return;
@@ -73,7 +73,7 @@ namespace GestionCommerciale.Views.Categories
 
 
 
-            String result = _CategorysClient.AddSubCategory(Categoryname.Trim(), subCategoryname.Trim(), description.Trim(), photo);
+            String result = _categorysClient.AddSubCategory(categoryname.Trim(), subCategoryname.Trim(), description.Trim(), photo);
 
             DXMessageBox.Show(this,result);
           
@@ -84,7 +84,7 @@ namespace GestionCommerciale.Views.Categories
 
             try
             {
-                List<string> listCategorys = _CategorysClient.GetListCategoryName();
+                List<string> listCategorys = _categorysClient.GetListCategoryName();
                 CategoryNameCbx.ItemsSource = listCategorys;
             }
             catch (Exception)

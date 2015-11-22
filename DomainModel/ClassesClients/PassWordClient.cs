@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using GestionCommerciale.DomainModel.Entities;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.ClassesClients
 {
     public class PasswordClient
     {

@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 
 namespace GestionCommerciale.Modals.TVA
 {

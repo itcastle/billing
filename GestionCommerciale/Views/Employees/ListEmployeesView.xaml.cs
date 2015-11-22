@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel.Validator;
 using GestionCommerciale.Helpers;

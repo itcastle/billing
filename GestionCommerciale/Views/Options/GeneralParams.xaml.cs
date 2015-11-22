@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel.Validator;
 

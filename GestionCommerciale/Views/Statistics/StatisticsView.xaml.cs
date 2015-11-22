@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using DevExpress.Xpf.Charts;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 

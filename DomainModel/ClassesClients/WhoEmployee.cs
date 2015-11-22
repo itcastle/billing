@@ -1,6 +1,6 @@
 ﻿using GestionCommerciale.DomainModel.Entities;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.ClassesClients
 
 {
         

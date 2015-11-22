@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using DevExpress.XtraRichEdit;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.Helpers;
 

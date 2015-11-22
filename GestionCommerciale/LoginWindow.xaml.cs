@@ -6,6 +6,7 @@ using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.DomainModel;
 using GestionCommerciale.DomainModel.Validator;
 using System.Security.Cryptography;
+using GestionCommerciale.DomainModel.ClassesClients;
 
 
 namespace GestionCommerciale

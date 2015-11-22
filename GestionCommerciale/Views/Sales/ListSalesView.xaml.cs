@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using GestionCommerciale.Helpers;
 

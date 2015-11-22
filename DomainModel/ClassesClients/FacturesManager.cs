@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using GestionCommerciale.DomainModel.Entities;
+using GestionCommerciale.DomainModel.Invoice;
+using GestionCommerciale.DomainModel.UseCases;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.ClassesClients
 {
     public class FacturesClient
     {

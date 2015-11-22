@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.Invoice
 {
     public class InvoiceDetail 
     {

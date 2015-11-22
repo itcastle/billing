@@ -10,6 +10,7 @@ using DevExpress.Data;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 using Application = System.Windows.Application;
 

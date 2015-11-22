@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using GestionCommerciale.DomainModel;
+using GestionCommerciale.DomainModel.ClassesClients;
 using GestionCommerciale.DomainModel.Entities;
 
 namespace GestionCommerciale.Views.TVAs

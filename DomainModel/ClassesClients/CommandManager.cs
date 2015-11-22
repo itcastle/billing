@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using GestionCommerciale.DomainModel.Entities;
 
-namespace GestionCommerciale.DomainModel
+namespace GestionCommerciale.DomainModel.ClassesClients
 {
     public class CommandsManager
     {
