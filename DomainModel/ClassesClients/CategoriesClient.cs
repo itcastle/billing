@@ -15,9 +15,9 @@ namespace GestionCommerciale.DomainModel.ClassesClients
             try
             {
                 _gestionDb = new GcdbEntities();
-                var query = from t in _gestionDb.Categories
-                            orderby t.CategoryName ascending
-                    select t.CategoryName;
+                var query = from t in _gestionDb.SubCategories
+                            orderby t.SubCategoryName ascending
+                            select t.SubCategoryName;
 
                 return query.ToList();
             }
@@ -197,6 +197,22 @@ namespace GestionCommerciale.DomainModel.ClassesClients
             catch (Exception)
             {
                 return new List<Product>();
+            }
+        }
+
+        public object GetCategorieNames()
+        {
+            try
+            {
+                _gestionDb = new GcdbEntities();
+                var query = from t in _gestionDb.Categories
+                    orderby t.CategoryName ascending
+                    select t.CategoryName;
+                return query.ToList();
+            }
+            catch (Exception)
+            {
+                return null;
             }
 
         }

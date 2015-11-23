@@ -329,31 +329,28 @@ namespace GestionCommerciale.DomainModel.ClassesClients
 
         public object GetCategoryByName(string catName)
         {
-            _gestionDb = new GcdbEntities();
-            var query2 = from t in _gestionDb.Categories
-                         from g in _gestionDb.StockStores
-                         where g.Product.SubCategory.Category.CategoryID==t.CategoryID
-                         where t.CategoryName.Equals(catName)
-                         select new
-                         {
-                             ProductName = g.Product.ProductName + " " + g.RefrenceNum,
-                             g.UnitsOnOrder
-                         };
-
-            //var query = from c in _gestionDb.StockStores
-            //            where c.Product.SubCategory.Category.CategoryName.Equals(catName)
-                      
-            //    select new
-            //    {
-            //       ProductName= c.Product.ProductName+" " +c.RefrenceNum,
-            //        c.UnitsOnOrder
-            //    };
-            if (query2.Any())
+            try
             {
+                _gestionDb = new GcdbEntities();
+                var query2 = from t in _gestionDb.SubCategories
+                    from g in _gestionDb.StockStores
+                    where g.Product.SubCategory.SubCategoryID==t.SubCategoryID
+                    where t.SubCategoryName.Equals(catName)
+                    select new
+                    {
+                        ProductName = g.Product.ProductName + " " + g.RefrenceNum,
+                        g.UnitsOnOrder
+                    };
+
+                if (!query2.Any()) return null;
                 object getquery = query2.ToList();
                 return getquery;
             }
-            return null;
+            catch (Exception e)
+            {
+
+                return null;
+            }
         }
 
         public StockStore GetStockStore(int productId)
