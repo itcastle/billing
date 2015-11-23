@@ -33,9 +33,11 @@
                 <Grid Margin="0,2,2,2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="85" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="168*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="56*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="55*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35" />
@@ -57,13 +59,15 @@
                            Padding="5" />
                     <editors:TextEdit x:Name="ProductReferenceTxt"
                                       Grid.Column="3"
+                                      Grid.ColumnSpan="3"
                                       Height="33"
-                                      Margin="0,1.5"
+                                      Margin="0,2"
                                       IsReadOnly="True" />
                     <editors:ComboBoxEdit x:Name="CategoryCbx"
                                           Grid.Row="0"
                                           Grid.Column="1"
                                           Height="33"
+                                          Margin="0,2"
                                           EditValueChanged="CategoryCbx_OnEditValueChanged" />
                     <Label Grid.Row="1"
                            Grid.Column="0"
@@ -75,6 +79,7 @@
                                           Grid.Row="1"
                                           Grid.Column="1"
                                           Height="33"
+                                          Margin="0,2"
                                           EditValueChanged="SubCategoryCbx_OnEditValueChanged" />
                     <Label Grid.Row="1"
                            Grid.Column="2"
@@ -86,6 +91,19 @@
                                       Grid.Row="1"
                                       Grid.Column="3"
                                       Height="33"
+                                      Margin="0,2"
+                                      IsReadOnly="True" />
+                    <Label Grid.Row="1"
+                           Grid.Column="4"
+                           VerticalContentAlignment="Center"
+                           Content="Max :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
+                    <editors:TextEdit x:Name="ProductMaxValueTxt"
+                                      Grid.Row="1"
+                                      Grid.Column="5"
+                                      Height="33"
+                                      Margin="0,2"
                                       IsReadOnly="True" />
                     <Label Grid.Row="2"
                            Grid.Column="0"
@@ -96,19 +114,10 @@
                     <editors:ComboBoxEdit x:Name="ProductNameCbx"
                                           Grid.Row="2"
                                           Grid.Column="1"
+                                          Grid.ColumnSpan="4"
                                           Height="33"
+                                          Margin="0,2"
                                           EditValueChanged="ProductNameCbx_OnEditValueChanged" />
-                    <Label Grid.Row="2"
-                           Grid.Column="2"
-                           VerticalContentAlignment="Center"
-                           Content="Qte Max :"
-                           FontWeight="SemiBold"
-                           Padding="5" />
-                    <editors:TextEdit x:Name="ProductMaxValueTxt"
-                                      Grid.Row="2"
-                                      Grid.Column="3"
-                                      Height="33"
-                                      IsReadOnly="True" />
                     <Label Grid.Row="3"
                            VerticalContentAlignment="Center"
                            Content="Unité :"
@@ -118,6 +127,7 @@
                                       Grid.Row="3"
                                       Grid.Column="1"
                                       Height="33"
+                                      Margin="0,2"
                                       IsReadOnly="True" />
                     <Label Grid.Row="3"
                            Grid.Column="2"
@@ -128,7 +138,9 @@
                     <editors:TextEdit x:Name="QteInStockTxt"
                                       Grid.Row="3"
                                       Grid.Column="3"
+                                      Grid.ColumnSpan="2"
                                       Height="33"
+                                      Margin="0,2"
                                       IsReadOnly="True" />
                     <Label Grid.Row="4"
                            Grid.Column="0"
@@ -140,7 +152,7 @@
                                       Grid.Row="4"
                                       Grid.RowSpan="2"
                                       Grid.Column="1"
-                                      Grid.ColumnSpan="3"
+                                      Grid.ColumnSpan="5"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Top"
                                       AcceptsReturn="True"
@@ -241,13 +253,31 @@
                            VerticalContentAlignment="Center"
                            Content="Etat :"
                            FontWeight="SemiBold"
-                           Padding="5" Visibility="Collapsed" />
+                           Padding="5"
+                           Visibility="Collapsed" />
+                    <Label Grid.Row="2"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Total HT :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
                     <editors:ComboBoxEdit x:Name="ProductStateCBX"
                                           Grid.Row="2"
                                           Grid.Column="3"
                                           Height="33"
                                           Margin="0,1"
-                                          HorizontalContentAlignment="Center" Visibility="Collapsed" />
+                                          HorizontalContentAlignment="Center"
+                                          Visibility="Collapsed" />
+                    <editors:TextEdit x:Name="TotalPrixTxt"
+                                      Grid.Row="2"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1"
+                                      HorizontalContentAlignment="Center"
+                                      IsReadOnly="False"
+                                      Mask="n2"
+                                      MaskType="Numeric"
+                                      MaskUseAsDisplayFormat="True" />
                     <Label Grid.Row="3"
                            Grid.Column="0"
                            VerticalContentAlignment="Center"
@@ -268,12 +298,25 @@
                            VerticalContentAlignment="Center"
                            Content="Réference :"
                            FontWeight="SemiBold"
-                           Padding="5" Visibility="Collapsed" />
+                           Padding="5"
+                           Visibility="Collapsed" />
+                    <Label Grid.Row="3"
+                           Grid.Column="2"
+                           VerticalContentAlignment="Center"
+                           Content="Date Du :"
+                           FontWeight="SemiBold"
+                           Padding="5" />
                     <editors:TextEdit x:Name="ReferenceTxt"
                                       Grid.Row="3"
                                       Grid.Column="3"
                                       HorizontalContentAlignment="Center"
-                                      IsReadOnly="False" Visibility="Collapsed" />
+                                      IsReadOnly="False"
+                                      Visibility="Collapsed" />
+                    <editors:DateEdit x:Name="DateStartPremptionDte"
+                                      Grid.Row="3"
+                                      Grid.Column="3"
+                                      Height="33"
+                                      Margin="0,1" />
                     <Label Grid.Row="4"
                            VerticalContentAlignment="Center"
                            Content="Prix de détail :"
@@ -290,22 +333,17 @@
                                       MaskType="Numeric"
                                       MaskUseAsDisplayFormat="True"
                                       TabIndex="3" />
-                    <Label Grid.Row="2"
+                    <Label Grid.Row="4"
                            Grid.Column="2"
                            VerticalContentAlignment="Center"
-                           Content="Total HT :"
+                           Content="Date Au :"
                            FontWeight="SemiBold"
                            Padding="5" />
-                    <editors:TextEdit x:Name="TotalPrixTxt"
-                                      Grid.Row="2"
+                    <editors:DateEdit x:Name="DateEndPremptionDte"
+                                      Grid.Row="4"
                                       Grid.Column="3"
                                       Height="33"
-                                      Margin="0,1"
-                                      HorizontalContentAlignment="Center"
-                                      IsReadOnly="False"
-                                      Mask="n2"
-                                      MaskType="Numeric"
-                                      MaskUseAsDisplayFormat="True" />
+                                      Margin="0,1" />
                     <Label Grid.Row="5"
                            Grid.Column="0"
                            Height="33"
@@ -348,26 +386,6 @@
                                       Padding="0"
                                       TextWrapping="Wrap"
                                       VerticalScrollBarVisibility="Auto" />
-                    <Label Grid.Row="3"
-                    	VerticalContentAlignment="Center"
-                    	Content="Date Du :"
-                    	FontWeight="SemiBold"
-                    	Padding="5" Grid.Column="2" />
-                    <editors:DateEdit x:Name="DateStartPremptionDte"
-                    	Grid.Row="3"
-                    	Grid.Column="3"
-                    	Height="33"
-                    	Margin="0,1" />
-                    <Label Grid.Row="4"
-                    	VerticalContentAlignment="Center"
-                    	Content="Date Au :"
-                    	FontWeight="SemiBold"
-                    	Padding="5" Grid.Column="2" />
-                    <editors:DateEdit x:Name="DateEndPremptionDte"
-                    	Grid.Row="4"
-                    	Grid.Column="3"
-                    	Height="33"
-                    	Margin="0,1" />
                 </Grid>
             </core:GroupFrame>
             <StackPanel Grid.Row="0" Grid.Column="2">
@@ -432,7 +450,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-
         <dxg:GridControl x:Name="StockGridControl"
                          Grid.Row="1"
                          AllowLiveDataShaping="True"
@@ -452,7 +469,6 @@
                                ShowGroupPanel="False"
                                ShowTotalSummary="True" />
             </dxg:GridControl.View>
-
             <dxg:GridControl.TotalSummary>
                 <dxg:GridSummaryItem DisplayFormat="Qte en stock: {0}"
                                      FieldName="Qte en stock"
@@ -465,6 +481,5 @@
                                      SummaryType="Count" />
             </dxg:GridControl.TotalSummary>
         </dxg:GridControl>
-
     </Grid>
 </UserControl>
